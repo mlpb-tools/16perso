@@ -1,672 +1,932 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Vibrer — Ultra-ludique (choix uniquement)</title>
-<style>
-  :root{
-    /* Couleurs inspirées du logo (rouge / turquoise / jaune / saumon / noir / blanc) */
-    --red:#cb3234;
-    --turq:#53e4cf;
-    --yellow:#fecc2c;
-    --salmon:#fca5a4;
-    --black:#111;
-    --white:#fff;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Skills - Test de Personnalité NEET</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    --shadow: 0 14px 40px rgba(0,0,0,.12);
-    --shadow2: 0 10px 26px rgba(0,0,0,.10);
-    --rXL: 28px; --rLG: 20px; --rMD: 14px;
-  }
+        :root {
+            --cyan: #4DD4D4;
+            --coral: #FF5252;
+            --yellow: #FFD166;
+            --purple: #8B4789;
+            --orange: #FF9F1C;
+            --green: #7CB342;
+            --pink: #FF1766;
+        }
 
-  *{ box-sizing:border-box; }
-  body{
-    margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: var(--white);
-    color: var(--black);
-    overflow-x:hidden;
-  }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-  /* décor */
-  .bg{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
-  .blob{ position:absolute; width:520px; height:520px; border-radius:999px; opacity:.14; }
-  .b1{ background:var(--salmon); left:-170px; top:-200px; }
-  .b2{ background:var(--turq); right:-210px; top:110px; }
-  .b3{ background:var(--yellow); left:20%; bottom:-280px; opacity:.10; }
-  .dot{ position:absolute; width:14px; height:14px; border-radius:999px; opacity:.22; }
-  .d1{ background:var(--turq); left:8%; top:42%; }
-  .d2{ background:var(--yellow); left:18%; top:70%; }
-  .d3{ background:var(--salmon); right:12%; top:26%; }
-  .d4{ background:var(--red); right:20%; bottom:22%; opacity:.16; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-  .wrap{
-    position:relative; z-index:1;
-    width:min(980px, calc(100% - 28px));
-    margin: 0 auto;
-    padding: 16px 0 28px;
-  }
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out;
+        }
 
-  header{
-    background:#fff;
-    border-radius: var(--rXL);
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(0,0,0,.08);
-    overflow:hidden;
-  }
-  .top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap: 12px;
-    padding: 14px 16px;
-  }
-  .brand{
-    display:flex; align-items:center; gap: 12px;
-  }
-  .brand img{ height:44px; width:auto; display:block; }
-  .pill{
-    display:inline-flex; align-items:center; gap:8px;
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-weight: 900;
-    font-size: 12.5px;
-    background: rgba(83,228,207,.16);
-    border: 1px solid rgba(83,228,207,.32);
-  }
-  .pill i{ width:10px; height:10px; border-radius:999px; background:var(--turq); display:inline-block; }
+        .logo {
+            height: 80px;
+            width: auto;
+        }
 
-  .hero{
-    padding: 10px 16px 16px;
-    display:grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 14px;
-    align-items:center;
-    background:
-      radial-gradient(circle at 20% 25%, rgba(252,165,164,.22), rgba(252,165,164,0) 52%),
-      radial-gradient(circle at 82% 40%, rgba(83,228,207,.18), rgba(83,228,207,0) 55%),
-      radial-gradient(circle at 60% 92%, rgba(254,204,44,.16), rgba(254,204,44,0) 55%);
-  }
-  @media(max-width:860px){ .hero{ grid-template-columns:1fr; } }
+        .logo img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
 
-  h1{
-    margin:0;
-    font-size: clamp(24px, 3vw, 40px);
-    line-height:1.05;
-    font-weight: 1000;
-    color: var(--red);
-  }
-  .sub{
-    margin: 10px 0 0;
-    font-size: 14px;
-    color: rgba(0,0,0,.78);
-    max-width: 62ch;
-    font-weight: 650;
-  }
-  .mini{
-    margin-top: 10px;
-    font-size: 12.5px;
-    font-weight: 900;
-    color: rgba(0,0,0,.72);
-  }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
 
-  .progress{
-    background: rgba(0,0,0,.08);
-    height: 10px;
-    border-radius: 999px;
-    overflow:hidden;
-    margin-top: 8px;
-  }
-  .progress > div{
-    height:100%;
-    width:0%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--turq), var(--yellow), var(--salmon), var(--red));
-    transition: width .25s ease;
-  }
+        .header h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
 
-  .controls{
-    display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-  }
-  button{
-    appearance:none; border:none; cursor:pointer;
-    padding: 10px 12px;
-    border-radius: 999px;
-    font-weight: 1000;
-    font-size: 13px;
-    box-shadow: var(--shadow2);
-    display:inline-flex; gap:8px; align-items:center;
-  }
-  .ghost{ background: rgba(0,0,0,.04); color: rgba(0,0,0,.86); border:1px solid rgba(0,0,0,.12); box-shadow:none; }
-  .primary{ background: var(--red); color:#fff; }
-  .alt{ background: var(--turq); color: rgba(0,0,0,.88); }
-  .warn{ background: var(--yellow); color: rgba(0,0,0,.88); }
+        .header p {
+            font-size: 18px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
 
-  main{ margin-top: 14px; }
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            animation: slideUp 0.6s ease-out 0.3s both;
+        }
 
-  /* carte "1 écran" */
-  .screen{
-    background:#fff;
-    border-radius: var(--rXL);
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(0,0,0,.08);
-    overflow:hidden;
-  }
-  .screenHead{
-    padding: 14px 16px;
-    display:flex; justify-content:space-between; gap: 12px; align-items:flex-start;
-    background:
-      radial-gradient(circle at 12% 60%, rgba(252,165,164,.16), rgba(252,165,164,0) 55%),
-      radial-gradient(circle at 85% 35%, rgba(83,228,207,.14), rgba(83,228,207,0) 55%);
-  }
-  .kicker{
-    display:inline-flex; align-items:center; gap:8px;
-    font-size: 12px;
-    font-weight: 1000;
-    padding: 7px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background:#fff;
-  }
-  .kicker .dot{
-    position:static;
-    width:10px;height:10px;border-radius:999px;opacity:1;
-  }
-  .k1 .dot{ background:var(--turq); }
-  .k2 .dot{ background:var(--yellow); }
-  .k3 .dot{ background:var(--salmon); }
-  .k4 .dot{ background:var(--red); }
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
 
-  .screenHead h2{
-    margin: 10px 0 0;
-    font-size: 18px;
-    font-weight: 1000;
-    color: rgba(0,0,0,.86);
-  }
-  .screenBody{ padding: 16px; }
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+        }
 
-  .question{
-    font-size: 15px;
-    font-weight: 950;
-    margin: 0 0 12px;
-  }
+        .progress-bar-container {
+            height: 12px;
+            background: #ecf0f1;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+        }
 
-  /* choix */
-  .choices{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  @media(min-width:860px){ .choices{ grid-template-columns: 1fr 1fr; } }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple));
+            border-radius: 20px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
 
-  .choice{
-    display:flex;
-    gap: 10px;
-    align-items:flex-start;
-    padding: 12px 12px;
-    border-radius: 999px;
-    background: #fff;
-    border: 1px solid rgba(0,0,0,.12);
-    cursor:pointer;
-    user-select:none;
-    font-weight: 900;
-    line-height:1.25;
-  }
-  .choice .badge{
-    width: 28px; height: 28px;
-    border-radius: 999px;
-    display:grid; place-items:center;
-    font-weight: 1000;
-    flex: 0 0 auto;
-    color:#000;
-  }
-  .A{ background: var(--turq); }
-  .B{ background: var(--yellow); }
-  .C{ background: var(--salmon); }
-  .D{ background: var(--red); color:#fff; }
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
 
-  .choice.selected{
-    border-color: rgba(0,0,0,.20);
-    box-shadow: var(--shadow2);
-    background:
-      radial-gradient(circle at 20% 50%, rgba(83,228,207,.12), rgba(83,228,207,0) 55%),
-      radial-gradient(circle at 70% 30%, rgba(254,204,44,.12), rgba(254,204,44,0) 55%),
-      #fff;
-  }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
 
-  /* missions (sans saisie) */
-  .missionRow{
-    display:flex; flex-wrap:wrap; gap: 10px;
-  }
-  .missionBtn{
-    flex: 1 1 220px;
-    justify-content:center;
-    box-shadow: var(--shadow2);
-  }
-  .m1{ background: var(--turq); color: rgba(0,0,0,.88); }
-  .m2{ background: var(--yellow); color: rgba(0,0,0,.88); }
-  .m3{ background: var(--salmon); color: rgba(0,0,0,.88); }
+        .question-card {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            transform: scale(0.95);
+            opacity: 0;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: relative;
+            overflow: hidden;
+        }
 
-  .footerNav{
-    display:flex; gap: 10px; flex-wrap:wrap;
-    justify-content: space-between;
-    margin-top: 14px;
-  }
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--cyan), var(--coral), var(--yellow), var(--purple));
+        }
 
-  .resultBox{
-    padding: 14px;
-    border-radius: var(--rXL);
-    border: 1px solid rgba(0,0,0,.10);
-    background:
-      radial-gradient(circle at 20% 50%, rgba(252,165,164,.14), rgba(252,165,164,0) 55%),
-      radial-gradient(circle at 70% 30%, rgba(83,228,207,.12), rgba(83,228,207,0) 55%),
-      #fff;
-  }
-  .pills{
-    display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px;
-  }
-  .p{
-    display:inline-flex; gap:8px; align-items:center;
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background:#fff;
-    font-weight: 1000;
-    font-size: 12px;
-  }
-  .p i{ width:10px;height:10px;border-radius:999px; display:inline-block; }
-  .pA i{ background: var(--turq); }
-  .pB i{ background: var(--yellow); }
-  .pC i{ background: var(--salmon); }
-  .pD i{ background: var(--red); }
-  footer{
-    margin-top: 14px;
-    text-align:center;
-    font-size: 12px;
-    color: rgba(0,0,0,.62);
-  }
-</style>
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--orange), var(--pink));
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 22px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 3px solid transparent;
+            border-radius: 15px;
+            padding: 18px 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            color: #495057;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            transform: translateX(8px);
+            border-color: var(--cyan);
+            background: linear-gradient(135deg, rgba(77, 212, 212, 0.1), rgba(77, 212, 212, 0.2));
+        }
+
+        .option.selected {
+            border-color: var(--coral);
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.15), rgba(255, 82, 82, 0.25));
+            color: var(--coral);
+            transform: translateX(8px);
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+        }
+
+        .radio-custom {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #dee2e6;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .option.selected .radio-custom {
+            border-color: var(--coral);
+        }
+
+        .option.selected .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--coral);
+            border-radius: 50%;
+            animation: radioCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes radioCheck {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .navigation {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--pink));
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 23, 102, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 23, 102, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #495057;
+            border: 3px solid #dee2e6;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .mbti-result {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .mbti-letters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .mbti-letter {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: 800;
+            color: white;
+            animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+        }
+
+        .mbti-letter:nth-child(1) {
+            background: linear-gradient(135deg, var(--orange), #ff7b3d);
+            animation-delay: 0.1s;
+        }
+        .mbti-letter:nth-child(2) {
+            background: linear-gradient(135deg, var(--green), #8bc34a);
+            animation-delay: 0.2s;
+        }
+        .mbti-letter:nth-child(3) {
+            background: linear-gradient(135deg, var(--pink), #ff4081);
+            animation-delay: 0.3s;
+        }
+        .mbti-letter:nth-child(4) {
+            background: linear-gradient(135deg, var(--purple), #9c27b0);
+            animation-delay: 0.4s;
+        }
+
+        @keyframes letterPop {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .result-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-top: 20px;
+        }
+
+        .result-section {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 6px solid;
+        }
+
+        .result-section:nth-child(1) { border-color: var(--orange); }
+        .result-section:nth-child(2) { border-color: var(--green); }
+        .result-section:nth-child(3) { border-color: var(--pink); }
+        .result-section:nth-child(4) { border-color: var(--purple); }
+
+        .result-section h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .result-section li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .result-section li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--coral);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .anxiety-score {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255, 82, 82, 0.1), rgba(139, 71, 137, 0.1));
+            border-radius: 20px;
+            margin-top: 30px;
+        }
+
+        .anxiety-meter {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .anxiety-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--orange), var(--coral));
+            border-radius: 10px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes popIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .question-card {
+                padding: 25px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .mbti-letter {
+                width: 60px;
+                height: 60px;
+                font-size: 32px;
+            }
+
+            .results-card {
+                padding: 30px;
+            }
+        }
+
+        .start-screen {
+            text-align: center;
+            background: white;
+            border-radius: 30px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .start-screen h2 {
+            font-size: 36px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid;
+        }
+
+        .feature-item:nth-child(1) { border-color: var(--orange); }
+        .feature-item:nth-child(2) { border-color: var(--green); }
+        .feature-item:nth-child(3) { border-color: var(--pink); }
+        .feature-item:nth-child(4) { border-color: var(--purple); }
+
+        .feature-item h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: #495057;
+            margin: 0;
+        }
+    </style>
 </head>
-
 <body>
-<div class="bg" aria-hidden="true">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
-  <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
-</div>
-
-<div class="wrap">
-  <header>
-    <div class="top">
-      <div class="brand">
-        <img src="LS4YOU_Logo.png" alt="Life Skills logo">
-        <span class="pill"><i></i> Ultra-ludique • Choix uniquement</span>
-      </div>
-      <div class="controls">
-        <button class="ghost" id="btnReset" type="button">♻️ Réinitialiser</button>
-      </div>
-    </div>
-
-    <div class="hero">
-      <div>
-        <h1>Trouvez le job qui vous fait Vibrer</h1>
-        <p class="sub">
-          Parcours en cartes : tu choisis, tu avances. Aucun texte à écrire.
-        </p>
-        <div class="mini" id="stepInfo">Écran 1/?</div>
-        <div class="progress" aria-hidden="true"><div id="bar"></div></div>
-      </div>
-      <div class="controls" style="justify-content:flex-start;">
-        <button class="alt" id="btnStart" type="button">▶️ Commencer</button>
-        <button class="ghost" id="btnJumpResult" type="button">🧾 Aller au résumé</button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <section class="screen" id="screen">
-      <div class="screenHead">
-        <div>
-          <span class="kicker k1" id="kicker"><span class="dot"></span>Étape</span>
-          <h2 id="title">…</h2>
+    <div class="container">
+        <div class="logo-header">
+            <div class="logo">
+                <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" alt="Life Skills 4 Youth">
+            </div>
         </div>
-      </div>
-      <div class="screenBody" id="body"></div>
-    </section>
 
-    <footer>
-      Aucune saisie • Choix uniquement • Données sauvegardées localement dans le navigateur
-    </footer>
-  </main>
-</div>
+        <div class="header">
+            <h1>Découvrez Votre Personnalité</h1>
+            <p>Test MBTI adapté pour comprendre votre rapport au travail</p>
+        </div>
 
-<script>
-/* =========================
-   Contenu "choix uniquement"
-   - Quiz A-D du livret (texte conservé)
-   - “missions” pour les parties à écrire (sans saisie)
-   - Résumé final
-========================= */
+        <!-- Écran de démarrage -->
+        <div id="startScreen" class="start-screen">
+            <h2>🎯 Prêt à vous découvrir ?</h2>
+            <p>Ce test vous aidera à mieux comprendre votre fonctionnement naturel et à identifier les environnements de travail qui vous conviennent le mieux.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <h4>🎨 Vos forces</h4>
+                    <p>Identifiez vos talents naturels et vos atouts uniques</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💼 Métiers adaptés</h4>
+                    <p>Découvrez des pistes professionnelles alignées avec votre personnalité</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ Vos défis</h4>
+                    <p>Anticipez les obstacles potentiels et comment les surmonter</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🚀 Plan d'action</h4>
+                    <p>Recevez des conseils concrets pour votre parcours professionnel</p>
+                </div>
+            </div>
 
-const LS_KEY = "vibrer_ultra_ludique_v1";
+            <p style="margin-top: 30px;"><strong>57 questions</strong> • <strong>10-15 minutes</strong> • <strong>Résultats personnalisés</strong></p>
+            
+            <button class="btn btn-primary" onclick="startTest()" style="margin-top: 20px;">Commencer le test</button>
+        </div>
 
-/* Quiz A-D (texte identique à ce que tu avais dans la version précédente) */
-const QUIZ = [
-  {
-    title:"1. CE QUI VOUS MOTIVE LE MATIN :",
-    A:"Vous aimez les défis et la nouveauté : Vous êtes attiré par des métiers dynamiques, imprévisibles, où vous pouvez résoudre des problèmes.",
-    B:"Vous valorisez l’esprit d’équipe : Vous prospérez dans des environnements collaboratifs où les relations interpersonnelles sont importantes.",
-    C:"Vous préférez l'autonomie : Un travail indépendant ou à distance pourrait vous convenir, où vous pouvez gérer votre emploi du temps.",
-    D:"Vous appréciez la structure : Les métiers avec des routines claires et une organisation bien définie sont faits pour vous."
-  },
-  {
-    title:"2. VOTRE ESPACE DE TRAVAIL IDÉAL :",
-    A:"Vous aimez l’énergie et la créativité : Un bureau animé, un environnement start-up, ou des espaces de travail ouverts vous conviennent.",
-    B:"Vous cherchez l’interaction : Les environnements collaboratifs, les agences de création ou les espaces de coworking vous attirent.",
-    C:"Vous préférez le calme : Un travail à domicile, en freelance, ou dans un bureau privé est idéal pour vous.",
-    D:"Vous aimez l’organisation : Les entreprises bien structurées avec des bureaux personnels sont faites pour vous."
-  },
-  {
-    title:"3. COMMENT VOUS ABORDEZ LES PROJETS :",
-    A:"Vous êtes adaptable et aimez improviser : Vous excellez dans des environnements où les tâches sont variées et changeantes.",
-    B:"Vous aimez le brainstorming : Les rôles qui nécessitent de l’innovation et de la collaboration sont parfaits pour vous.",
-    C:"Vous préférez la planification : Vous êtes à l’aise dans des métiers où l'organisation et la méthode sont essentielles.",
-    D:"Vous suivez les procédures : Un travail avec des normes et des processus établis vous convient."
-  },
-  {
-    title:"4. RAPPORT À L’AUTORITÉ ET À LA HIÉRARCHIE :",
-    A:"Vous préférez des structures plates : Les entreprises avec une culture d’égalitarisme ou les start-ups peuvent être idéales.",
-    B:"Vous aimez la collaboration dirigée : Vous recherchez un équilibre entre autonomie et direction claire, comme dans les équipes projet.",
-    C:"Vous appréciez la clarté avec autonomie : Un environnement avec des directives claires mais une grande liberté d’exécution vous conviendra.",
-    D:"Vous aimez les hiérarchies définies : Les grandes entreprises ou les organisations traditionnelles avec une hiérarchie claire sont faites pour vous."
-  },
-  {
-    title:"5. GESTION DES IMPRÉVUS :",
-    A:"Vous aimez les imprévus : Les environnements imprévisibles comme ceux des startups, ou des métiers de terrain sont idéals.",
-    B:"Vous cherchez des solutions en équipe : Vous aimez les environnements collaboratifs où la solidarité est clé.",
-    C:"Vous analysez avant d’agir : Les rôles analytiques ou de conseil où la réflexion précède l’action vous conviendront.",
-    D:"Vous minimisez les imprévus : Un travail structuré avec des procédures établies, comme dans la finance ou l’administration, pourrait vous convenir."
-  },
-  {
-    title:"6. TYPES DE PROJETS INSPIRANTS :",
-    A:"Créativité et innovation : Les métiers dans le design, la publicité, ou l’art sont faits pour vous.",
-    B:"Collaboration et équipe : Les rôles dans la gestion de projet ou le travail social sont parfaits.",
-    C:"Recherche et précision : Vous excellez dans les métiers académiques, scientifiques, ou techniques.",
-    D:"Processus et répétition : Les métiers avec des tâches récurrentes et bien définies, comme la comptabilité ou la gestion, vous conviennent."
-  },
-  {
-    title:"7. ÉQUILIBRE VIE PROFESSIONNELLE ET PERSONNELLE :",
-    A:"Vous intégrez le travail à votre vie : Vous pourriez apprécier les métiers où le travail et la passion se rejoignent, comme les entrepreneurs.",
-    B:"Vous cherchez la flexibilité : Les métiers avec des horaires flexibles ou en freelance sont idéaux pour vous.",
-    C:"Vous aimez un équilibre défini : Un travail avec des horaires réguliers et fixes est parfait.",
-    D:"Vous valorisez un temps personnel bien encadré : Les métiers avec des horaires stricts, comme les emplois gouvernementaux ou administratifs, vous conviennent."
-  },
-  {
-    title:"8. IMPORTANCE DE LA RECONNAISSANCE :",
-    A:"Reconnaissance créative : Les métiers où l'innovation est récompensée, comme dans les industries créatives, sont pour vous.",
-    B:"Reconnaissance en équipe : Les environnements où le travail d'équipe est valorisé vous attirent.",
-    C:"Reconnaissance discrète : Vous êtes à l’aise dans des rôles où le travail bien fait est reconnu sans grandes démonstrations.",
-    D:"Reconnaissance formelle : Les métiers dans des entreprises structurées avec des systèmes de reconnaissance officiels vous conviennent."
-  }
-];
+        <!-- Section du test -->
+        <div id="testSection" class="hidden">
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-text">Question <span id="currentQuestion">1</span> sur 57</span>
+                    <span class="progress-text"><span id="progressPercent">0</span>%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
 
-/* “Missions” (pour remplacer les exercices à écrire) — sans champs */
-const MISSIONS = [
-  {
-    title:"CE QUE J’AIME FAIRE POURQUOI ?",
-    text:"1. Listez ce que vous aimez :",
-    choices:["Je l’ai fait","Je le ferai plus tard","Je passe"]
-  },
-  {
-    title:"CE QUE J’AIME FAIRE POURQUOI ?",
-    text:"Et qu’est-ce que vous aimez dans ces activités ?",
-    choices:["Je l’ai fait","Je le ferai plus tard","Je passe"]
-  },
-  {
-    title:"Exercice 4 : Création d’une vision à long terme",
-    text:"1. Imaginez votre journée idéale au travail : Décrivez en détail une journée typique dans le métier que vous visez. Quelles tâches réalisez-vous ? Dans quel environnement travaillez-vous ?",
-    choices:["Je l’ai imaginée","Je le ferai plus tard","Je passe"]
-  },
-  {
-    title:"Exercice 4 : Recherche de métier",
-    text:"2.Établissez un plan d'action : Énumérez les étapes à suivre pour atteindre cet objectif. Quelle formation devez-vous suivre ? Quelles compétences devez-vous développer ?.",
-    choices:["Je sais par où commencer","J’ai besoin d’aide","Je passe"]
-  }
-];
+            <div class="question-card" id="questionCard">
+                <div class="question-number" id="questionNumber">Question 1</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="options"></div>
+            </div>
 
-/* Interprétations A-D */
-const INTERP = {
-  A:`Si vous avez majoritairement choisi des réponses A :
-Vous êtes une personne qui aime l'aventure et l'imprévu. Vous êtes attiré par des environnements dynamiques et créatifs où chaque jour apporte de nouveaux défis. Vous prospérez dans des métiers où l'innovation est au cœur de l'activité, comme les startups, les industries créatives (publicité, design, cinéma), ou les rôles dans l'entrepreneuriat. Vous n'avez pas peur de l'inconnu et aimez avoir la liberté de créer, d'expérimenter, et de prendre des initiatives. L'autonomie et la capacité d'improviser sont essentielles pour vous, et vous appréciez les structures organisationnelles plates où les idées comptent plus que la hiérarchie.`,
-  B:`2. Si vous avez majoritairement choisi des réponses B :
-Vous êtes motivé par le travail d'équipe et la collaboration. Vous appréciez les environnements où les échanges sont fréquents et où vous pouvez brainstormer avec vos collègues pour trouver des solutions créatives. Les métiers dans la gestion de projet, les services sociaux, ou les environements éducatifs pourraient être bien adaptés à votre style. Vous recherchez des structures où la communication est ouverte et où il existe un équilibre entre direction et collaboration. Le travail en équipe est essentiel pour vous, et vous vous épanouissez dans des environnements qui valorisent l'interaction et le soutien mutuel.`,
-  C:`3. Si vous avez majoritairement choisi des réponses C :
-Vous êtes une personne qui valorise l'autonomie et la réflexion approfondie. Vous préférez les environnements calmes et structurés où vous pouvez travailler à votre propre rythme sans distractions. Les métiers dans la recherche, l'analyse, ou le développement technique, où la précision et la planification sont cruciales, sont idéaux pour vous. Vous aimez avoir des directives claires, mais avec la liberté d'exécution. L'équilibre entre vie professionnelle et personnelle est important pour vous, et vous appréciez des horaires bien définis qui vous permettent de vous concentrer pleinement sur vos tâches.`,
-  D:`4. Si vous avez majoritairement choisi des réponses D :
-Vous êtes quelqu'un qui prospère dans des environnements bien organisés et structurés. Vous préférez des rôles où les processus sont établis et où les attentes sont claires, comme dans l'administration, la gestion, ou la finance. La stabilité et la prévisibilité sont importantes pour vous, et vous aimez suivre des routines qui garantissent des résultats constants. Vous appréciez une hiérarchie bien définie où les responsabilités sont distinctes, et vous êtes motivé par la reconnaissance formelle de votre travail. Un emploi avec des horaires fixes et des règles bien établies vous permettra de vous épanouir.`
-};
+            <div class="navigation">
+                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">Précédent</button>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Suivant</button>
+            </div>
+        </div>
 
-/* Construction des écrans :
-   0 = intro (mission start)
-   ensuite 4 missions (sans saisie)
-   ensuite 8 questions A-D
-   puis résumé
-*/
-const SCREENS = [
-  { type:"intro" },
-  ...MISSIONS.map(m => ({ type:"mission", ...m })),
-  ...QUIZ.map(q => ({ type:"quiz", ...q })),
-  { type:"result" }
-];
+        <!-- Section des résultats -->
+        <div id="resultsSection" class="hidden">
+            <div class="results-card">
+                <div class="mbti-result">
+                    <h2 style="color: #7f8c8d; font-size: 20px; font-weight: 600;">Votre type de personnalité</h2>
+                    <div class="mbti-letters" id="mbtiLetters"></div>
+                    <h3 class="result-title" id="mbtiTitle"></h3>
+                </div>
 
-const state = {
-  idx: 0,
-  missions: Array(MISSIONS.length).fill(null),  // 0..2
-  quiz: Array(QUIZ.length).fill(null),          // "A".."D"
-};
+                <div id="resultDetails"></div>
 
-function save(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
-function load(){
-  const raw = localStorage.getItem(LS_KEY);
-  if(!raw) return;
-  try{
-    const d = JSON.parse(raw);
-    if(d && Array.isArray(d.quiz) && Array.isArray(d.missions)){
-      state.idx = d.idx ?? 0;
-      state.quiz = d.quiz;
-      state.missions = d.missions;
-    }
-  }catch(e){}
-}
+                <div class="anxiety-score">
+                    <h3 style="font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">📊 Score de confiance en soi</h3>
+                    <div class="anxiety-meter">
+                        <div class="anxiety-fill" id="anxietyFill"></div>
+                    </div>
+                    <p id="anxietyText" style="font-size: 16px; color: #495057; font-weight: 600;"></p>
+                    <p id="anxietyAdvice" style="margin-top: 15px; color: #7f8c8d;"></p>
+                </div>
 
-function resetAll(){
-  if(!confirm("Réinitialiser tout ?")) return;
-  localStorage.removeItem(LS_KEY);
-  location.reload();
-}
+                <div style="text-align: center; margin-top: 40px;">
+                    <button class="btn btn-primary" onclick="location.reload()">Recommencer le test</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-const screen = document.getElementById("screen");
-const title = document.getElementById("title");
-const body = document.getElementById("body");
-const stepInfo = document.getElementById("stepInfo");
-const bar = document.getElementById("bar");
-const kicker = document.getElementById("kicker");
-document.getElementById("btnReset").addEventListener("click", resetAll);
+    <script>
+        const questions = [
+            { text: "Vous vous faites facilement de nouveaux amis.", dimension: "E", reversed: false },
+            { text: "Les idées nouvelles et originales vous attirent plus que les méthodes éprouvées.", dimension: "N", reversed: false },
+            { text: "Une histoire touchante vous convainc souvent plus qu'un argument logique.", dimension: "F", reversed: false },
+            { text: "Votre espace personnel est généralement bien rangé et organisé.", dimension: "J", reversed: false },
+            { text: "Vous gardez votre calme même dans les situations stressantes.", dimension: "A", reversed: true },
+            { text: "Aller vers des inconnus pour discuter vous met mal à l'aise.", dimension: "I", reversed: false },
+            { text: "Quand vous devez faire quelque chose, vous préférez vous y prendre à l'avance.", dimension: "J", reversed: false },
+            { text: "Ce que vivent les gens vous touche plus que les statistiques.", dimension: "F", reversed: false },
+            { text: "Vous aimez noter vos tâches dans un agenda ou une liste.", dimension: "J", reversed: false },
+            { text: "Une petite erreur suffit parfois à vous faire douter de vous.", dimension: "A", reversed: false },
+            { text: "Vous n'hésitez pas à engager la conversation avec quelqu'un qui vous intéresse.", dimension: "E", reversed: false },
+            { text: "Les discussions sur le sens caché des films ou des livres ne vous passionnent pas vraiment.", dimension: "S", reversed: false },
+            { text: "Pour trancher, vous vous basez d'abord sur les faits plutôt que sur ce que ressentent les gens.", dimension: "T", reversed: false },
+            { text: "Vous aimez laisser votre journée se dérouler sans plan précis.", dimension: "P", reversed: false },
+            { text: "L'opinion que les autres ont de vous ne vous préoccupe pas vraiment.", dimension: "E", reversed: false },
+            { text: "Vous aimez faire les choses en groupe.", dimension: "E", reversed: false },
+            { text: "Tester des façons de faire inhabituelles vous attire.", dimension: "N", reversed: false },
+            { text: "Être à l'écoute compte plus pour vous que dire la vérité brutalement.", dimension: "F", reversed: false },
+            { text: "Vous cherchez régulièrement à découvrir de nouveaux sujets ou expériences.", dimension: "N", reversed: false },
+            { text: "Vous vous dites souvent que ça va mal tourner.", dimension: "A", reversed: false },
+            { text: "Vous préférez vos activités solo aux activités de groupe.", dimension: "I", reversed: false },
+            { text: "Écrire des histoires imaginaires ne vous attire pas particulièrement.", dimension: "S", reversed: false },
+            { text: "Une décision rapide et efficace vaut mieux qu'une décision qui ménage tout le monde.", dimension: "T", reversed: false },
+            { text: "Vous préférez finir ce que vous avez à faire avant de souffler.", dimension: "J", reversed: false },
+            { text: "En cas de conflit, défendre votre position compte plus que préserver les sentiments.", dimension: "T", reversed: false },
+            { text: "Dans une soirée, vous attendez qu'on vienne vous parler en premier.", dimension: "I", reversed: false },
+            { text: "Votre humeur change facilement d'un moment à l'autre.", dimension: "A", reversed: false },
+            { text: "Les arguments qui font appel aux émotions ne vous influencent pas vraiment.", dimension: "T", reversed: false },
+            { text: "Vous faites souvent les choses au dernier moment.", dimension: "P", reversed: false },
+            { text: "Discuter de questions morales ou éthiques vous intéresse.", dimension: "N", reversed: false },
+            { text: "Être entouré de monde vous convient mieux que d'être seul.", dimension: "E", reversed: false },
+            { text: "Les conversations trop abstraites vous ennuient rapidement.", dimension: "S", reversed: false },
+            { text: "Face à un choix difficile, vous suivez plus votre cœur que votre tête.", dimension: "F", reversed: false },
+            { text: "Tenir un rythme régulier dans ce que vous faites est compliqué pour vous.", dimension: "P", reversed: false },
+            { text: "Vous ne passez pas beaucoup de temps à remettre en question vos choix.", dimension: "A", reversed: true },
+            { text: "Vos proches vous décriraient comme quelqu'un de sociable et dynamique.", dimension: "E", reversed: false },
+            { text: "Créer quelque chose (dessin, texte, musique...) vous attire.", dimension: "N", reversed: false },
+            { text: "Vous fondez vos décisions sur des éléments concrets plus que sur vos ressentis.", dimension: "T", reversed: false },
+            { text: "Faire une to-do list pour votre journée vous plaît.", dimension: "J", reversed: false },
+            { text: "Vous doutez rarement de vos capacités.", dimension: "A", reversed: true },
+            { text: "Téléphoner à quelqu'un vous demande un effort.", dimension: "I", reversed: false },
+            { text: "Découvrir des points de vue différents du vôtre vous intéresse.", dimension: "N", reversed: false },
+            { text: "Créer du lien avec des gens que vous rencontrez pour la première fois est facile pour vous.", dimension: "E", reversed: false },
+            { text: "Si un projet tombe à l'eau, vous vous concentrez sur comment rebondir vite.", dimension: "T", reversed: false },
+            { text: "Des erreurs du passé continuent parfois à vous travailler.", dimension: "A", reversed: false },
+            { text: "Parler de l'avenir de la société ou du monde ne vous passionne pas vraiment.", dimension: "S", reversed: false },
+            { text: "Vos émotions prennent souvent le dessus sur vous.", dimension: "A", reversed: false },
+            { text: "Pour décider, ce qui compte le plus c'est l'impact sur les gens concernés.", dimension: "F", reversed: false },
+            { text: "Vous fonctionnez par à-coups d'énergie plutôt qu'à un rythme constant.", dimension: "P", reversed: false },
+            { text: "Quand on vous fait un compliment, vous vous demandez si vous allez être à la hauteur.", dimension: "A", reversed: false },
+            { text: "Un job où vous travailleriez seul la plupart du temps vous conviendrait.", dimension: "I", reversed: false },
+            { text: "Réfléchir à des questions philosophiques vous semble peu utile.", dimension: "S", reversed: false },
+            { text: "Les endroits animés vous attirent plus que les lieux calmes.", dimension: "E", reversed: false },
+            { text: "Si ça vous semble juste, vous agissez sans forcément chercher plus de preuves.", dimension: "F", reversed: false },
+            { text: "Il vous arrive souvent de vous sentir submergé.", dimension: "A", reversed: false },
+            { text: "Vous avancez dans vos tâches étape par étape, sans en sauter.", dimension: "J", reversed: false },
+            { text: "Inventer des solutions originales vous plaît plus que suivre un mode d'emploi.", dimension: "N", reversed: false },
+            { text: "Vous vous fiez plus à votre ressenti qu'à un raisonnement logique pour choisir.", dimension: "F", reversed: false }
+        ];
 
-document.getElementById("btnStart").addEventListener("click", ()=>go(1));
-document.getElementById("btnJumpResult").addEventListener("click", ()=>go(SCREENS.length-1));
+        const mbtiProfiles = {
+            "ISTJ": { title: "L'Inspecteur", description: "Fiable, organisé, respect des règles" },
+            "ISFJ": { title: "Le Protecteur", description: "Dévoué, pratique, attentionné" },
+            "INFJ": { title: "Le Conseiller", description: "Visionnaire, empathique, idéaliste" },
+            "INTJ": { title: "L'Architecte", description: "Stratège, indépendant, compétent" },
+            "ISTP": { title: "L'Artisan", description: "Pratique, adaptable, logique" },
+            "ISFP": { title: "Le Compositeur", description: "Artistique, sensible, flexible" },
+            "INFP": { title: "L'Idéaliste", description: "Créatif, empathique, authentique" },
+            "INTP": { title: "Le Penseur", description: "Analytique, innovant, curieux" },
+            "ESTP": { title: "L'Entrepreneur", description: "Énergique, pragmatique, adaptable" },
+            "ESFP": { title: "L'Amuseur", description: "Sociable, spontané, optimiste" },
+            "ENFP": { title: "L'Inspirateur", description: "Enthousiaste, créatif, empathique" },
+            "ENTP": { title: "Le Débatteur", description: "Innovant, charismatique, intellectuel" },
+            "ESTJ": { title: "Le Superviseur", description: "Organisé, leader, direct" },
+            "ESFJ": { title: "Le Fournisseur", description: "Sociable, dévoué, organisé" },
+            "ENFJ": { title: "Le Protagoniste", description: "Charismatique, empathique, leader" },
+            "ENTJ": { title: "Le Commandant", description: "Leader, stratège, déterminé" }
+        };
 
-function totals(){
-  const t = {A:0,B:0,C:0,D:0};
-  state.quiz.forEach(v=>{ if(v && t[v]!==undefined) t[v]++; });
-  return t;
-}
-function major(t){
-  const order=["A","B","C","D"];
-  let m="A";
-  order.forEach(l=>{ if(t[l] > t[m]) m=l; });
-  return m;
-}
+        let currentQuestionIndex = 0;
+        let answers = new Array(questions.length).fill(null);
 
-function go(i){
-  state.idx = Math.max(0, Math.min(i, SCREENS.length-1));
-  render();
-  save();
-  window.scrollTo({top:0, behavior:"smooth"});
-}
+        function startTest() {
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('testSection').classList.remove('hidden');
+            displayQuestion();
+        }
 
-function next(){
-  if(state.idx < SCREENS.length-1) go(state.idx+1);
-}
-function back(){
-  if(state.idx > 0) go(state.idx-1);
-}
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}`;
+            document.getElementById('questionText').textContent = question.text;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressPercent').textContent = Math.round(progress);
 
-function render(){
-  const s = SCREENS[state.idx];
-  const pct = Math.round(((state.idx+1)/SCREENS.length)*100);
-  bar.style.width = pct + "%";
-  stepInfo.textContent = `Écran ${state.idx+1}/${SCREENS.length}`;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
 
-  // kicker couleur par type
-  kicker.className = "kicker " + (s.type==="quiz" ? "k2" : s.type==="mission" ? "k3" : s.type==="result" ? "k4" : "k1");
+            const options = [
+                { value: 2, label: "Tout à fait d'accord" },
+                { value: 1, label: "Plutôt d'accord" },
+                { value: 0, label: "Neutre" },
+                { value: -1, label: "Plutôt pas d'accord" },
+                { value: -2, label: "Pas du tout d'accord" }
+            ];
 
-  body.innerHTML = "";
+            options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                if (answers[currentQuestionIndex] === option.value) {
+                    optionDiv.classList.add('selected');
+                }
+                
+                optionDiv.innerHTML = `
+                    <label class="option-label">
+                        <div class="radio-custom"></div>
+                        <span>${option.label}</span>
+                        <input type="radio" name="answer" value="${option.value}">
+                    </label>
+                `;
+                
+                optionDiv.addEventListener('click', () => selectOption(option.value, optionDiv));
+                optionsContainer.appendChild(optionDiv);
+            });
 
-  if(s.type === "intro"){
-    title.textContent = "Prêt·e ?";
-    const box = document.createElement("div");
-    box.className = "resultBox";
-    box.innerHTML = `
-      <div style="font-weight:1000;font-size:16px;color:rgba(0,0,0,.86)">Tu vas faire un parcours en choix.</div>
-      <div style="margin-top:8px;font-weight:700;color:rgba(0,0,0,.72)">Aucun texte à écrire. Tu peux revenir en arrière quand tu veux.</div>
-      <div class="footerNav" style="margin-top:12px;">
-        <button class="primary" type="button" id="go">▶️ Commencer</button>
-      </div>
-    `;
-    body.appendChild(box);
-    document.getElementById("go").addEventListener("click", ()=>go(1));
-    return;
-  }
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+        }
 
-  if(s.type === "mission"){
-    title.textContent = s.title;
-    const q = document.createElement("div");
-    q.className = "question";
-    q.textContent = s.text; // texte du livret affiché
-    body.appendChild(q);
+        function selectOption(value, element) {
+            answers[currentQuestionIndex] = value;
+            
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            document.getElementById('nextBtn').disabled = false;
+        }
 
-    const idxMission = state.idx - 1; // missions commencent à 1
-    const row = document.createElement("div");
-    row.className = "missionRow";
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+                document.getElementById('nextBtn').disabled = true;
+            } else {
+                calculateResults();
+            }
+        }
 
-    s.choices.forEach((label, k)=>{
-      const btn = document.createElement("button");
-      btn.type="button";
-      btn.className = "missionBtn " + (k===0?"m1":k===1?"m2":"m3");
-      btn.textContent = label;
-      btn.addEventListener("click", ()=>{
-        state.missions[idxMission] = k;
-        save();
-        next();
-      });
-      row.appendChild(btn);
-    });
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+                if (answers[currentQuestionIndex] !== null) {
+                    document.getElementById('nextBtn').disabled = false;
+                }
+            }
+        }
 
-    body.appendChild(row);
+        function calculateResults() {
+            const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
+            let anxietyScore = 0;
 
-    const nav = document.createElement("div");
-    nav.className = "footerNav";
-    nav.innerHTML = `
-      <button class="ghost" type="button" id="back">⬅️ Retour</button>
-      <button class="ghost" type="button" id="skip">⏭️ Passer</button>
-    `;
-    body.appendChild(nav);
-    document.getElementById("back").addEventListener("click", back);
-    document.getElementById("skip").addEventListener("click", next);
-    return;
-  }
+            questions.forEach((question, index) => {
+                const answer = answers[index];
+                if (answer !== null) {
+                    if (question.dimension === 'A') {
+                        anxietyScore += question.reversed ? -answer : answer;
+                    } else {
+                        scores[question.dimension] += answer;
+                    }
+                }
+            });
 
-  if(s.type === "quiz"){
-    title.textContent = "Quiz";
-    const q = document.createElement("div");
-    q.className = "question";
-    q.textContent = s.title;
-    body.appendChild(q);
+            const mbtiType = 
+                (scores.E > scores.I ? 'E' : 'I') +
+                (scores.S > scores.N ? 'S' : 'N') +
+                (scores.T > scores.F ? 'T' : 'F') +
+                (scores.J > scores.P ? 'J' : 'P');
 
-    const wrap = document.createElement("div");
-    wrap.className = "choices";
+            displayResults(mbtiType, anxietyScore);
+        }
 
-    // index quiz = idx - 1 - MISSIONS.length
-    const qIndex = state.idx - 1 - MISSIONS.length;
+        function displayResults(mbtiType, anxietyScore) {
+            document.getElementById('testSection').classList.add('hidden');
+            document.getElementById('resultsSection').classList.remove('hidden');
 
-    ["A","B","C","D"].forEach(letter=>{
-      const div = document.createElement("div");
-      div.className = "choice" + (state.quiz[qIndex]===letter ? " selected":"");
-      div.innerHTML = `
-        <span class="badge ${letter}">${letter}</span>
-        <span>${s[letter]}</span>
-      `;
-      div.addEventListener("click", ()=>{
-        state.quiz[qIndex] = letter;
-        save();
-        next(); // auto-advance
-      });
-      wrap.appendChild(div);
-    });
+            const profile = mbtiProfiles[mbtiType];
+            
+            // Afficher les lettres MBTI
+            const lettersContainer = document.getElementById('mbtiLetters');
+            lettersContainer.innerHTML = '';
+            mbtiType.split('').forEach(letter => {
+                const letterDiv = document.createElement('div');
+                letterDiv.className = 'mbti-letter';
+                letterDiv.textContent = letter;
+                lettersContainer.appendChild(letterDiv);
+            });
 
-    body.appendChild(wrap);
+            document.getElementById('mbtiTitle').textContent = profile.title;
 
-    const nav = document.createElement("div");
-    nav.className = "footerNav";
-    nav.innerHTML = `
-      <button class="ghost" type="button" id="back">⬅️ Retour</button>
-      <button class="ghost" type="button" id="skip">⏭️ Passer</button>
-    `;
-    body.appendChild(nav);
-    document.getElementById("back").addEventListener("click", back);
-    document.getElementById("skip").addEventListener("click", next);
-    return;
-  }
+            // Détails des résultats
+            const detailsContainer = document.getElementById('resultDetails');
+            detailsContainer.innerHTML = `
+                <div class="result-section">
+                    <h3>💪 Vos forces naturelles</h3>
+                    <ul>
+                        <li>${profile.description}</li>
+                        <li>Adapté aux environnements qui valorisent vos traits uniques</li>
+                        <li>Potentiel de réussite dans des métiers alignés avec votre personnalité</li>
+                    </ul>
+                </div>
+                <div class="result-section">
+                    <h3>💼 Environnements recommandés</h3>
+                    <ul>
+                        <li>Consultez le document complet pour des recommandations détaillées</li>
+                        <li>Identifiez les secteurs qui correspondent à votre profil</li>
+                    </ul>
+                </div>
+                <div class="result-section">
+                    <h3>⚡ Conseils pratiques</h3>
+                    <ul>
+                        <li>Valorisez vos forces plutôt que de forcer votre nature</li>
+                        <li>Cherchez des environnements de travail adaptés à votre personnalité</li>
+                        <li>Utilisez ce résultat comme boussole, pas comme prison</li>
+                    </ul>
+                </div>
+            `;
 
-  if(s.type === "result"){
-    title.textContent = "Résumé";
-    const t = totals();
-    const m = major(t);
-
-    const box = document.createElement("div");
-    box.className = "resultBox";
-    box.innerHTML = `
-      <div style="font-weight:1000;font-size:16px;color:rgba(0,0,0,.86)">Résultat (Quiz A-D)</div>
-      <div class="pills">
-        <span class="p pA"><i></i>Nombre total de A : <strong>${t.A}</strong></span>
-        <span class="p pB"><i></i>Nombre total de B : <strong>${t.B}</strong></span>
-        <span class="p pC"><i></i>Nombre total de C : <strong>${t.C}</strong></span>
-        <span class="p pD"><i></i>Nombre total de D : <strong>${t.D}</strong></span>
-      </div>
-      <div style="margin-top:10px;font-weight:1000;">Majorité : ${m}</div>
-      <div style="margin-top:8px;white-space:pre-wrap;font-weight:700;color:rgba(0,0,0,.78)">${INTERP[m]}</div>
-
-      <div style="margin-top:14px;font-weight:1000;">Missions (sans saisie)</div>
-      <div style="margin-top:6px;font-weight:700;color:rgba(0,0,0,.72)">
-        ${MISSIONS.map((mm, i)=>`• ${mm.text} → ${state.missions[i]===null ? "Non répondu" : mm.choices[state.missions[i]]}`).join("<br>")}
-      </div>
-
-      <div class="footerNav" style="margin-top:14px;">
-        <button class="ghost" type="button" id="back">⬅️ Retour</button>
-        <button class="primary" type="button" id="restart">🔁 Recommencer</button>
-      </div>
-    `;
-    body.appendChild(box);
-    document.getElementById("back").addEventListener("click", back);
-    document.getElementById("restart").addEventListener("click", resetAll);
-    return;
-  }
-}
-
-load();
-render();
-</script>
+            // Score d'anxiété
+            const anxietyPercent = Math.min(100, Math.max(0, ((anxietyScore + 20) / 40) * 100));
+            document.getElementById('anxietyFill').style.width = anxietyPercent + '%';
+            
+            let anxietyText, anxietyAdvice;
+            if (anxietyScore > 10) {
+                anxietyText = "Niveau d'anxiété élevé détecté";
+                anxietyAdvice = "⚠️ Recommandation : Un accompagnement psychologique pourrait être bénéfique avant une recherche d'emploi intensive. Commencez par de petites victoires (bénévolat, stages courts) pour renforcer votre confiance.";
+            } else if (anxietyScore < -10) {
+                anxietyText = "Excellente confiance en soi";
+                anxietyAdvice = "✨ Atout majeur : Votre confiance est un véritable atout en entretien. Utilisez cette force pour oser postuler et persévérer face aux obstacles.";
+            } else {
+                anxietyText = "Niveau de confiance équilibré";
+                anxietyAdvice = "👍 Bon équilibre : Vous avez une base solide pour vous lancer dans votre parcours professionnel.";
+            }
+            
+            document.getElementById('anxietyText').textContent = anxietyText;
+            document.getElementById('anxietyAdvice').textContent = anxietyAdvice;
+        }
+    </script>
 </body>
 </html>
-
-
