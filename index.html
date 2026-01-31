@@ -3,107 +3,60 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Trouvez le job qui vous fait Vibrer — Version interactive</title>
+<title>Vibrer — Ultra-ludique (choix uniquement)</title>
 <style>
-  /* Palette extraite du logo "Life Skills" fourni (approximation par échantillonnage des couleurs dominantes) */
   :root{
-    --red:#cb3234;          /* rouge principal */
-    --redDeep:#a94648;      /* rouge profond */
-    --turq:#53e4cf;         /* turquoise puzzle */
-    --yellow:#fecc2c;       /* jaune puzzle */
-    --pink:#fca5a4;         /* rose saumon anneau */
-    --pinkSoft:#ecd5cd;     /* rose clair / saumon soft */
-    --white:#ffffff;
+    /* Couleurs inspirées du logo (rouge / turquoise / jaune / saumon / noir / blanc) */
+    --red:#cb3234;
+    --turq:#53e4cf;
+    --yellow:#fecc2c;
+    --salmon:#fca5a4;
+    --black:#111;
+    --white:#fff;
 
-    --bg: var(--white);
-    --text: #1d1d1d;
-
-    --radiusXL: 28px;
-    --radiusLG: 20px;
-    --radiusMD: 14px;
-
-    --shadow: 0 12px 34px rgba(0,0,0,.10);
-    --shadowSoft: 0 10px 24px rgba(0,0,0,.08);
+    --shadow: 0 14px 40px rgba(0,0,0,.12);
+    --shadow2: 0 10px 26px rgba(0,0,0,.10);
+    --rXL: 28px; --rLG: 20px; --rMD: 14px;
   }
 
   *{ box-sizing:border-box; }
   body{
     margin:0;
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x:hidden;
   }
 
-  /* Fond “LS4YOU” léger */
-  .bg{
-    position: fixed;
-    inset: 0;
-    pointer-events:none;
-    z-index:0;
-    overflow:hidden;
-  }
-  .blob{
-    position:absolute;
-    width: 520px;
-    height: 520px;
-    border-radius: 999px;
-    filter: blur(.2px);
-    opacity: .16;
-  }
-  .b1{ background: var(--pink); left: -140px; top: -160px; }
-  .b2{ background: var(--turq); right: -180px; top: 120px; }
-  .b3{ background: var(--yellow); left: 20%; bottom: -260px; opacity:.12; }
-  .dot{
-    position:absolute;
-    width: 14px; height: 14px;
-    border-radius: 999px;
-    opacity:.22;
-  }
-  .d1{ background: var(--turq); left: 8%; top: 40%; }
-  .d2{ background: var(--yellow); left: 18%; top: 66%; }
-  .d3{ background: var(--pink); right: 12%; top: 26%; }
-  .d4{ background: var(--red); right: 20%; bottom: 22%; opacity:.16; }
-
-  /* “puzzles” décoratifs */
-  .puzzle{
-    position:absolute;
-    width: 92px; height: 64px;
-    border-radius: 20px;
-    box-shadow: var(--shadowSoft);
-    opacity:.92;
-  }
-  .puzzle:before,.puzzle:after{
-    content:"";
-    position:absolute;
-    width: 26px; height: 26px;
-    border-radius: 999px;
-    background: inherit;
-  }
-  .puzzle:before{ left:-10px; top:19px; }
-  .puzzle:after{ right:-10px; top:19px; }
-  .pz1{ background: var(--turq); left: -20px; top: 110px; transform: rotate(-10deg); }
-  .pz2{ background: var(--yellow); right: -18px; top: 180px; transform: rotate(10deg); }
-  .pz3{ background: var(--pink); left: -10px; top: 580px; transform: rotate(6deg); opacity:.65; }
-  .pz4{ background: var(--red); right: -12px; top: 720px; transform: rotate(-6deg); opacity:.55; }
+  /* décor */
+  .bg{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+  .blob{ position:absolute; width:520px; height:520px; border-radius:999px; opacity:.14; }
+  .b1{ background:var(--salmon); left:-170px; top:-200px; }
+  .b2{ background:var(--turq); right:-210px; top:110px; }
+  .b3{ background:var(--yellow); left:20%; bottom:-280px; opacity:.10; }
+  .dot{ position:absolute; width:14px; height:14px; border-radius:999px; opacity:.22; }
+  .d1{ background:var(--turq); left:8%; top:42%; }
+  .d2{ background:var(--yellow); left:18%; top:70%; }
+  .d3{ background:var(--salmon); right:12%; top:26%; }
+  .d4{ background:var(--red); right:20%; bottom:22%; opacity:.16; }
 
   .wrap{
-    position: relative;
-    z-index:1;
-    width: min(1080px, calc(100% - 32px));
+    position:relative; z-index:1;
+    width:min(980px, calc(100% - 28px));
     margin: 0 auto;
-    padding: 18px 0 36px;
+    padding: 16px 0 28px;
   }
 
   header{
-    background: #fff;
-    border-radius: var(--radiusXL);
+    background:#fff;
+    border-radius: var(--rXL);
     box-shadow: var(--shadow);
     border: 1px solid rgba(0,0,0,.08);
     overflow:hidden;
   }
-  .headTop{
+  .top{
     display:flex;
-    justify-content: space-between;
+    justify-content:space-between;
     align-items:center;
     gap: 12px;
     padding: 14px 16px;
@@ -111,346 +64,221 @@
   .brand{
     display:flex; align-items:center; gap: 12px;
   }
-  .brand img{
-    height: 44px; width:auto; display:block;
-  }
-  .badge{
+  .brand img{ height:44px; width:auto; display:block; }
+  .pill{
     display:inline-flex; align-items:center; gap:8px;
     padding: 8px 12px;
     border-radius: 999px;
-    background: rgba(83,228,207,.15);
-    border: 1px solid rgba(83,228,207,.35);
     font-weight: 900;
-    font-size: 13px;
+    font-size: 12.5px;
+    background: rgba(83,228,207,.16);
+    border: 1px solid rgba(83,228,207,.32);
   }
-  .badge i{
-    width:10px; height:10px; border-radius:999px;
-    background: var(--turq);
-    display:inline-block;
-  }
+  .pill i{ width:10px; height:10px; border-radius:999px; background:var(--turq); display:inline-block; }
 
   .hero{
-    padding: 8px 16px 16px;
+    padding: 10px 16px 16px;
     display:grid;
-    grid-template-columns: 1.25fr .75fr;
-    gap: 16px;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 14px;
     align-items:center;
     background:
-      radial-gradient(circle at 20% 20%, rgba(252,165,164,.22), rgba(252,165,164,0) 45%),
-      radial-gradient(circle at 85% 40%, rgba(83,228,207,.18), rgba(83,228,207,0) 50%),
-      radial-gradient(circle at 65% 90%, rgba(254,204,44,.16), rgba(254,204,44,0) 55%);
+      radial-gradient(circle at 20% 25%, rgba(252,165,164,.22), rgba(252,165,164,0) 52%),
+      radial-gradient(circle at 82% 40%, rgba(83,228,207,.18), rgba(83,228,207,0) 55%),
+      radial-gradient(circle at 60% 92%, rgba(254,204,44,.16), rgba(254,204,44,0) 55%);
   }
-  @media (max-width: 860px){ .hero{ grid-template-columns: 1fr; } }
+  @media(max-width:860px){ .hero{ grid-template-columns:1fr; } }
 
   h1{
     margin:0;
-    font-size: clamp(26px, 3.2vw, 42px);
+    font-size: clamp(24px, 3vw, 40px);
     line-height:1.05;
     font-weight: 1000;
     color: var(--red);
-    letter-spacing:.2px;
   }
   .sub{
     margin: 10px 0 0;
-    max-width: 62ch;
-    font-size: 14.5px;
+    font-size: 14px;
     color: rgba(0,0,0,.78);
+    max-width: 62ch;
+    font-weight: 650;
   }
-  .note{
-    margin-top: 12px;
-    padding: 12px 14px;
-    border-radius: var(--radiusLG);
-    background: rgba(254,204,44,.16);
-    border: 1px solid rgba(254,204,44,.35);
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-
-  .progressWrap{
-    display:flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-  }
-  .stepLine{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .chip{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding: 8px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: #fff;
+  .mini{
+    margin-top: 10px;
+    font-size: 12.5px;
     font-weight: 900;
-    font-size: 12px;
-    cursor:pointer;
-    user-select:none;
-  }
-  .chip .mini{ width:10px;height:10px;border-radius:999px; display:inline-block; }
-  .c1 .mini{ background: var(--turq); }
-  .c2 .mini{ background: var(--yellow); }
-  .c3 .mini{ background: var(--pink); }
-  .c4 .mini{ background: var(--red); }
-  .chip.active{
-    box-shadow: var(--shadowSoft);
-    border-color: rgba(0,0,0,.18);
-    background:
-      radial-gradient(circle at 20% 40%, rgba(83,228,207,.14), rgba(83,228,207,0) 50%),
-      radial-gradient(circle at 70% 10%, rgba(252,165,164,.12), rgba(252,165,164,0) 50%),
-      #fff;
+    color: rgba(0,0,0,.72);
   }
 
-  .bar{
+  .progress{
+    background: rgba(0,0,0,.08);
     height: 10px;
     border-radius: 999px;
-    background: rgba(0,0,0,.08);
     overflow:hidden;
+    margin-top: 8px;
   }
-  .bar > div{
+  .progress > div{
     height:100%;
     width:0%;
     border-radius: 999px;
-    background: linear-gradient(90deg, var(--turq), var(--yellow), var(--pink), var(--red));
+    background: linear-gradient(90deg, var(--turq), var(--yellow), var(--salmon), var(--red));
     transition: width .25s ease;
   }
 
-  main{
-    margin-top: 14px;
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
+  .controls{
+    display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
   }
-  .card{
-    background:#fff;
-    border-radius: var(--radiusXL);
-    border: 1px solid rgba(0,0,0,.08);
-    box-shadow: var(--shadow);
-    overflow:hidden;
-  }
-  .cardHead{
-    padding: 14px 16px;
-    display:flex;
-    justify-content: space-between;
-    align-items:flex-start;
-    gap: 12px;
-    background:
-      radial-gradient(circle at 10% 50%, rgba(252,165,164,.18), rgba(252,165,164,0) 50%),
-      radial-gradient(circle at 85% 30%, rgba(83,228,207,.14), rgba(83,228,207,0) 50%);
-  }
-  .cardHead h2{
-    margin:0;
-    font-size: 16px;
-    font-weight: 1000;
-    color: rgba(0,0,0,.86);
-  }
-  .cardHead p{
-    margin: 4px 0 0;
-    font-size: 13px;
-    color: rgba(0,0,0,.68);
-    font-weight: 700;
-  }
-
-  .cardBody{ padding: 16px; }
-
-  .btnRow{ display:flex; gap: 10px; flex-wrap: wrap; }
   button{
-    appearance:none;
-    border:none;
-    cursor:pointer;
-    padding: 11px 14px;
-    border-radius: 999px;
-    font-weight: 1000;
-    font-size: 13px;
-    display:inline-flex;
-    align-items:center;
-    gap: 8px;
-    box-shadow: var(--shadowSoft);
-  }
-  .btnPrimary{ background: var(--red); color:#fff; }
-  .btnGhost{
-    background: rgba(0,0,0,.04);
-    color: rgba(0,0,0,.86);
-    border: 1px solid rgba(0,0,0,.12);
-    box-shadow: none;
-  }
-  .btnAlt{ background: var(--turq); color: rgba(0,0,0,.88); }
-  .btnWarn{ background: var(--yellow); color: rgba(0,0,0,.88); }
-
-  .q{
-    padding: 12px;
-    border-radius: 18px;
-    border: 1px solid rgba(0,0,0,.10);
-    background: rgba(0,0,0,.02);
-    margin-bottom: 12px;
-  }
-  .qTitle{
-    margin:0 0 10px;
-    font-weight: 1000;
-  }
-
-  .optGrid{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-  @media (min-width: 820px){
-    .optGrid{ grid-template-columns: 1fr 1fr; }
-  }
-  .opt{
+    appearance:none; border:none; cursor:pointer;
     padding: 10px 12px;
     border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.12);
+    font-weight: 1000;
+    font-size: 13px;
+    box-shadow: var(--shadow2);
+    display:inline-flex; gap:8px; align-items:center;
+  }
+  .ghost{ background: rgba(0,0,0,.04); color: rgba(0,0,0,.86); border:1px solid rgba(0,0,0,.12); box-shadow:none; }
+  .primary{ background: var(--red); color:#fff; }
+  .alt{ background: var(--turq); color: rgba(0,0,0,.88); }
+  .warn{ background: var(--yellow); color: rgba(0,0,0,.88); }
+
+  main{ margin-top: 14px; }
+
+  /* carte "1 écran" */
+  .screen{
     background:#fff;
-    font-weight: 900;
+    border-radius: var(--rXL);
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(0,0,0,.08);
+    overflow:hidden;
+  }
+  .screenHead{
+    padding: 14px 16px;
+    display:flex; justify-content:space-between; gap: 12px; align-items:flex-start;
+    background:
+      radial-gradient(circle at 12% 60%, rgba(252,165,164,.16), rgba(252,165,164,0) 55%),
+      radial-gradient(circle at 85% 35%, rgba(83,228,207,.14), rgba(83,228,207,0) 55%);
+  }
+  .kicker{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size: 12px;
+    font-weight: 1000;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,.10);
+    background:#fff;
+  }
+  .kicker .dot{
+    position:static;
+    width:10px;height:10px;border-radius:999px;opacity:1;
+  }
+  .k1 .dot{ background:var(--turq); }
+  .k2 .dot{ background:var(--yellow); }
+  .k3 .dot{ background:var(--salmon); }
+  .k4 .dot{ background:var(--red); }
+
+  .screenHead h2{
+    margin: 10px 0 0;
+    font-size: 18px;
+    font-weight: 1000;
+    color: rgba(0,0,0,.86);
+  }
+  .screenBody{ padding: 16px; }
+
+  .question{
+    font-size: 15px;
+    font-weight: 950;
+    margin: 0 0 12px;
+  }
+
+  /* choix */
+  .choices{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  @media(min-width:860px){ .choices{ grid-template-columns: 1fr 1fr; } }
+
+  .choice{
+    display:flex;
+    gap: 10px;
+    align-items:flex-start;
+    padding: 12px 12px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.12);
     cursor:pointer;
     user-select:none;
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
+    font-weight: 900;
+    line-height:1.25;
   }
-  .opt .badgeL{
+  .choice .badge{
     width: 28px; height: 28px;
     border-radius: 999px;
-    display:grid;
-    place-items:center;
+    display:grid; place-items:center;
     font-weight: 1000;
     flex: 0 0 auto;
-    color:#fff;
+    color:#000;
   }
-  .bA{ background: var(--turq); color: rgba(0,0,0,.85) !important; }
-  .bB{ background: var(--yellow); color: rgba(0,0,0,.85) !important; }
-  .bC{ background: var(--pink); color: rgba(0,0,0,.85) !important; }
-  .bD{ background: var(--red); }
+  .A{ background: var(--turq); }
+  .B{ background: var(--yellow); }
+  .C{ background: var(--salmon); }
+  .D{ background: var(--red); color:#fff; }
 
-  .opt.selected{
-    box-shadow: var(--shadowSoft);
+  .choice.selected{
     border-color: rgba(0,0,0,.20);
+    box-shadow: var(--shadow2);
     background:
       radial-gradient(circle at 20% 50%, rgba(83,228,207,.12), rgba(83,228,207,0) 55%),
       radial-gradient(circle at 70% 30%, rgba(254,204,44,.12), rgba(254,204,44,0) 55%),
       #fff;
   }
 
-  .miniInfo{
-    font-size: 12px;
-    color: rgba(0,0,0,.68);
-    font-weight: 700;
-    margin-top: 10px;
+  /* missions (sans saisie) */
+  .missionRow{
+    display:flex; flex-wrap:wrap; gap: 10px;
+  }
+  .missionBtn{
+    flex: 1 1 220px;
+    justify-content:center;
+    box-shadow: var(--shadow2);
+  }
+  .m1{ background: var(--turq); color: rgba(0,0,0,.88); }
+  .m2{ background: var(--yellow); color: rgba(0,0,0,.88); }
+  .m3{ background: var(--salmon); color: rgba(0,0,0,.88); }
+
+  .footerNav{
+    display:flex; gap: 10px; flex-wrap:wrap;
+    justify-content: space-between;
+    margin-top: 14px;
   }
 
-  /* Valeurs : chips + classement */
-  .valuesGrid{
-    display:flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .valueChip{
-    padding: 9px 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(0,0,0,.12);
-    background:#fff;
-    font-weight: 900;
-    font-size: 12.5px;
-    cursor:pointer;
-    user-select:none;
-  }
-  .valueChip.sel{
-    border-color: rgba(0,0,0,.22);
-    box-shadow: var(--shadowSoft);
+  .resultBox{
+    padding: 14px;
+    border-radius: var(--rXL);
+    border: 1px solid rgba(0,0,0,.10);
     background:
-      radial-gradient(circle at 30% 30%, rgba(252,165,164,.14), rgba(252,165,164,0) 55%),
+      radial-gradient(circle at 20% 50%, rgba(252,165,164,.14), rgba(252,165,164,0) 55%),
+      radial-gradient(circle at 70% 30%, rgba(83,228,207,.12), rgba(83,228,207,0) 55%),
       #fff;
   }
-  .rankBox{
-    margin-top: 12px;
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
+  .pills{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px;
   }
-  @media (min-width: 820px){ .rankBox{ grid-template-columns: 1fr 1fr; } }
-  .rankItem{
-    border-radius: 18px;
-    border: 1px solid rgba(0,0,0,.12);
-    background: rgba(0,0,0,.02);
-    padding: 10px 12px;
-    display:flex;
-    align-items:center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .rankItem strong{ font-weight: 1000; }
-  select{
-    border-radius: 999px;
+  .p{
+    display:inline-flex; gap:8px; align-items:center;
     padding: 8px 10px;
-    font-weight: 900;
-    border: 1px solid rgba(0,0,0,.14);
-    background:#fff;
-  }
-
-  textarea, input{
-    width: 100%;
-    border-radius: 18px;
-    border: 1px solid rgba(0,0,0,.12);
-    padding: 10px 12px;
-    font-size: 14px;
-    outline:none;
-  }
-  textarea:focus, input:focus{
-    border-color: rgba(203,50,52,.40);
-    box-shadow: 0 0 0 4px rgba(203,50,52,.12);
-  }
-
-  .grid2{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  @media (min-width: 920px){ .grid2{ grid-template-columns: 1fr 1fr; } }
-
-  .table{
-    width:100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-  }
-  .table th{
-    text-align:left;
-    font-size: 12px;
-    color: rgba(0,0,0,.65);
-    padding: 0 8px;
-  }
-  .table td{
-    padding: 0 8px;
-  }
-
-  .pillFooter{
-    margin-top: 12px;
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .pill{
     border-radius: 999px;
-    padding: 8px 10px;
-    font-weight: 1000;
-    font-size: 12px;
     border: 1px solid rgba(0,0,0,.10);
     background:#fff;
-    display:inline-flex;
-    gap:8px;
-    align-items:center;
+    font-weight: 1000;
+    font-size: 12px;
   }
-  .pill i{ width:10px;height:10px;border-radius:999px; display:inline-block; }
-  .pTurq i{ background: var(--turq); }
-  .pYel i{ background: var(--yellow); }
-  .pPink i{ background: var(--pink); }
-  .pRed i{ background: var(--red); }
-
-  .hidden{ display:none !important; }
-
+  .p i{ width:10px;height:10px;border-radius:999px; display:inline-block; }
+  .pA i{ background: var(--turq); }
+  .pB i{ background: var(--yellow); }
+  .pC i{ background: var(--salmon); }
+  .pD i{ background: var(--red); }
   footer{
     margin-top: 14px;
     text-align:center;
@@ -459,811 +287,386 @@
   }
 </style>
 </head>
+
 <body>
-  <div class="bg" aria-hidden="true">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
-  </div>
+<div class="bg" aria-hidden="true">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div><div class="dot d4"></div>
+</div>
 
-  <div class="wrap">
-    <div class="puzzle pz1" aria-hidden="true"></div>
-    <div class="puzzle pz2" aria-hidden="true"></div>
-    <div class="puzzle pz3" aria-hidden="true"></div>
-    <div class="puzzle pz4" aria-hidden="true"></div>
-
-    <header>
-      <div class="headTop">
-        <div class="brand">
-          <img src="LS4YOU_Logo.png" alt="Life Skills logo" />
-          <span class="badge"><i></i>Version interactive</span>
-        </div>
-        <div class="btnRow">
-          <button class="btnGhost" id="btnSave" type="button">💾 Sauvegarder</button>
-          <button class="btnGhost" id="btnReset" type="button">♻️ Réinitialiser</button>
-        </div>
+<div class="wrap">
+  <header>
+    <div class="top">
+      <div class="brand">
+        <img src="LS4YOU_Logo.png" alt="Life Skills logo">
+        <span class="pill"><i></i> Ultra-ludique • Choix uniquement</span>
       </div>
+      <div class="controls">
+        <button class="ghost" id="btnReset" type="button">♻️ Réinitialiser</button>
+      </div>
+    </div>
 
-      <div class="hero">
+    <div class="hero">
+      <div>
+        <h1>Trouvez le job qui vous fait Vibrer</h1>
+        <p class="sub">
+          Parcours en cartes : tu choisis, tu avances. Aucun texte à écrire.
+        </p>
+        <div class="mini" id="stepInfo">Écran 1/?</div>
+        <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+      </div>
+      <div class="controls" style="justify-content:flex-start;">
+        <button class="alt" id="btnStart" type="button">▶️ Commencer</button>
+        <button class="ghost" id="btnJumpResult" type="button">🧾 Aller au résumé</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="screen" id="screen">
+      <div class="screenHead">
         <div>
-          <h1>Trouvez le job qui vous fait Vibrer</h1>
-          <p class="sub">
-            Trouver un travail qui vous passionne est un objectif que beaucoup aspirent à atteindre.
-            Ce guide vous accompagnera pas à pas pour vous aider à identifier vos aspirations professionnelles,
-            à trouver un travail aligné avec vos valeurs et compétences, et à vous préparer efficacement pour décrocher ce job de rêve.
-            Vous y trouverez des conseils pratiques, des exercices pour mieux vous connaître, ainsi que des ressources en ligne pour vous guider dans votre recherche.
-            Enfin, nous vous présenterons les dispositifs offerts par le CFP Presqu'Île pour vous aider dans votre orientation professionnelle.
-          </p>
-          <div class="note">💡 Ce parcours est en étapes : tu avances à ton rythme.</div>
-        </div>
-
-        <div class="progressWrap">
-          <div class="stepLine" id="stepLine"></div>
-          <div class="bar" aria-hidden="true"><div id="barFill"></div></div>
-          <div class="miniInfo" id="miniInfo">Étape 1/6</div>
+          <span class="kicker k1" id="kicker"><span class="dot"></span>Étape</span>
+          <h2 id="title">…</h2>
         </div>
       </div>
-    </header>
-
-    <main>
-      <!-- STEP 1 -->
-      <section class="card" data-step="0">
-        <div class="cardHead">
-          <div>
-            <h2>CE QUE J’AIME FAIRE POURQUOI ?</h2>
-            <p>CONNAISSANCE DE SOI : La clé de la réussite — Exercice 1 : Analyse de ce que vous aimez</p>
-          </div>
-        </div>
-        <div class="cardBody">
-          <p style="margin-top:0;font-weight:800;">
-            Avant de vous lancer dans la recherche d'emploi, il est essentiel de bien vous connaître. Identifier vos passions, vos compétences, et ce qui vous motive est fondamental pour trouver un travail qui vous fait vibrer.
-          </p>
-          <div class="q">
-            <p class="qTitle">1. Listez ce que vous aimez :</p>
-            <p style="margin:0 0 10px;">
-              Prenez un moment pour réfléchir à ce qui vous passionne vraiment.
-              Quelles activités faites-vous sans voir le temps passer ? Qu'est-ce qui vous excite ou vous motive au quotidien ?
-              Exemple : Écrire, aider les autres, résoudre des problèmes techniques, etc.
-            </p>
-            <textarea id="likeList" placeholder="Écris ici…"></textarea>
-          </div>
-          <div class="q">
-            <p class="qTitle">Et qu’est-ce que vous aimez dans ces activités ?</p>
-            <textarea id="likeWhy" placeholder="Écris ici…"></textarea>
-          </div>
-
-          <div class="btnRow">
-            <button class="btnPrimary" type="button" id="next0">➡️ Continuer</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 2 : QUIZ A-D -->
-      <section class="card hidden" data-step="1">
-        <div class="cardHead">
-          <div>
-            <h2>CONNAISSANCE DE SOI : Exercice 1 : Environnement de travail et rythme de travail</h2>
-            <p>Choisis A, B, C ou D pour chaque question</p>
-          </div>
-          <div class="btnRow">
-            <button class="btnWarn" type="button" id="btnCalcAD">🧮 Calcul résultat</button>
-          </div>
-        </div>
-        <div class="cardBody" id="quizAD"></div>
-      </section>
-
-      <!-- STEP 3 : RESULTATS A-D -->
-      <section class="card hidden" data-step="2">
-        <div class="cardHead">
-          <div>
-            <h2>Résultat</h2>
-            <p>Nombre total de A • Nombre total de B • Nombre total de C • Nombre total de D</p>
-          </div>
-        </div>
-        <div class="cardBody">
-          <div class="grid2">
-            <div class="q">
-              <p class="qTitle" style="margin-bottom:6px;">Totaux</p>
-              <div class="pillFooter" id="totalsPills"></div>
-              <p class="miniInfo" id="majorInfo"></p>
-            </div>
-            <div class="q">
-              <p class="qTitle" style="margin-bottom:6px;">Interprétation</p>
-              <div id="resultText" style="font-weight:700;color:rgba(0,0,0,.80)"></div>
-            </div>
-          </div>
-
-          <div class="btnRow" style="margin-top:12px;">
-            <button class="btnPrimary" type="button" id="next2">➡️ Continuer</button>
-            <button class="btnGhost" type="button" id="back2">⬅️ Retour</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 4 : VALEURS -->
-      <section class="card hidden" data-step="3">
-        <div class="cardHead">
-          <div>
-            <h2>Exercice 3 : Qu’est-ce qui est important pour vous ?</h2>
-            <p>ORDRE VALEUR — 1 2 3 4 5</p>
-          </div>
-        </div>
-        <div class="cardBody">
-          <div class="q">
-            <p class="qTitle">1. Notez les aspects les plus importants pour vous dans un emploi.</p>
-            <p style="margin:0 0 10px;">Retrouvez une liste de valeur à la page suivante</p>
-            <p class="qTitle" style="margin-top:10px;">2. Quelles sont vos priorités ?</p>
-            <p style="margin:0;">Classez-les par ordre d'importance pour identifier ce qui compte vraiment pour vous dans votre futur travail.</p>
-          </div>
-
-          <div class="q">
-            <p class="qTitle">LISTE DES CHOSES importantes pour Vous</p>
-            <div class="valuesGrid" id="valuesGrid"></div>
-            <p class="miniInfo">Clique pour sélectionner (max 5). Ensuite classe 1→5.</p>
-
-            <div class="rankBox" id="rankBox"></div>
-          </div>
-
-          <div class="btnRow">
-            <button class="btnPrimary" type="button" id="next3">➡️ Continuer</button>
-            <button class="btnGhost" type="button" id="back3">⬅️ Retour</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 5 : EXPLORATION + PLAN -->
-      <section class="card hidden" data-step="4">
-        <div class="cardHead">
-          <div>
-            <h2>EXPLORATION DES MÉTIERS & SECTEURS</h2>
-            <p>Exercice 3 : Recherche de métier • Exercice 4 : Création d’une vision à long terme • Exercice 4 : Recherche de métier</p>
-          </div>
-        </div>
-        <div class="cardBody">
-          <div class="q">
-            <p class="qTitle">Exercice 3 : Recherche de métier</p>
-            <p style="margin:0 0 10px;">
-              1. Utilisez des plateformes de découverte de métiers : Des sites comme Orientation pour tous ou France Travail offrent des outils pour explorer différents métiers en fonction de vos intérêts.
-            </p>
-            <p style="margin:0;">
-              2.Effectuez des entretiens informels : Contactez des professionnels des secteurs qui vous intéressent pour en savoir plus sur leur quotidien, les compétences requises, et les perspectives d'évolution.
-            </p>
-          </div>
-
-          <div class="q">
-            <p class="qTitle">Exercice 4 : Création d’une vision à long terme</p>
-            <p style="margin:0;">
-              1. Imaginez votre journée idéale au travail : Décrivez en détail une journée typique dans le métier que vous visez. Quelles tâches réalisez-vous ? Dans quel environnement travaillez-vous ?
-            </p>
-            <textarea id="idealDay" placeholder="Écris ici…"></textarea>
-          </div>
-
-          <div class="q">
-            <p class="qTitle">Exercice 4 : Recherche de métier</p>
-            <p style="margin:0 0 10px;">
-              2.Établissez un plan d'action : Énumérez les étapes à suivre pour atteindre cet objectif. Quelle formation devez-vous suivre ? Quelles compétences devez-vous développer ?.
-            </p>
-
-            <table class="table" aria-label="Plan d'action">
-              <thead>
-                <tr>
-                  <th>OBJECTIFS</th>
-                  <th>ACTIVITES</th>
-                  <th>PERSONNES CONTACTS</th>
-                  <th>ECHEANCE</th>
-                </tr>
-              </thead>
-              <tbody id="planRows"></tbody>
-            </table>
-            <div class="btnRow">
-              <button class="btnAlt" type="button" id="addRow">➕ Ajouter une ligne</button>
-            </div>
-          </div>
-
-          <div class="btnRow">
-            <button class="btnPrimary" type="button" id="next4">➡️ Continuer</button>
-            <button class="btnGhost" type="button" id="back4">⬅️ Retour</button>
-          </div>
-        </div>
-      </section>
-
-      <!-- STEP 6 : PREPARATION + DISPOSITIFS -->
-      <section class="card hidden" data-step="5">
-        <div class="cardHead">
-          <div>
-            <h2>PREPARATION & RECHERCHE D’EMPLOI</h2>
-            <p>Conseil n°1 • Conseil n°2 • Conseil n°3 • Conseil n°4 • On estlà pour Vous</p>
-          </div>
-        </div>
-        <div class="cardBody">
-          <div class="q">
-            <p style="margin:0;font-weight:800;">
-              Maintenant que vous avez identifié votre domaine de prédilection, il est temps de passer à l'action et de rechercher activement un emploi.
-            </p>
-          </div>
-
-          <div class="grid2">
-            <div class="q">
-              <p class="qTitle">Rédigez un CV et une lettre de motivation percutants :</p>
-              <p style="margin:0;">Adaptez ces documents à chaque offre d'emploi en mettant en avant les compétences et expériences pertinentes pour le poste.</p>
-            </div>
-
-            <div class="q">
-              <p class="qTitle">Conseil n°1 :</p>
-              <p style="margin:0;">
-                Utilisez des plateformes de recherche d'emploi : Des sites comme Indeed, LinkedIn, et Monster sont des ressources précieuses pour trouver des offres d'emploi dans votre secteur.
-              </p>
-            </div>
-
-            <div class="q">
-              <p class="qTitle">Conseil n°2 :</p>
-              <p style="margin:0;">
-                Réseautage : Participez à des événements professionnels, rejoignez des groupes sur LinkedIn, et n'hésitez pas à contacter directement les entreprises qui vous intéressent.
-              </p>
-            </div>
-
-            <div class="q">
-              <p class="qTitle">Conseil n°3 :</p>
-              <p style="margin:0;">
-                Préparez-vous aux entretiens : Entraînez-vous à répondre aux questions classiques d'entretien, préparez des exemples concrets de vos réalisations, et montrez en quoi vos valeurs et compétences sont alignées avec le poste proposé.
-              </p>
-            </div>
-
-            <div class="q">
-              <p class="qTitle">Conseil n°4 :</p>
-              <p style="margin:0;"></p>
-              <p class="miniInfo">Le livret indique “Conseil n°4 :” sans contenu supplémentaire visible dans le texte extrait.</p>
-            </div>
-          </div>
-
-          <div class="q" style="margin-top:12px;">
-            <p class="qTitle">On estlà pour Vous</p>
-
-            <div class="q" style="background:#fff;border:1px solid rgba(0,0,0,.10)">
-              <p style="margin:0;font-weight:900;">Un dispositif qui vous permet d'explorer différents métiers, d'acquérir des compétences de base et de vous préparer à intégrer une formation qualifiante ou à entrer directement sur le marché du travail. Vous bénéficiez d'un accompagnement personnalisé pour construire un projet professionnel solide.</p>
-              <p style="margin:10px 0 0;font-weight:1000;color:var(--red);">ÇA M’INTÉRESSE !</p>
-            </div>
-
-            <div class="q" style="background:#fff;border:1px solid rgba(0,0,0,.10)">
-              <p style="margin:0;font-weight:900;">Ces ateliers vous proposent des conseils personnalisés pour optimiser votre recherche d'emploi, avec des exercices pratiques pour améliorer vos outils de candidature et préparer vos entretiens.</p>
-              <p style="margin:10px 0 0;font-weight:1000;color:var(--red);">ÇA M’INTÉRESSE !</p>
-            </div>
-
-            <div class="q" style="background:#fff;border:1px solid rgba(0,0,0,.10)">
-              <p style="margin:0;font-weight:900;">Un accompagnement destiné aux personnes rencontrant des difficultés de santé ou sociales, afin de faciliter leur retour à l'emploi. Ce parcours propose un suivi individualisé pour concilier emploi et santé.</p>
-              <p style="margin:10px 0 0;font-weight:1000;color:var(--red);">ÇA M’INTÉRESSE !</p>
-            </div>
-
-            <div class="q" style="background:#fff;border:1px solid rgba(0,0,0,.10)">
-              <p style="margin:0;font-weight:900;">Vous avez une idée de projet entrepreneurial mais vous ne savez pas par où commencer ? Activ'Créa Emergence vous aide à structurer votre projet, à évaluer sa viabilité, et à établir un plan d'action pour le lancer.</p>
-              <p style="margin:10px 0 0;font-weight:1000;color:var(--red);">ÇA M’INTÉRESSE !</p>
-            </div>
-          </div>
-
-          <div class="q">
-            <p style="margin:0;font-weight:900;">Vivez l’expérience Into the dock !</p>
-          </div>
-
-          <div class="btnRow">
-            <button class="btnPrimary" type="button" id="btnExport">🧾 Exporter mon résumé</button>
-            <button class="btnGhost" type="button" id="back5">⬅️ Retour</button>
-          </div>
-        </div>
-      </section>
-    </main>
+      <div class="screenBody" id="body"></div>
+    </section>
 
     <footer>
-      Version interactive locale (aucune donnée envoyée) — Tu peux sauvegarder/reprendre avec “💾 Sauvegarder”.
+      Aucune saisie • Choix uniquement • Données sauvegardées localement dans le navigateur
     </footer>
-  </div>
+  </main>
+</div>
 
 <script>
-  /* =========================
-     NAV STEPS
-  ========================= */
-  const STEPS = [
-    { key:"intro", label:"Moi", color:"c1" },
-    { key:"quiz", label:"Quiz", color:"c2" },
-    { key:"result", label:"Résultat", color:"c3" },
-    { key:"values", label:"Valeurs", color:"c4" },
-    { key:"plan", label:"Plan", color:"c1" },
-    { key:"action", label:"Action", color:"c2" }
-  ];
+/* =========================
+   Contenu "choix uniquement"
+   - Quiz A-D du livret (texte conservé)
+   - “missions” pour les parties à écrire (sans saisie)
+   - Résumé final
+========================= */
 
-  const stepLine = document.getElementById("stepLine");
-  const barFill = document.getElementById("barFill");
-  const miniInfo = document.getElementById("miniInfo");
-  const stepCards = Array.from(document.querySelectorAll("[data-step]"));
+const LS_KEY = "vibrer_ultra_ludique_v1";
 
-  let current = 0;
-
-  function renderStepChips(){
-    stepLine.innerHTML = "";
-    STEPS.forEach((s, idx)=>{
-      const chip = document.createElement("div");
-      chip.className = `chip ${s.color} ${idx===current ? "active":""}`;
-      chip.innerHTML = `<span class="mini"></span>${idx+1}. ${s.label}`;
-      chip.classList.add(idx===0?"c1":idx===1?"c2":idx===2?"c3":idx===3?"c4":"c1");
-      chip.addEventListener("click", ()=>go(idx));
-      stepLine.appendChild(chip);
-    });
+/* Quiz A-D (texte identique à ce que tu avais dans la version précédente) */
+const QUIZ = [
+  {
+    title:"1. CE QUI VOUS MOTIVE LE MATIN :",
+    A:"Vous aimez les défis et la nouveauté : Vous êtes attiré par des métiers dynamiques, imprévisibles, où vous pouvez résoudre des problèmes.",
+    B:"Vous valorisez l’esprit d’équipe : Vous prospérez dans des environnements collaboratifs où les relations interpersonnelles sont importantes.",
+    C:"Vous préférez l'autonomie : Un travail indépendant ou à distance pourrait vous convenir, où vous pouvez gérer votre emploi du temps.",
+    D:"Vous appréciez la structure : Les métiers avec des routines claires et une organisation bien définie sont faits pour vous."
+  },
+  {
+    title:"2. VOTRE ESPACE DE TRAVAIL IDÉAL :",
+    A:"Vous aimez l’énergie et la créativité : Un bureau animé, un environnement start-up, ou des espaces de travail ouverts vous conviennent.",
+    B:"Vous cherchez l’interaction : Les environnements collaboratifs, les agences de création ou les espaces de coworking vous attirent.",
+    C:"Vous préférez le calme : Un travail à domicile, en freelance, ou dans un bureau privé est idéal pour vous.",
+    D:"Vous aimez l’organisation : Les entreprises bien structurées avec des bureaux personnels sont faites pour vous."
+  },
+  {
+    title:"3. COMMENT VOUS ABORDEZ LES PROJETS :",
+    A:"Vous êtes adaptable et aimez improviser : Vous excellez dans des environnements où les tâches sont variées et changeantes.",
+    B:"Vous aimez le brainstorming : Les rôles qui nécessitent de l’innovation et de la collaboration sont parfaits pour vous.",
+    C:"Vous préférez la planification : Vous êtes à l’aise dans des métiers où l'organisation et la méthode sont essentielles.",
+    D:"Vous suivez les procédures : Un travail avec des normes et des processus établis vous convient."
+  },
+  {
+    title:"4. RAPPORT À L’AUTORITÉ ET À LA HIÉRARCHIE :",
+    A:"Vous préférez des structures plates : Les entreprises avec une culture d’égalitarisme ou les start-ups peuvent être idéales.",
+    B:"Vous aimez la collaboration dirigée : Vous recherchez un équilibre entre autonomie et direction claire, comme dans les équipes projet.",
+    C:"Vous appréciez la clarté avec autonomie : Un environnement avec des directives claires mais une grande liberté d’exécution vous conviendra.",
+    D:"Vous aimez les hiérarchies définies : Les grandes entreprises ou les organisations traditionnelles avec une hiérarchie claire sont faites pour vous."
+  },
+  {
+    title:"5. GESTION DES IMPRÉVUS :",
+    A:"Vous aimez les imprévus : Les environnements imprévisibles comme ceux des startups, ou des métiers de terrain sont idéals.",
+    B:"Vous cherchez des solutions en équipe : Vous aimez les environnements collaboratifs où la solidarité est clé.",
+    C:"Vous analysez avant d’agir : Les rôles analytiques ou de conseil où la réflexion précède l’action vous conviendront.",
+    D:"Vous minimisez les imprévus : Un travail structuré avec des procédures établies, comme dans la finance ou l’administration, pourrait vous convenir."
+  },
+  {
+    title:"6. TYPES DE PROJETS INSPIRANTS :",
+    A:"Créativité et innovation : Les métiers dans le design, la publicité, ou l’art sont faits pour vous.",
+    B:"Collaboration et équipe : Les rôles dans la gestion de projet ou le travail social sont parfaits.",
+    C:"Recherche et précision : Vous excellez dans les métiers académiques, scientifiques, ou techniques.",
+    D:"Processus et répétition : Les métiers avec des tâches récurrentes et bien définies, comme la comptabilité ou la gestion, vous conviennent."
+  },
+  {
+    title:"7. ÉQUILIBRE VIE PROFESSIONNELLE ET PERSONNELLE :",
+    A:"Vous intégrez le travail à votre vie : Vous pourriez apprécier les métiers où le travail et la passion se rejoignent, comme les entrepreneurs.",
+    B:"Vous cherchez la flexibilité : Les métiers avec des horaires flexibles ou en freelance sont idéaux pour vous.",
+    C:"Vous aimez un équilibre défini : Un travail avec des horaires réguliers et fixes est parfait.",
+    D:"Vous valorisez un temps personnel bien encadré : Les métiers avec des horaires stricts, comme les emplois gouvernementaux ou administratifs, vous conviennent."
+  },
+  {
+    title:"8. IMPORTANCE DE LA RECONNAISSANCE :",
+    A:"Reconnaissance créative : Les métiers où l'innovation est récompensée, comme dans les industries créatives, sont pour vous.",
+    B:"Reconnaissance en équipe : Les environnements où le travail d'équipe est valorisé vous attirent.",
+    C:"Reconnaissance discrète : Vous êtes à l’aise dans des rôles où le travail bien fait est reconnu sans grandes démonstrations.",
+    D:"Reconnaissance formelle : Les métiers dans des entreprises structurées avec des systèmes de reconnaissance officiels vous conviennent."
   }
+];
 
-  function go(idx){
-    current = Math.max(0, Math.min(idx, STEPS.length-1));
-    stepCards.forEach((sec)=>{
-      sec.classList.toggle("hidden", parseInt(sec.dataset.step,10) !== current);
-    });
-    renderStepChips();
-    const pct = Math.round(((current+1)/STEPS.length)*100);
-    barFill.style.width = pct + "%";
-    miniInfo.textContent = `Étape ${current+1}/${STEPS.length}`;
-    window.scrollTo({top: 0, behavior: "smooth"});
+/* “Missions” (pour remplacer les exercices à écrire) — sans champs */
+const MISSIONS = [
+  {
+    title:"CE QUE J’AIME FAIRE POURQUOI ?",
+    text:"1. Listez ce que vous aimez :",
+    choices:["Je l’ai fait","Je le ferai plus tard","Je passe"]
+  },
+  {
+    title:"CE QUE J’AIME FAIRE POURQUOI ?",
+    text:"Et qu’est-ce que vous aimez dans ces activités ?",
+    choices:["Je l’ai fait","Je le ferai plus tard","Je passe"]
+  },
+  {
+    title:"Exercice 4 : Création d’une vision à long terme",
+    text:"1. Imaginez votre journée idéale au travail : Décrivez en détail une journée typique dans le métier que vous visez. Quelles tâches réalisez-vous ? Dans quel environnement travaillez-vous ?",
+    choices:["Je l’ai imaginée","Je le ferai plus tard","Je passe"]
+  },
+  {
+    title:"Exercice 4 : Recherche de métier",
+    text:"2.Établissez un plan d'action : Énumérez les étapes à suivre pour atteindre cet objectif. Quelle formation devez-vous suivre ? Quelles compétences devez-vous développer ?.",
+    choices:["Je sais par où commencer","J’ai besoin d’aide","Je passe"]
   }
+];
 
-  /* =========================
-     STEP 2 : QUIZ A-D (texte EXACT du livret)
-  ========================= */
-  const quizADData = [
-    {
-      q:"1. CE QUI VOUS MOTIVE LE MATIN :",
-      opts:{
-        A:"Vous aimez les défis et la nouveauté : Vous êtes attiré par des métiers dynamiques, imprévisibles, où vous pouvez résoudre des problèmes.",
-        B:"Vous valorisez l’esprit d’équipe : Vous prospérez dans des environnements collaboratifs où les relations interpersonnelles sont importantes.",
-        C:"Vous préférez l'autonomie : Un travail indépendant ou à distance pourrait vous convenir, où vous pouvez gérer votre emploi du temps.",
-        D:"Vous appréciez la structure : Les métiers avec des routines claires et une organisation bien définie sont faits pour vous."
-      }
-    },
-    {
-      q:"2. VOTRE ESPACE DE TRAVAIL IDÉAL :",
-      opts:{
-        A:"Vous aimez l’énergie et la créativité : Un bureau animé, un environnement start-up, ou des espaces de travail ouverts vous conviennent.",
-        B:"Vous cherchez l’interaction : Les environnements collaboratifs, les agences de création ou les espaces de coworking vous attirent.",
-        C:"Vous préférez le calme : Un travail à domicile, en freelance, ou dans un bureau privé est idéal pour vous.",
-        D:"Vous aimez l’organisation : Les entreprises bien structurées avec des bureaux personnels sont faites pour vous."
-      }
-    },
-    {
-      q:"3. COMMENT VOUS ABORDEZ LES PROJETS :",
-      opts:{
-        A:"Vous êtes adaptable et aimez improviser : Vous excellez dans des environnements où les tâches sont variées et changeantes.",
-        B:"Vous aimez le brainstorming : Les rôles qui nécessitent de l’innovation et de la collaboration sont parfaits pour vous.",
-        C:"Vous préférez la planification : Vous êtes à l’aise dans des métiers où l'organisation et la méthode sont essentielles.",
-        D:"Vous suivez les procédures : Un travail avec des normes et des processus établis vous convient."
-      }
-    },
-    {
-      q:"4. RAPPORT À L’AUTORITÉ ET À LA HIÉRARCHIE :",
-      opts:{
-        A:"Vous préférez des structures plates : Les entreprises avec une culture d’égalitarisme ou les start-ups peuvent être idéales.",
-        B:"Vous aimez la collaboration dirigée : Vous recherchez un équilibre entre autonomie et direction claire, comme dans les équipes projet.",
-        C:"Vous appréciez la clarté avec autonomie : Un environnement avec des directives claires mais une grande liberté d’exécution vous conviendra.",
-        D:"Vous aimez les hiérarchies définies : Les grandes entreprises ou les organisations traditionnelles avec une hiérarchie claire sont faites pour vous."
-      }
-    },
-    {
-      q:"5. GESTION DES IMPRÉVUS :",
-      opts:{
-        A:"Vous aimez les imprévus : Les environnements imprévisibles comme ceux des startups, ou des métiers de terrain sont idéals.",
-        B:"Vous cherchez des solutions en équipe : Vous aimez les environnements collaboratifs où la solidarité est clé.",
-        C:"Vous analysez avant d’agir : Les rôles analytiques ou de conseil où la réflexion précède l’action vous conviendront.",
-        D:"Vous minimisez les imprévus : Un travail structuré avec des procédures établies, comme dans la finance ou l’administration, pourrait vous convenir."
-      }
-    },
-    {
-      q:"6. TYPES DE PROJETS INSPIRANTS :",
-      opts:{
-        A:"Créativité et innovation : Les métiers dans le design, la publicité, ou l’art sont faits pour vous.",
-        B:"Collaboration et équipe : Les rôles dans la gestion de projet ou le travail social sont parfaits.",
-        C:"Recherche et précision : Vous excellez dans les métiers académiques, scientifiques, ou techniques.",
-        D:"Processus et répétition : Les métiers avec des tâches récurrentes et bien définies, comme la comptabilité ou la gestion, vous conviennent."
-      }
-    },
-    {
-      q:"7. ÉQUILIBRE VIE PROFESSIONNELLE ET PERSONNELLE :",
-      opts:{
-        A:"Vous intégrez le travail à votre vie : Vous pourriez apprécier les métiers où le travail et la passion se rejoignent, comme les entrepreneurs.",
-        B:"Vous cherchez la flexibilité : Les métiers avec des horaires flexibles ou en freelance sont idéaux pour vous.",
-        C:"Vous aimez un équilibre défini : Un travail avec des horaires réguliers et fixes est parfait.",
-        D:"Vous valorisez un temps personnel bien encadré : Les métiers avec des horaires stricts, comme les emplois gouvernementaux ou administratifs, vous conviennent."
-      }
-    },
-    {
-      q:"8. IMPORTANCE DE LA RECONNAISSANCE :",
-      opts:{
-        A:"Reconnaissance créative : Les métiers où l'innovation est récompensée, comme dans les industries créatives, sont pour vous.",
-        B:"Reconnaissance en équipe : Les environnements où le travail d'équipe est valorisé vous attirent.",
-        C:"Reconnaissance discrète : Vous êtes à l’aise dans des rôles où le travail bien fait est reconnu sans grandes démonstrations.",
-        D:"Reconnaissance formelle : Les métiers dans des entreprises structurées avec des systèmes de reconnaissance officiels vous conviennent."
-      }
-    }
-  ];
-
-  const resultsText = {
-    A:`Si vous avez majoritairement choisi des réponses A :
+/* Interprétations A-D */
+const INTERP = {
+  A:`Si vous avez majoritairement choisi des réponses A :
 Vous êtes une personne qui aime l'aventure et l'imprévu. Vous êtes attiré par des environnements dynamiques et créatifs où chaque jour apporte de nouveaux défis. Vous prospérez dans des métiers où l'innovation est au cœur de l'activité, comme les startups, les industries créatives (publicité, design, cinéma), ou les rôles dans l'entrepreneuriat. Vous n'avez pas peur de l'inconnu et aimez avoir la liberté de créer, d'expérimenter, et de prendre des initiatives. L'autonomie et la capacité d'improviser sont essentielles pour vous, et vous appréciez les structures organisationnelles plates où les idées comptent plus que la hiérarchie.`,
-    B:`2. Si vous avez majoritairement choisi des réponses B :
-Vous êtes motivé par le travail d'équipe et la collaboration. Vous appréciez les environnements où les échanges sont fréquents et où vous pouvez brainstormer avec vos collègues pour trouver des solutions créatives. Les métiers dans la gestion de projet, les services sociaux, ou les environnements éducatifs pourraient être bien adaptés à votre style. Vous recherchez des structures où la communication est ouverte et où il existe un équilibre entre direction et collaboration. Le travail en équipe est essentiel pour vous, et vous vous épanouissez dans des environnements qui valorisent l'interaction et le soutien mutuel.`,
-    C:`3. Si vous avez majoritairement choisi des réponses C :
+  B:`2. Si vous avez majoritairement choisi des réponses B :
+Vous êtes motivé par le travail d'équipe et la collaboration. Vous appréciez les environnements où les échanges sont fréquents et où vous pouvez brainstormer avec vos collègues pour trouver des solutions créatives. Les métiers dans la gestion de projet, les services sociaux, ou les environements éducatifs pourraient être bien adaptés à votre style. Vous recherchez des structures où la communication est ouverte et où il existe un équilibre entre direction et collaboration. Le travail en équipe est essentiel pour vous, et vous vous épanouissez dans des environnements qui valorisent l'interaction et le soutien mutuel.`,
+  C:`3. Si vous avez majoritairement choisi des réponses C :
 Vous êtes une personne qui valorise l'autonomie et la réflexion approfondie. Vous préférez les environnements calmes et structurés où vous pouvez travailler à votre propre rythme sans distractions. Les métiers dans la recherche, l'analyse, ou le développement technique, où la précision et la planification sont cruciales, sont idéaux pour vous. Vous aimez avoir des directives claires, mais avec la liberté d'exécution. L'équilibre entre vie professionnelle et personnelle est important pour vous, et vous appréciez des horaires bien définis qui vous permettent de vous concentrer pleinement sur vos tâches.`,
-    D:`4. Si vous avez majoritairement choisi des réponses D :
+  D:`4. Si vous avez majoritairement choisi des réponses D :
 Vous êtes quelqu'un qui prospère dans des environnements bien organisés et structurés. Vous préférez des rôles où les processus sont établis et où les attentes sont claires, comme dans l'administration, la gestion, ou la finance. La stabilité et la prévisibilité sont importantes pour vous, et vous aimez suivre des routines qui garantissent des résultats constants. Vous appréciez une hiérarchie bien définie où les responsabilités sont distinctes, et vous êtes motivé par la reconnaissance formelle de votre travail. Un emploi avec des horaires fixes et des règles bien établies vous permettra de vous épanouir.`
-  };
+};
 
-  const quizWrap = document.getElementById("quizAD");
-  const state = {
-    likeList:"",
-    likeWhy:"",
-    quizAD: Array(quizADData.length).fill(null), // "A"|"B"|"C"|"D"
-    totals:{A:0,B:0,C:0,D:0},
-    major:null,
-    valuesSelected: [], // strings
-    valuesRank: {},     // {value: rank}
-    idealDay:"",
-    plan: [], // rows
-  };
+/* Construction des écrans :
+   0 = intro (mission start)
+   ensuite 4 missions (sans saisie)
+   ensuite 8 questions A-D
+   puis résumé
+*/
+const SCREENS = [
+  { type:"intro" },
+  ...MISSIONS.map(m => ({ type:"mission", ...m })),
+  ...QUIZ.map(q => ({ type:"quiz", ...q })),
+  { type:"result" }
+];
 
-  function badgeClass(letter){
-    return letter==="A" ? "bA" : letter==="B" ? "bB" : letter==="C" ? "bC" : "bD";
+const state = {
+  idx: 0,
+  missions: Array(MISSIONS.length).fill(null),  // 0..2
+  quiz: Array(QUIZ.length).fill(null),          // "A".."D"
+};
+
+function save(){ localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+function load(){
+  const raw = localStorage.getItem(LS_KEY);
+  if(!raw) return;
+  try{
+    const d = JSON.parse(raw);
+    if(d && Array.isArray(d.quiz) && Array.isArray(d.missions)){
+      state.idx = d.idx ?? 0;
+      state.quiz = d.quiz;
+      state.missions = d.missions;
+    }
+  }catch(e){}
+}
+
+function resetAll(){
+  if(!confirm("Réinitialiser tout ?")) return;
+  localStorage.removeItem(LS_KEY);
+  location.reload();
+}
+
+const screen = document.getElementById("screen");
+const title = document.getElementById("title");
+const body = document.getElementById("body");
+const stepInfo = document.getElementById("stepInfo");
+const bar = document.getElementById("bar");
+const kicker = document.getElementById("kicker");
+document.getElementById("btnReset").addEventListener("click", resetAll);
+
+document.getElementById("btnStart").addEventListener("click", ()=>go(1));
+document.getElementById("btnJumpResult").addEventListener("click", ()=>go(SCREENS.length-1));
+
+function totals(){
+  const t = {A:0,B:0,C:0,D:0};
+  state.quiz.forEach(v=>{ if(v && t[v]!==undefined) t[v]++; });
+  return t;
+}
+function major(t){
+  const order=["A","B","C","D"];
+  let m="A";
+  order.forEach(l=>{ if(t[l] > t[m]) m=l; });
+  return m;
+}
+
+function go(i){
+  state.idx = Math.max(0, Math.min(i, SCREENS.length-1));
+  render();
+  save();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function next(){
+  if(state.idx < SCREENS.length-1) go(state.idx+1);
+}
+function back(){
+  if(state.idx > 0) go(state.idx-1);
+}
+
+function render(){
+  const s = SCREENS[state.idx];
+  const pct = Math.round(((state.idx+1)/SCREENS.length)*100);
+  bar.style.width = pct + "%";
+  stepInfo.textContent = `Écran ${state.idx+1}/${SCREENS.length}`;
+
+  // kicker couleur par type
+  kicker.className = "kicker " + (s.type==="quiz" ? "k2" : s.type==="mission" ? "k3" : s.type==="result" ? "k4" : "k1");
+
+  body.innerHTML = "";
+
+  if(s.type === "intro"){
+    title.textContent = "Prêt·e ?";
+    const box = document.createElement("div");
+    box.className = "resultBox";
+    box.innerHTML = `
+      <div style="font-weight:1000;font-size:16px;color:rgba(0,0,0,.86)">Tu vas faire un parcours en choix.</div>
+      <div style="margin-top:8px;font-weight:700;color:rgba(0,0,0,.72)">Aucun texte à écrire. Tu peux revenir en arrière quand tu veux.</div>
+      <div class="footerNav" style="margin-top:12px;">
+        <button class="primary" type="button" id="go">▶️ Commencer</button>
+      </div>
+    `;
+    body.appendChild(box);
+    document.getElementById("go").addEventListener("click", ()=>go(1));
+    return;
   }
 
-  function renderQuizAD(){
-    quizWrap.innerHTML = "";
-    quizADData.forEach((item, i)=>{
-      const box = document.createElement("div");
-      box.className = "q";
-      box.innerHTML = `<p class="qTitle">${item.q}</p><div class="optGrid" id="opt-${i}"></div>`;
-      quizWrap.appendChild(box);
+  if(s.type === "mission"){
+    title.textContent = s.title;
+    const q = document.createElement("div");
+    q.className = "question";
+    q.textContent = s.text; // texte du livret affiché
+    body.appendChild(q);
 
-      const grid = box.querySelector(`#opt-${i}`);
-      ["A","B","C","D"].forEach(letter=>{
-        const opt = document.createElement("div");
-        opt.className = "opt";
-        opt.dataset.q = i;
-        opt.dataset.v = letter;
-        opt.innerHTML = `
-          <span class="badgeL ${badgeClass(letter)}">${letter}</span>
-          <span>${item.opts[letter]}</span>
-        `;
-        opt.addEventListener("click", ()=>{
-          state.quizAD[i] = letter;
-          updateQuizADUI(i);
-          autosave(false);
-        });
-        grid.appendChild(opt);
+    const idxMission = state.idx - 1; // missions commencent à 1
+    const row = document.createElement("div");
+    row.className = "missionRow";
+
+    s.choices.forEach((label, k)=>{
+      const btn = document.createElement("button");
+      btn.type="button";
+      btn.className = "missionBtn " + (k===0?"m1":k===1?"m2":"m3");
+      btn.textContent = label;
+      btn.addEventListener("click", ()=>{
+        state.missions[idxMission] = k;
+        save();
+        next();
       });
-
-      updateQuizADUI(i);
+      row.appendChild(btn);
     });
+
+    body.appendChild(row);
 
     const nav = document.createElement("div");
-    nav.className = "btnRow";
-    nav.style.marginTop = "12px";
+    nav.className = "footerNav";
     nav.innerHTML = `
-      <button class="btnPrimary" type="button" id="next1">➡️ Continuer</button>
-      <button class="btnGhost" type="button" id="back1">⬅️ Retour</button>
+      <button class="ghost" type="button" id="back">⬅️ Retour</button>
+      <button class="ghost" type="button" id="skip">⏭️ Passer</button>
     `;
-    quizWrap.appendChild(nav);
-
-    document.getElementById("next1").addEventListener("click", ()=>go(2));
-    document.getElementById("back1").addEventListener("click", ()=>go(0));
+    body.appendChild(nav);
+    document.getElementById("back").addEventListener("click", back);
+    document.getElementById("skip").addEventListener("click", next);
+    return;
   }
 
-  function updateQuizADUI(i){
-    document.querySelectorAll(`.opt[data-q="${i}"]`).forEach(el=>{
-      el.classList.toggle("selected", el.dataset.v === state.quizAD[i]);
+  if(s.type === "quiz"){
+    title.textContent = "Quiz";
+    const q = document.createElement("div");
+    q.className = "question";
+    q.textContent = s.title;
+    body.appendChild(q);
+
+    const wrap = document.createElement("div");
+    wrap.className = "choices";
+
+    // index quiz = idx - 1 - MISSIONS.length
+    const qIndex = state.idx - 1 - MISSIONS.length;
+
+    ["A","B","C","D"].forEach(letter=>{
+      const div = document.createElement("div");
+      div.className = "choice" + (state.quiz[qIndex]===letter ? " selected":"");
+      div.innerHTML = `
+        <span class="badge ${letter}">${letter}</span>
+        <span>${s[letter]}</span>
+      `;
+      div.addEventListener("click", ()=>{
+        state.quiz[qIndex] = letter;
+        save();
+        next(); // auto-advance
+      });
+      wrap.appendChild(div);
     });
-  }
 
-  function calcAD(){
-    const totals = {A:0,B:0,C:0,D:0};
-    state.quizAD.forEach(v=>{
-      if(v && totals[v]!==undefined) totals[v]+=1;
-    });
-    state.totals = totals;
+    body.appendChild(wrap);
 
-    // majorité (en cas d'égalité, prend la 1ère par ordre A,B,C,D)
-    const order = ["A","B","C","D"];
-    let major = "A";
-    order.forEach(l=>{
-      if(totals[l] > totals[major]) major = l;
-    });
-    state.major = major;
-
-    renderTotals();
-    autosave(false);
-  }
-
-  function renderTotals(){
-    const totalsPills = document.getElementById("totalsPills");
-    const majorInfo = document.getElementById("majorInfo");
-    const resultTextDiv = document.getElementById("resultText");
-    totalsPills.innerHTML = `
-      <span class="pill pTurq"><i></i>Nombre total de A : <strong>${state.totals.A}</strong></span>
-      <span class="pill pYel"><i></i>Nombre total de B : <strong>${state.totals.B}</strong></span>
-      <span class="pill pPink"><i></i>Nombre total de C : <strong>${state.totals.C}</strong></span>
-      <span class="pill pRed"><i></i>Nombre total de D : <strong>${state.totals.D}</strong></span>
+    const nav = document.createElement("div");
+    nav.className = "footerNav";
+    nav.innerHTML = `
+      <button class="ghost" type="button" id="back">⬅️ Retour</button>
+      <button class="ghost" type="button" id="skip">⏭️ Passer</button>
     `;
-    majorInfo.textContent = state.major ? `Majorité : ${state.major}` : "";
-    resultTextDiv.textContent = state.major ? resultsText[state.major] : "Clique sur “Calcul résultat” à l’étape Quiz.";
+    body.appendChild(nav);
+    document.getElementById("back").addEventListener("click", back);
+    document.getElementById("skip").addEventListener("click", next);
+    return;
   }
 
-  /* =========================
-     VALEURS (texte EXACT du livret)
-  ========================= */
-  const VALUES = [
-    "Intégrité : Agir avec honnêteté et éthique.",
-    "Respect : Considérer et valoriser les autres et leurs opinions.",
-    "Responsabilité : Assumer ses actions et leurs conséquences.",
-    "Empathie : Comprendre et partager les sentiments des autres.",
-    "Bienveillance : Faire preuve de gentillesse et de soutien.",
-    "Excellence : Rechercher constamment l'amélioration et la qualité.",
-    "Collaboration : Travailler efficacement avec les autres.",
-    "Créativité : Innover et penser de manière originale.",
-    "Autonomie : Être capable de travailler de manière indépendante.",
-    "Loyauté : Être fidèle à ses engagements et à ses relations.",
-    "Transparence : Être clair et ouvert dans ses communications.",
-    "Engagement : S'investir pleinement dans ses projets et responsabilités.",
-    "Humilité : Reconnaître ses limites et apprendre des autres.",
-    "Courage : Faire face aux défis et prendre des décisions difficiles.",
-    "Durabilité : Prendre des décisions qui respectent l'environnement et la société.",
-    "Innovation : Encourager le changement et l'amélioration continue.",
-    "Équité : Traiter tout le monde de manière juste et impartiale.",
-    "Persévérance : Ne pas abandonner face aux obstacles.",
-    "Gratitude : Reconnaître et apprécier les contributions des autres.",
-    "Ouverture d'esprit : Être réceptif aux nouvelles idées et perspectives.",
-    "Solidarité : Soutenir et aider les autres dans un esprit de communauté.",
-    "Optimisme : Aborder les situations avec une attitude positive.",
-    "Authenticité : Rester fidèle à soi-même et agir avec sincérité.",
-    "Innovation : Explorer de nouvelles idées et encourager le changement.",
-    "Fiabilité : Être digne de confiance et constant dans ses actions.",
-    "Discipline : Faire preuve de rigueur et de constance dans ses efforts.",
-    "Adaptabilité : S’ajuster aux changements et aux nouvelles situations.",
-    "Respect de l’environnement : Protéger et préserver les ressources naturelles.",
-    "Esprit d’équipe : Collaborer efficacement et promouvoir le succès collectif.",
-    "Compassion : Montrer de la compréhension et de l’empathie envers les autres.",
-    "Justice : Veiller à ce que chacun soit traité équitablement.",
-    "Patience : Savoir attendre et persévérer calmement face aux défis.",
-    "Générosité : Partager ses ressources et son temps avec les autres.",
-    "Prudence : Agir avec réflexion et attention aux conséquences.",
-    "Humour : Apprécier la légèreté et savoir trouver de la joie dans les situations.",
-    "Confiance en soi : Croire en ses capacités et en son potentiel.",
-    "Passion : Mettre de l'énergie et de l'enthousiasme dans ce que l’on fait.",
-    "Ouverture culturelle : Apprécier et respecter les diverses cultures et traditions.",
-    "Innovation sociale : Créer des solutions pour améliorer la société.",
-    "Dévouement : Se consacrer pleinement à une cause ou un objectif."
-  ];
+  if(s.type === "result"){
+    title.textContent = "Résumé";
+    const t = totals();
+    const m = major(t);
 
-  function renderValues(){
-    const grid = document.getElementById("valuesGrid");
-    const rankBox = document.getElementById("rankBox");
-    grid.innerHTML = "";
-    rankBox.innerHTML = "";
+    const box = document.createElement("div");
+    box.className = "resultBox";
+    box.innerHTML = `
+      <div style="font-weight:1000;font-size:16px;color:rgba(0,0,0,.86)">Résultat (Quiz A-D)</div>
+      <div class="pills">
+        <span class="p pA"><i></i>Nombre total de A : <strong>${t.A}</strong></span>
+        <span class="p pB"><i></i>Nombre total de B : <strong>${t.B}</strong></span>
+        <span class="p pC"><i></i>Nombre total de C : <strong>${t.C}</strong></span>
+        <span class="p pD"><i></i>Nombre total de D : <strong>${t.D}</strong></span>
+      </div>
+      <div style="margin-top:10px;font-weight:1000;">Majorité : ${m}</div>
+      <div style="margin-top:8px;white-space:pre-wrap;font-weight:700;color:rgba(0,0,0,.78)">${INTERP[m]}</div>
 
-    VALUES.forEach((v)=>{
-      const chip = document.createElement("div");
-      chip.className = "valueChip";
-      chip.textContent = v;
-      if(state.valuesSelected.includes(v)) chip.classList.add("sel");
+      <div style="margin-top:14px;font-weight:1000;">Missions (sans saisie)</div>
+      <div style="margin-top:6px;font-weight:700;color:rgba(0,0,0,.72)">
+        ${MISSIONS.map((mm, i)=>`• ${mm.text} → ${state.missions[i]===null ? "Non répondu" : mm.choices[state.missions[i]]}`).join("<br>")}
+      </div>
 
-      chip.addEventListener("click", ()=>{
-        const isSel = state.valuesSelected.includes(v);
-        if(isSel){
-          state.valuesSelected = state.valuesSelected.filter(x=>x!==v);
-          delete state.valuesRank[v];
-        }else{
-          if(state.valuesSelected.length >= 5) return; // max 5
-          state.valuesSelected.push(v);
-          state.valuesRank[v] = ""; // to set
-        }
-        autosave(false);
-        renderValues();
-      });
-      grid.appendChild(chip);
-    });
-
-    state.valuesSelected.forEach((v)=>{
-      const row = document.createElement("div");
-      row.className = "rankItem";
-      row.innerHTML = `
-        <div style="font-weight:900;max-width:78%">${v}</div>
-        <div>
-          <label style="font-weight:900;font-size:12px;margin-right:8px;">ORDRE VALEUR</label>
-          <select data-v="${escapeHtml(v)}">
-            <option value="" ${state.valuesRank[v]===""?"selected":""}>—</option>
-            <option value="1" ${state.valuesRank[v]==="1"?"selected":""}>1</option>
-            <option value="2" ${state.valuesRank[v]==="2"?"selected":""}>2</option>
-            <option value="3" ${state.valuesRank[v]==="3"?"selected":""}>3</option>
-            <option value="4" ${state.valuesRank[v]==="4"?"selected":""}>4</option>
-            <option value="5" ${state.valuesRank[v]==="5"?"selected":""}>5</option>
-          </select>
-        </div>
-      `;
-      const sel = row.querySelector("select");
-      sel.addEventListener("change", (e)=>{
-        state.valuesRank[v] = e.target.value;
-        autosave(false);
-      });
-      rankBox.appendChild(row);
-    });
+      <div class="footerNav" style="margin-top:14px;">
+        <button class="ghost" type="button" id="back">⬅️ Retour</button>
+        <button class="primary" type="button" id="restart">🔁 Recommencer</button>
+      </div>
+    `;
+    body.appendChild(box);
+    document.getElementById("back").addEventListener("click", back);
+    document.getElementById("restart").addEventListener("click", resetAll);
+    return;
   }
+}
 
-  function escapeHtml(str){
-    return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
-  }
-
-  /* =========================
-     PLAN D’ACTION table
-  ========================= */
-  function addPlanRow(row = {obj:"", act:"", people:"", date:""}){
-    state.plan.push(row);
-    renderPlan();
-    autosave(false);
-  }
-
-  function renderPlan(){
-    const tbody = document.getElementById("planRows");
-    tbody.innerHTML = "";
-    state.plan.forEach((r, idx)=>{
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><input value="${escapeHtml(r.obj)}" placeholder=""></td>
-        <td><input value="${escapeHtml(r.act)}" placeholder=""></td>
-        <td><input value="${escapeHtml(r.people)}" placeholder=""></td>
-        <td><input value="${escapeHtml(r.date)}" placeholder=""></td>
-      `;
-      const inputs = tr.querySelectorAll("input");
-      inputs[0].addEventListener("input",(e)=>{ state.plan[idx].obj = e.target.value; autosave(false); });
-      inputs[1].addEventListener("input",(e)=>{ state.plan[idx].act = e.target.value; autosave(false); });
-      inputs[2].addEventListener("input",(e)=>{ state.plan[idx].people = e.target.value; autosave(false); });
-      inputs[3].addEventListener("input",(e)=>{ state.plan[idx].date = e.target.value; autosave(false); });
-      tbody.appendChild(tr);
-    });
-  }
-
-  /* =========================
-     SAVE / LOAD
-  ========================= */
-  const LS_KEY = "vibrer_interactive_v1";
-
-  function autosave(showToast=true){
-    // collect textareas
-    state.likeList = document.getElementById("likeList").value;
-    state.likeWhy = document.getElementById("likeWhy").value;
-    state.idealDay = document.getElementById("idealDay")?.value ?? state.idealDay;
-
-    localStorage.setItem(LS_KEY, JSON.stringify(state));
-    if(showToast) alert("Sauvegardé ✅");
-  }
-
-  function load(){
-    const raw = localStorage.getItem(LS_KEY);
-    if(!raw) return;
-    try{
-      const data = JSON.parse(raw);
-      Object.assign(state, data);
-
-      document.getElementById("likeList").value = state.likeList || "";
-      document.getElementById("likeWhy").value = state.likeWhy || "";
-
-      // quiz selections
-      renderQuizAD();
-
-      // results
-      renderTotals();
-
-      // values
-      renderValues();
-
-      // plan
-      if(!Array.isArray(state.plan) || state.plan.length===0){
-        state.plan = [];
-        addPlanRow();
-      }else{
-        renderPlan();
-      }
-
-      // ideal day
-      const id = document.getElementById("idealDay");
-      if(id) id.value = state.idealDay || "";
-    }catch(e){
-      console.error(e);
-    }
-  }
-
-  function resetAll(){
-    if(!confirm("Réinitialiser tout ?")) return;
-    localStorage.removeItem(LS_KEY);
-    location.reload();
-  }
-
-  /* =========================
-     EXPORT RESUME
-  ========================= */
-  function exportSummary(){
-    state.likeList = document.getElementById("likeList").value;
-    state.likeWhy = document.getElementById("likeWhy").value;
-    state.idealDay = document.getElementById("idealDay").value;
-
-    const summary = {
-      "CE QUE J’AIME FAIRE POURQUOI ?": {
-        "Listez ce que vous aimez :": state.likeList,
-        "Et qu’est-ce que vous aimez dans ces activités ?": state.likeWhy
-      },
-      "CALCUL RESULTAT": {
-        "Nombre total de A": state.totals.A,
-        "Nombre total de B": state.totals.B,
-        "Nombre total de C": state.totals.C,
-        "Nombre total de D": state.totals.D,
-        "Majorité": state.major,
-        "Interprétation": state.major ? resultsText[state.major] : ""
-      },
-      "LISTE DES CHOSES importantes pour Vous": {
-        "Sélections": state.valuesSelected,
-        "Classement": state.valuesRank
-      },
-      "Exercice 4 : Création d’une vision à long terme": {
-        "Imaginez votre journée idéale au travail :": state.idealDay
-      },
-      "Plan d'action": state.plan
-    };
-
-    const blob = new Blob([JSON.stringify(summary, null, 2)], {type:"application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "resume-vibrer.json";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  /* =========================
-     Wire UI buttons
-  ========================= */
-  document.getElementById("next0").addEventListener("click", ()=>go(1));
-  document.getElementById("btnCalcAD").addEventListener("click", ()=>{ calcAD(); go(2); });
-  document.getElementById("next2").addEventListener("click", ()=>go(3));
-  document.getElementById("back2").addEventListener("click", ()=>go(1));
-
-  document.getElementById("next3").addEventListener("click", ()=>go(4));
-  document.getElementById("back3").addEventListener("click", ()=>go(2));
-
-  document.getElementById("next4").addEventListener("click", ()=>go(5));
-  document.getElementById("back4").addEventListener("click", ()=>go(3));
-
-  document.getElementById("back5").addEventListener("click", ()=>go(4));
-  document.getElementById("btnExport").addEventListener("click", exportSummary);
-
-  document.getElementById("btnSave").addEventListener("click", ()=>autosave(true));
-  document.getElementById("btnReset").addEventListener("click", resetAll);
-
-  document.getElementById("addRow").addEventListener("click", ()=>addPlanRow());
-
-  /* =========================
-     Init
-  ========================= */
-  renderStepChips();
-  renderQuizAD();
-  renderValues();
-
-  // init plan with 3 empty rows by défaut
-  addPlanRow();
-  addPlanRow();
-  addPlanRow();
-
-  // load saved state if exists
-  load();
-
-  // keep ideal day synced after load
-  const id = document.getElementById("idealDay");
-  if(id){
-    id.addEventListener("input", ()=>autosave(false));
-  }
-
-  // start
-  go(0);
+load();
+render();
 </script>
 </body>
 </html>
+
 
