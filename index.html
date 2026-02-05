@@ -21,13 +21,7 @@
         .bg-deco { position: fixed; z-index: -1; border-radius: 50%; }
         .circle-1 { width: 400px; height: 400px; background: var(--yellow); top: -100px; right: -100px; opacity: 0.4; }
         .circle-2 { width: 300px; height: 300px; background: var(--turquoise); bottom: -50px; left: -50px; opacity: 0.3; }
-        .dot-grid {
-            position: fixed; z-index: -1; width: 100px; height: 100px;
-            background-image: radial-gradient(var(--blue) 20%, transparent 20%);
-            background-size: 15px 15px; opacity: 0.3;
-        }
-        .dots-tl { top: 150px; left: 20px; }
-
+        
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 5%; background: rgba(255,255,255,0.95);
@@ -37,29 +31,25 @@
 
         .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
         h1 { font-weight: 900; font-size: 2.8em; text-align: center; color: var(--red); margin: 0; text-transform: uppercase; line-height: 1; }
-        .subtitle { text-align: center; font-size: 1.1em; margin-bottom: 40px; font-weight: 600; }
+        .subtitle { text-align: center; font-size: 1.1em; margin-bottom: 40px; font-weight: 600; color: var(--blue); }
 
         .question-block {
             background: white; border-radius: 25px; padding: 35px; margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; border: 1px solid #eee;
+            transition: 0.3s;
         }
+        .question-block:hover { border-color: var(--turquoise); transform: translateY(-5px); }
         .question-text { font-weight: 700; font-size: 1.2em; display: block; margin-bottom: 25px; text-align: center; }
 
-        /* Échelle de réponse */
-        .scale-container {
-            display: flex; justify-content: space-between; align-items: center;
-            max-width: 600px; margin: 0 auto; position: relative;
-        }
-        .scale-label { font-size: 0.75em; font-weight: 700; width: 80px; text-align: center; color: #888; text-transform: uppercase; }
+        .scale-container { display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto; }
+        .scale-label { font-size: 0.75em; font-weight: 700; width: 100px; text-align: center; color: #888; text-transform: uppercase; }
         .radio-group { display: flex; gap: 15px; align-items: center; }
         
         input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 3px solid #ddd; transition: 0.2s; }
         input[type="radio"][value="2"], input[type="radio"][value="-2"] { width: 45px; height: 45px; }
         input[type="radio"][value="1"], input[type="radio"][value="-1"] { width: 35px; height: 35px; }
         input[type="radio"][value="0"] { width: 25px; height: 25px; }
-
-        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); transform: scale(1.1); }
-        input[type="radio"]:hover { border-color: var(--turquoise); }
+        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); }
 
         .btn-container { text-align: center; margin: 50px 0; }
         button {
@@ -67,16 +57,14 @@
             font-size: 1.3em; font-weight: 900; border-radius: 50px; cursor: pointer;
             box-shadow: 0 10px 20px rgba(255, 23, 102, 0.3); transition: 0.3s;
         }
-        button:hover { transform: scale(1.05); background: #e01055; }
+        button:hover { transform: scale(1.05); }
 
-        /* Résultats */
         #results { display: none; text-align: center; padding: 40px; background: white; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
         .profile-title { font-size: 3em; color: var(--red); font-weight: 900; margin: 10px 0; }
-        .profile-cat { display: inline-block; background: var(--turquoise); color: white; padding: 5px 20px; border-radius: 20px; font-weight: 700; margin-bottom: 20px; }
+        .profile-cat { display: inline-block; background: var(--purple); color: white; padding: 5px 20px; border-radius: 20px; font-weight: 700; margin-bottom: 20px; }
         .profile-icon { font-size: 6em; margin: 20px 0; display: block; }
         .profile-desc { font-size: 1.4em; border: 3px dashed var(--yellow); padding: 30px; border-radius: 20px; margin-top: 20px; font-weight: 600; }
 
-        .puzzle-footer { width: 80px; margin: 40px auto; opacity: 0.5; }
         .hidden { display: none; }
     </style>
 </head>
@@ -84,7 +72,6 @@
 
     <div class="bg-deco circle-1"></div>
     <div class="bg-deco circle-2"></div>
-    <div class="dot-grid dots-tl"></div>
 
     <header>
         <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" class="logo" alt="LS4YOU">
@@ -94,12 +81,12 @@
     <div class="container">
         <div id="quiz-ui">
             <h1>Mon Profil Pro</h1>
-            <p class="subtitle">Découvre ta "Destination Moi-même"</p>
+            <p class="subtitle">Réorienté : Entreprise & Emploi</p>
 
             <form id="quiz-form">
                 <div id="questions-container"></div>
                 <div class="btn-container">
-                    <button type="button" onclick="calculate()">Voir mon profil</button>
+                    <button type="button" onclick="calculate()">Découvrir mes forces</button>
                 </div>
             </form>
         </div>
@@ -108,61 +95,62 @@
             <span class="profile-cat" id="res-cat">Catégorie</span>
             <span class="profile-icon" id="res-icon">🚀</span>
             <h2 class="profile-title" id="res-title">Titre</h2>
-            <div class="profile-desc" id="res-desc">Caractéristiques</div>
+            <div class="profile-desc" id="res-desc">Description</div>
             <div class="btn-container">
                 <button onclick="location.reload()">Refaire le test</button>
             </div>
         </div>
-
-        <svg class="puzzle-footer" viewBox="0 0 24 24" fill="var(--turquoise)"><path d="M20,12a2,2,0,0,0,0,4H18v2H16a2,2,0,0,0-4,0H10V16H8a2,2,0,0,1,0-4H10V10H8a2,2,0,0,0,0-4h2V4h2a2,2,0,0,0,4,0h2V6h2a2,2,0,0,1,0,4H18v2Z"/></svg>
     </div>
 
     <script>
         const questions = [
-            // E/I
-            { id: 1, t: "Tu te fais facilement de nouveaux amis.", dim: "E" },
-            { id: 11, t: "Tu n'as aucune difficulté à approcher quelqu'un d'intéressant.", dim: "E" },
-            { id: 16, t: "Tu aimes vraiment participer à des activités d'équipe.", dim: "E" },
-            { id: 30, t: "Tu préfères être entouré plutôt que d'être seul.", dim: "E" },
-            { id: 41, t: "Tu te connectes facilement avec des gens inconnus.", dim: "E" },
-            { id: 6, t: "L'idée de réseauter ou de te faire connaître t'intimide.", dim: "I" },
-            { id: 21, t: "Tu préfères les loisirs solitaires aux activités de groupe.", dim: "I" },
-            { id: 39, t: "Tu évites au maximum de passer des appels téléphoniques.", dim: "I" },
-            { id: 48, t: "Tu aimerais un travail où l'on travaille seul la plupart du temps.", dim: "I" },
-            { id: 50, t: "Tu es plus attiré par les lieux animés que calmes.", dim: "E" },
-            // S/N
-            { id: 12, t: "Tu n'aimes pas les discussions sur l'interprétation d'œuvres.", dim: "S" },
-            { id: 31, t: "Tu t'ennuies quand la discussion devient trop théorique.", dim: "S" },
-            { id: 45, t: "Discuter de théories sur l'avenir ne t'intéresse pas vraiment.", dim: "S" },
-            { id: 49, t: "Réfléchir à des questions philosophiques est une perte de temps.", dim: "S" },
-            { id: 2, t: "Les idées complexes et innovantes t'enthousiasment.", dim: "N" },
-            { id: 17, t: "Tu aimes expérimenter des approches nouvelles, non testées.", dim: "N" },
-            { id: 19, t: "Tu recherches constamment de nouveaux domaines à explorer.", dim: "N" },
-            { id: 29, t: "Tu aimes débattre de dilemmes éthiques.", dim: "N" },
-            { id: 36, t: "Tu es attiré par l'expression créative (écriture, art).", dim: "N" },
-            { id: 55, t: "Tu préfères créer des solutions plutôt que suivre des étapes.", dim: "N" },
-            // T/F
-            { id: 13, t: "Tu privilégies les faits plutôt que les sentiments pour agir.", dim: "T" },
-            { id: 23, t: "Tu prônes des décisions efficaces, même si c'est dur émotionnellement.", dim: "T" },
-            { id: 25, t: "En désaccord, tu défends ton point de vue avant les sentiments.", dim: "T" },
-            { id: 28, t: "Tu n'es pas facilement influencé par les émotions.", dim: "T" },
-            { id: 42, t: "Ta priorité est de te remettre sur les rails vite après un échec.", dim: "T" },
-            { id: 3, t: "Tu es plus convaincu par les émotions que par les faits.", dim: "F" },
-            { id: 8, t: "Les histoires des gens te parlent plus que les chiffres.", dim: "F" },
-            { id: 47, t: "Tu te soucies plus du ressenti des gens que de la logique pure.", dim: "F" },
-            { id: 51, t: "Si une décision te semble juste, tu agis sans preuves.", dim: "F" },
-            { id: 56, t: "Tu te fies à ton intuition émotionnelle pour tes choix.", dim: "F" },
-            // J/P
-            { id: 4, t: "Tes espaces de vie et de travail sont propres et organisés.", dim: "J" },
-            { id: 7, t: "Tu planifies tes tâches pour finir bien avant la date limite.", dim: "J" },
-            { id: 9, t: "Tu aimes utiliser des listes et des calendriers.", dim: "J" },
-            { id: 38, t: "Tu aimes faire une liste de choses à faire chaque jour.", dim: "J" },
-            { id: 54, t: "Tu termines les choses méthodiquement sans sauter d'étapes.", dim: "J" },
-            { id: 14, t: "Tu laisses souvent ta journée se dérouler sans plan.", dim: "P" },
-            { id: 33, t: "Tu as du mal à maintenir un emploi du temps cohérent.", dim: "P" },
-            { id: 46, t: "Ton énergie fonctionne par explosions spontanées.", dim: "P" },
-            { id: 57, t: "Tu as de vraies difficultés à respecter les délais.", dim: "P" },
-            { id: 24, t: "Tu préfères finir tes tâches avant de te détendre.", dim: "J" }
+            // --- E/I (Extraversion vs Introversion) ---
+            { t: "Tu trouves facile de t'intégrer rapidement dans une nouvelle équipe de travail.", dim: "E" },
+            { t: "Tu n'as aucune difficulté à aborder un recruteur lors d'un forum emploi.", dim: "E" },
+            { t: "Tu apprécies vraiment les projets professionnels qui se font en groupe.", dim: "E" },
+            { t: "Tu préfères travailler dans un espace partagé (open-space) plutôt que seul.", dim: "E" },
+            { t: "Tu trouves facile de créer du réseau avec des professionnels inconnus.", dim: "E" },
+            { t: "L'idée de te mettre en avant lors d'un entretien collectif t'intimide.", dim: "I" },
+            { t: "Tu préfères les missions que tu peux gérer en totale autonomie.", dim: "I" },
+            { t: "Tu préfères largement communiquer par mail plutôt que par téléphone.", dim: "I" },
+            { t: "Tu aimerais un métier où l'on travaille de manière indépendante la plupart du temps.", dim: "I" },
+            { t: "Tu es plus attiré par les entreprises avec beaucoup d'animation que par les bureaux calmes.", dim: "E" },
+
+            // --- S/N (Sensation vs Intuition) ---
+            { t: "Tu préfères discuter de résultats concrets plutôt que de théories sur le management.", dim: "S" },
+            { t: "Tu perds vite ton intérêt quand une réunion devient trop abstraite ou théorique.", dim: "S" },
+            { t: "Tu n'aimes pas trop imaginer l'avenir d'un secteur sans avoir de chiffres précis.", dim: "S" },
+            { t: "Réfléchir à des concepts philosophiques en entreprise est pour toi une perte de temps.", dim: "S" },
+            { t: "Les projets innovants et complexes t'enthousiasment plus que les tâches simples.", dim: "N" },
+            { t: "Tu aimes tester de nouvelles méthodes de travail, même si elles ne sont pas encore prouvées.", dim: "N" },
+            { t: "Tu cherches constamment à apprendre de nouvelles compétences en dehors de ton poste.", dim: "N" },
+            { t: "Tu aimes débattre des dilemmes éthiques liés au monde des affaires.", dim: "N" },
+            { t: "Tu es attiré par des métiers créatifs (marketing, design, communication).", dim: "N" },
+            { t: "Tu préfères inventer des solutions originales plutôt que de suivre une procédure fixée.", dim: "N" },
+
+            // --- T/F (Thinking vs Feeling) ---
+            { t: "Tu privilégies les faits et les chiffres plutôt que le ressenti des collègues pour agir.", dim: "T" },
+            { t: "Tu prônes des décisions efficaces, même si cela peut blesser certains membres de l'équipe.", dim: "T" },
+            { t: "En cas de désaccord pro, tu défends ta logique technique avant les sentiments personnels.", dim: "T" },
+            { t: "Tu n'es pas facilement influencé par les émotions lors d'une négociation.", dim: "T" },
+            { t: "Si un projet échoue, ta priorité est de repartir tout de suite sur des bases logiques.", dim: "T" },
+            { t: "Tu es plus convaincu par l'impact humain d'un projet que par ses données financières.", dim: "F" },
+            { t: "Les parcours de vie des collaborateurs te parlent plus que leurs tableaux de performance.", dim: "F" },
+            { t: "Pour prendre une décision, tu te soucies davantage de l'effet sur les gens que de l'efficacité.", dim: "F" },
+            { t: "Si un choix professionnel te semble 'juste', tu agis souvent sans attendre de preuves.", dim: "F" },
+            { t: "Tu te fies plus à ton intuition relationnelle qu'à un raisonnement froid pour tes choix.", dim: "F" },
+
+            // --- J/P (Jugement vs Perception) ---
+            { t: "Ton poste de travail et tes fichiers numériques sont toujours bien organisés.", dim: "J" },
+            { t: "Tu planifies tes tâches pour qu'elles soient terminées bien avant la date limite.", dim: "J" },
+            { t: "Tu utilises systématiquement des outils comme l'agenda partagé ou les to-do lists.", dim: "J" },
+            { t: "Tu aimes faire une liste précise de tes objectifs pro chaque matin.", dim: "J" },
+            { t: "Tu termines tes missions méthodiquement, étape par étape, sans en sauter aucune.", dim: "J" },
+            { t: "Tu laisses souvent ta journée de travail se dérouler sans aucun plan précis.", dim: "P" },
+            { t: "Tu as beaucoup de mal à respecter des horaires de travail fixes (9h-17h).", dim: "P" },
+            { t: "Ton style de travail fonctionne par pics d'énergie spontanés plutôt que par effort régulier.", dim: "P" },
+            { t: "Tu as de réelles difficultés à respecter les délais de rendu imposés par un chef.", dim: "P" },
+            { t: "Tu préfères boucler tous tes dossiers urgents avant de t'autoriser une pause.", dim: "J" }
         ];
 
         const profiles = {
@@ -193,7 +181,7 @@
                 <div class="scale-container">
                     <span class="scale-label">Pas d'accord</span>
                     <div class="radio-group">
-                        <input type="radio" name="q${i}" value="-2">
+                        <input type="radio" name="q${i}" value="-2" required>
                         <input type="radio" name="q${i}" value="-1">
                         <input type="radio" name="q${i}" value="0">
                         <input type="radio" name="q${i}" value="1">
@@ -214,7 +202,6 @@
                 const val = parseInt(data.get('q' + i));
                 if (isNaN(val)) return;
                 
-                // Logique Scoring par pôle
                 if (["E","S","T","J"].includes(q.dim)) {
                     if (val > 0) results[q.dim] += val;
                     else if (val < 0) results[getOpposite(q.dim)] += Math.abs(val);
@@ -239,7 +226,7 @@
 
         function showResult(code) {
             document.getElementById('quiz-ui').classList.add('hidden');
-            const prof = profiles[code];
+            const prof = profiles[code] || profiles["ESTJ"];
             document.getElementById('res-cat').innerText = prof.c;
             document.getElementById('res-title').innerText = prof.t;
             document.getElementById('res-desc').innerText = prof.d;
