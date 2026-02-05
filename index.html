@@ -3,930 +3,499 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Skills - Test de Personnalité NEET</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+    <title>Test de Personnalité - Orientation Emploi</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
-            --cyan: #4DD4D4;
-            --coral: #FF5252;
-            --yellow: #FFD166;
-            --purple: #8B4789;
-            --orange: #FF9F1C;
-            --green: #7CB342;
-            --pink: #FF1766;
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --success: #27ae60;
         }
-
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
             padding: 20px;
+            line-height: 1.6;
         }
-
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-        }
-
-        .logo-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            animation: slideDown 0.6s ease-out;
-        }
-
-        .logo {
-            height: 80px;
-            width: auto;
-        }
-
-        .logo img {
-            height: 100%;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 0.8s ease-out 0.2s both;
-        }
-
-        .header h1 {
-            font-size: 42px;
-            font-weight: 800;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        .header p {
-            font-size: 18px;
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-
-        .progress-section {
             background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            animation: slideUp 0.6s ease-out 0.3s both;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .progress-text {
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-
-        .progress-bar-container {
-            height: 12px;
-            background: #ecf0f1;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--orange), var(--pink), var(--purple));
-            border-radius: 20px;
-            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .question-card {
-            background: white;
-            border-radius: 25px;
             padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+        
+        /* Styles du Quiz */
+        .question-block {
             margin-bottom: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
-            transform: scale(0.95);
-            opacity: 0;
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            position: relative;
-            overflow: hidden;
+            padding: 20px;
+            background: #fff;
+            border-left: 5px solid var(--accent);
+            background-color: #f9fbfd;
         }
-
-        .question-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--cyan), var(--coral), var(--yellow), var(--purple));
-        }
-
-        .question-number {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--orange), var(--pink));
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
-
         .question-text {
-            font-size: 22px;
+            font-size: 1.1em;
             font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            line-height: 1.5;
+            margin-bottom: 15px;
+            display: block;
         }
-
         .options {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            gap: 20px;
+            justify-content: flex-start;
         }
-
-        .option {
-            background: #f8f9fa;
-            border: 3px solid transparent;
-            border-radius: 15px;
-            padding: 18px 25px;
+        label {
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            color: #495057;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: left 0.5s;
-        }
-
-        .option:hover::before {
-            left: 100%;
-        }
-
-        .option:hover {
-            transform: translateX(8px);
-            border-color: var(--cyan);
-            background: linear-gradient(135deg, rgba(77, 212, 212, 0.1), rgba(77, 212, 212, 0.2));
-        }
-
-        .option.selected {
-            border-color: var(--coral);
-            background: linear-gradient(135deg, rgba(255, 82, 82, 0.15), rgba(255, 82, 82, 0.25));
-            color: var(--coral);
-            transform: translateX(8px);
-        }
-
-        .option input[type="radio"] {
-            display: none;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-        }
-
-        .radio-custom {
-            width: 24px;
-            height: 24px;
-            border: 3px solid #dee2e6;
-            border-radius: 50%;
-            position: relative;
-            transition: all 0.3s;
-        }
-
-        .option.selected .radio-custom {
-            border-color: var(--coral);
-        }
-
-        .option.selected .radio-custom::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 12px;
-            height: 12px;
-            background: var(--coral);
-            border-radius: 50%;
-            animation: radioCheck 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes radioCheck {
-            0% { transform: translate(-50%, -50%) scale(0); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-
-        .navigation {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        .btn {
-            padding: 16px 40px;
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-family: 'Poppins', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:hover::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--orange), var(--pink));
-            color: white;
-            box-shadow: 0 8px 25px rgba(255, 23, 102, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 23, 102, 0.4);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #495057;
-            border: 3px solid #dee2e6;
-        }
-
-        .btn-secondary:hover {
-            background: #f8f9fa;
-            transform: translateY(-2px);
-        }
-
-        .results-card {
-            background: white;
-            border-radius: 30px;
-            padding: 50px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .mbti-result {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .mbti-letters {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-        }
-
-        .mbti-letter {
-            width: 80px;
-            height: 80px;
+            padding: 10px 20px;
+            background: #e9ecef;
             border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            font-weight: 800;
+            transition: 0.2s;
+        }
+        label:hover {
+            background: #dce4ec;
+        }
+        input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        /* Bouton */
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+        button {
+            background-color: var(--primary);
             color: white;
-            animation: letterPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+            background-color: #1a252f;
         }
 
-        .mbti-letter:nth-child(1) {
-            background: linear-gradient(135deg, var(--orange), #ff7b3d);
-            animation-delay: 0.1s;
+        /* Styles des Résultats */
+        #results {
+            display: none;
+            text-align: center;
+            animation: fadeIn 1s;
         }
-        .mbti-letter:nth-child(2) {
-            background: linear-gradient(135deg, var(--green), #8bc34a);
-            animation-delay: 0.2s;
+        .profile-category {
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
-        .mbti-letter:nth-child(3) {
-            background: linear-gradient(135deg, var(--pink), #ff4081);
-            animation-delay: 0.3s;
+        .profile-title {
+            font-size: 2.5em;
+            color: var(--accent);
+            margin: 10px 0;
         }
-        .mbti-letter:nth-child(4) {
-            background: linear-gradient(135deg, var(--purple), #9c27b0);
-            animation-delay: 0.4s;
-        }
-
-        @keyframes letterPop {
-            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0); opacity: 1; }
-        }
-
-        .result-title {
-            font-size: 36px;
-            font-weight: 800;
-            color: #2c3e50;
+        .profile-desc {
+            font-size: 1.3em;
+            background: #e8f6f3;
+            color: var(--success);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
             margin-top: 20px;
         }
-
-        .result-section {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border-left: 6px solid;
-        }
-
-        .result-section:nth-child(1) { border-color: var(--orange); }
-        .result-section:nth-child(2) { border-color: var(--green); }
-        .result-section:nth-child(3) { border-color: var(--pink); }
-        .result-section:nth-child(4) { border-color: var(--purple); }
-
-        .result-section h3 {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .result-section ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .result-section li {
-            padding: 10px 0;
-            padding-left: 30px;
-            position: relative;
-            color: #495057;
-            font-weight: 500;
-        }
-
-        .result-section li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--coral);
-            font-weight: 700;
-            font-size: 18px;
-        }
-
-        .anxiety-score {
-            text-align: center;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(255, 82, 82, 0.1), rgba(139, 71, 137, 0.1));
-            border-radius: 20px;
-            margin-top: 30px;
-        }
-
-        .anxiety-meter {
-            width: 100%;
-            height: 20px;
-            background: #ecf0f1;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-            position: relative;
-        }
-
-        .anxiety-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--green), var(--orange), var(--coral));
-            border-radius: 10px;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .profile-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            display: block;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes popIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .question-card {
-                padding: 25px;
-            }
-
-            .question-text {
-                font-size: 18px;
-            }
-
-            .header h1 {
-                font-size: 32px;
-            }
-
-            .mbti-letter {
-                width: 60px;
-                height: 60px;
-                font-size: 32px;
-            }
-
-            .results-card {
-                padding: 30px;
-            }
-        }
-
-        .start-screen {
-            text-align: center;
-            background: white;
-            border-radius: 30px;
-            padding: 60px 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .start-screen h2 {
-            font-size: 36px;
-            font-weight: 800;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-
-        .start-screen p {
-            font-size: 18px;
-            color: #7f8c8d;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .feature-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-            text-align: left;
-        }
-
-        .feature-item {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid;
-        }
-
-        .feature-item:nth-child(1) { border-color: var(--orange); }
-        .feature-item:nth-child(2) { border-color: var(--green); }
-        .feature-item:nth-child(3) { border-color: var(--pink); }
-        .feature-item:nth-child(4) { border-color: var(--purple); }
-
-        .feature-item h4 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-
-        .feature-item p {
-            font-size: 14px;
-            color: #495057;
-            margin: 0;
-        }
+        
+        /* Masquer le quiz une fois fini */
+        .hidden { display: none; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-header">
-            <div class="logo">
-                <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" alt="Life Skills 4 Youth">
-            </div>
-        </div>
 
-        <div class="header">
-            <h1>Découvrez Votre Personnalité</h1>
-            <p>Test MBTI adapté pour comprendre votre rapport au travail</p>
-        </div>
-
-        <!-- Écran de démarrage -->
-        <div id="startScreen" class="start-screen">
-            <h2>🎯 Prêt à vous découvrir ?</h2>
-            <p>Ce test vous aidera à mieux comprendre votre fonctionnement naturel et à identifier les environnements de travail qui vous conviennent le mieux.</p>
-            
-            <div class="feature-list">
-                <div class="feature-item">
-                    <h4>🎨 Vos forces</h4>
-                    <p>Identifiez vos talents naturels et vos atouts uniques</p>
-                </div>
-                <div class="feature-item">
-                    <h4>💼 Métiers adaptés</h4>
-                    <p>Découvrez des pistes professionnelles alignées avec votre personnalité</p>
-                </div>
-                <div class="feature-item">
-                    <h4>⚡ Vos défis</h4>
-                    <p>Anticipez les obstacles potentiels et comment les surmonter</p>
-                </div>
-                <div class="feature-item">
-                    <h4>🚀 Plan d'action</h4>
-                    <p>Recevez des conseils concrets pour votre parcours professionnel</p>
-                </div>
-            </div>
-
-            <p style="margin-top: 30px;"><strong>57 questions</strong> • <strong>10-15 minutes</strong> • <strong>Résultats personnalisés</strong></p>
-            
-            <button class="btn btn-primary" onclick="startTest()" style="margin-top: 20px;">Commencer le test</button>
-        </div>
-
-        <!-- Section du test -->
-        <div id="testSection" class="hidden">
-            <div class="progress-section">
-                <div class="progress-header">
-                    <span class="progress-text">Question <span id="currentQuestion">1</span> sur 57</span>
-                    <span class="progress-text"><span id="progressPercent">0</span>%</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-            </div>
-
-            <div class="question-card" id="questionCard">
-                <div class="question-number" id="questionNumber">Question 1</div>
-                <div class="question-text" id="questionText"></div>
-                <div class="options" id="options"></div>
-            </div>
-
-            <div class="navigation">
-                <button class="btn btn-secondary" id="prevBtn" onclick="previousQuestion()">Précédent</button>
-                <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Suivant</button>
-            </div>
-        </div>
-
-        <!-- Section des résultats -->
-        <div id="resultsSection" class="hidden">
-            <div class="results-card">
-                <div class="mbti-result">
-                    <h2 style="color: #7f8c8d; font-size: 20px; font-weight: 600;">Votre type de personnalité</h2>
-                    <div class="mbti-letters" id="mbtiLetters"></div>
-                    <h3 class="result-title" id="mbtiTitle"></h3>
-                </div>
-
-                <div id="resultDetails"></div>
-
-                <div class="anxiety-score">
-                    <h3 style="font-size: 24px; font-weight: 700; color: #2c3e50; margin-bottom: 15px;">📊 Score de confiance en soi</h3>
-                    <div class="anxiety-meter">
-                        <div class="anxiety-fill" id="anxietyFill"></div>
-                    </div>
-                    <p id="anxietyText" style="font-size: 16px; color: #495057; font-weight: 600;"></p>
-                    <p id="anxietyAdvice" style="margin-top: 15px; color: #7f8c8d;"></p>
-                </div>
-
-                <div style="text-align: center; margin-top: 40px;">
-                    <button class="btn btn-primary" onclick="location.reload()">Recommencer le test</button>
-                </div>
-            </div>
-        </div>
+<div class="container">
+    <div id="quiz-header">
+        <h1>Mon Profil Pro</h1>
+        <p class="subtitle">Réponds spontanément à ces 40 questions pour découvrir tes forces.</p>
+        <div style="text-align: right; font-size: 0.9em; color: #999;">Question <span id="q-progress">0</span>/40</div>
     </div>
 
-    <script>
-        const questions = [
-            { text: "Vous vous faites facilement de nouveaux amis.", dimension: "E", reversed: false },
-            { text: "Les idées nouvelles et originales vous attirent plus que les méthodes éprouvées.", dimension: "N", reversed: false },
-            { text: "Une histoire touchante vous convainc souvent plus qu'un argument logique.", dimension: "F", reversed: false },
-            { text: "Votre espace personnel est généralement bien rangé et organisé.", dimension: "J", reversed: false },
-            { text: "Vous gardez votre calme même dans les situations stressantes.", dimension: "A", reversed: true },
-            { text: "Aller vers des inconnus pour discuter vous met mal à l'aise.", dimension: "I", reversed: false },
-            { text: "Quand vous devez faire quelque chose, vous préférez vous y prendre à l'avance.", dimension: "J", reversed: false },
-            { text: "Ce que vivent les gens vous touche plus que les statistiques.", dimension: "F", reversed: false },
-            { text: "Vous aimez noter vos tâches dans un agenda ou une liste.", dimension: "J", reversed: false },
-            { text: "Une petite erreur suffit parfois à vous faire douter de vous.", dimension: "A", reversed: false },
-            { text: "Vous n'hésitez pas à engager la conversation avec quelqu'un qui vous intéresse.", dimension: "E", reversed: false },
-            { text: "Les discussions sur le sens caché des films ou des livres ne vous passionnent pas vraiment.", dimension: "S", reversed: false },
-            { text: "Pour trancher, vous vous basez d'abord sur les faits plutôt que sur ce que ressentent les gens.", dimension: "T", reversed: false },
-            { text: "Vous aimez laisser votre journée se dérouler sans plan précis.", dimension: "P", reversed: false },
-            { text: "L'opinion que les autres ont de vous ne vous préoccupe pas vraiment.", dimension: "E", reversed: false },
-            { text: "Vous aimez faire les choses en groupe.", dimension: "E", reversed: false },
-            { text: "Tester des façons de faire inhabituelles vous attire.", dimension: "N", reversed: false },
-            { text: "Être à l'écoute compte plus pour vous que dire la vérité brutalement.", dimension: "F", reversed: false },
-            { text: "Vous cherchez régulièrement à découvrir de nouveaux sujets ou expériences.", dimension: "N", reversed: false },
-            { text: "Vous vous dites souvent que ça va mal tourner.", dimension: "A", reversed: false },
-            { text: "Vous préférez vos activités solo aux activités de groupe.", dimension: "I", reversed: false },
-            { text: "Écrire des histoires imaginaires ne vous attire pas particulièrement.", dimension: "S", reversed: false },
-            { text: "Une décision rapide et efficace vaut mieux qu'une décision qui ménage tout le monde.", dimension: "T", reversed: false },
-            { text: "Vous préférez finir ce que vous avez à faire avant de souffler.", dimension: "J", reversed: false },
-            { text: "En cas de conflit, défendre votre position compte plus que préserver les sentiments.", dimension: "T", reversed: false },
-            { text: "Dans une soirée, vous attendez qu'on vienne vous parler en premier.", dimension: "I", reversed: false },
-            { text: "Votre humeur change facilement d'un moment à l'autre.", dimension: "A", reversed: false },
-            { text: "Les arguments qui font appel aux émotions ne vous influencent pas vraiment.", dimension: "T", reversed: false },
-            { text: "Vous faites souvent les choses au dernier moment.", dimension: "P", reversed: false },
-            { text: "Discuter de questions morales ou éthiques vous intéresse.", dimension: "N", reversed: false },
-            { text: "Être entouré de monde vous convient mieux que d'être seul.", dimension: "E", reversed: false },
-            { text: "Les conversations trop abstraites vous ennuient rapidement.", dimension: "S", reversed: false },
-            { text: "Face à un choix difficile, vous suivez plus votre cœur que votre tête.", dimension: "F", reversed: false },
-            { text: "Tenir un rythme régulier dans ce que vous faites est compliqué pour vous.", dimension: "P", reversed: false },
-            { text: "Vous ne passez pas beaucoup de temps à remettre en question vos choix.", dimension: "A", reversed: true },
-            { text: "Vos proches vous décriraient comme quelqu'un de sociable et dynamique.", dimension: "E", reversed: false },
-            { text: "Créer quelque chose (dessin, texte, musique...) vous attire.", dimension: "N", reversed: false },
-            { text: "Vous fondez vos décisions sur des éléments concrets plus que sur vos ressentis.", dimension: "T", reversed: false },
-            { text: "Faire une to-do list pour votre journée vous plaît.", dimension: "J", reversed: false },
-            { text: "Vous doutez rarement de vos capacités.", dimension: "A", reversed: true },
-            { text: "Téléphoner à quelqu'un vous demande un effort.", dimension: "I", reversed: false },
-            { text: "Découvrir des points de vue différents du vôtre vous intéresse.", dimension: "N", reversed: false },
-            { text: "Créer du lien avec des gens que vous rencontrez pour la première fois est facile pour vous.", dimension: "E", reversed: false },
-            { text: "Si un projet tombe à l'eau, vous vous concentrez sur comment rebondir vite.", dimension: "T", reversed: false },
-            { text: "Des erreurs du passé continuent parfois à vous travailler.", dimension: "A", reversed: false },
-            { text: "Parler de l'avenir de la société ou du monde ne vous passionne pas vraiment.", dimension: "S", reversed: false },
-            { text: "Vos émotions prennent souvent le dessus sur vous.", dimension: "A", reversed: false },
-            { text: "Pour décider, ce qui compte le plus c'est l'impact sur les gens concernés.", dimension: "F", reversed: false },
-            { text: "Vous fonctionnez par à-coups d'énergie plutôt qu'à un rythme constant.", dimension: "P", reversed: false },
-            { text: "Quand on vous fait un compliment, vous vous demandez si vous allez être à la hauteur.", dimension: "A", reversed: false },
-            { text: "Un job où vous travailleriez seul la plupart du temps vous conviendrait.", dimension: "I", reversed: false },
-            { text: "Réfléchir à des questions philosophiques vous semble peu utile.", dimension: "S", reversed: false },
-            { text: "Les endroits animés vous attirent plus que les lieux calmes.", dimension: "E", reversed: false },
-            { text: "Si ça vous semble juste, vous agissez sans forcément chercher plus de preuves.", dimension: "F", reversed: false },
-            { text: "Il vous arrive souvent de vous sentir submergé.", dimension: "A", reversed: false },
-            { text: "Vous avancez dans vos tâches étape par étape, sans en sauter.", dimension: "J", reversed: false },
-            { text: "Inventer des solutions originales vous plaît plus que suivre un mode d'emploi.", dimension: "N", reversed: false },
-            { text: "Vous vous fiez plus à votre ressenti qu'à un raisonnement logique pour choisir.", dimension: "F", reversed: false }
-        ];
+    <form id="quiz-form">
+        <div id="questions-container"></div>
+        
+        <div class="btn-container">
+            <button type="button" onclick="calculateResults()">Découvrir mon profil</button>
+        </div>
+    </form>
 
-        const mbtiProfiles = {
-            "ISTJ": { title: "L'Inspecteur", description: "Fiable, organisé, respect des règles" },
-            "ISFJ": { title: "Le Protecteur", description: "Dévoué, pratique, attentionné" },
-            "INFJ": { title: "Le Conseiller", description: "Visionnaire, empathique, idéaliste" },
-            "INTJ": { title: "L'Architecte", description: "Stratège, indépendant, compétent" },
-            "ISTP": { title: "L'Artisan", description: "Pratique, adaptable, logique" },
-            "ISFP": { title: "Le Compositeur", description: "Artistique, sensible, flexible" },
-            "INFP": { title: "L'Idéaliste", description: "Créatif, empathique, authentique" },
-            "INTP": { title: "Le Penseur", description: "Analytique, innovant, curieux" },
-            "ESTP": { title: "L'Entrepreneur", description: "Énergique, pragmatique, adaptable" },
-            "ESFP": { title: "L'Amuseur", description: "Sociable, spontané, optimiste" },
-            "ENFP": { title: "L'Inspirateur", description: "Enthousiaste, créatif, empathique" },
-            "ENTP": { title: "Le Débatteur", description: "Innovant, charismatique, intellectuel" },
-            "ESTJ": { title: "Le Superviseur", description: "Organisé, leader, direct" },
-            "ESFJ": { title: "Le Fournisseur", description: "Sociable, dévoué, organisé" },
-            "ENFJ": { title: "Le Protagoniste", description: "Charismatique, empathique, leader" },
-            "ENTJ": { title: "Le Commandant", description: "Leader, stratège, déterminé" }
-        };
+    <div id="results">
+        <div class="profile-category" id="res-category">Catégorie</div>
+        <div class="profile-icon" id="res-icon">🌟</div>
+        <h2 class="profile-title" id="res-title">Titre du Profil</h2>
+        <div class="profile-desc" id="res-desc">
+            👉 Caractéristiques ici
+        </div>
+        <div class="btn-container">
+            <button onclick="location.reload()">Refaire le test</button>
+        </div>
+    </div>
+</div>
 
-        let currentQuestionIndex = 0;
-        let answers = new Array(questions.length).fill(null);
+<script>
+    // --- 1. LES DONNÉES DU TEST (40 Questions adaptées NEET/Emploi) ---
+    // Dimension : E=Extraversion/I=Intro, S=Sensing/N=Intuition, T=Thinking/F=Feeling, J=Judging/P=Perceiving
+    // Value 1 = Oui (Premier choix), -1 = Non (Deuxième choix)
+    
+    const questions = [
+        // Axe E vs I (Energie)
+        { t: "Après une journée de formation ou de travail, tu préfères :", dim: "EI", 
+          opts: ["Sortir voir des potes", "Rentrer te poser au calme"] },
+        { t: "Dans un groupe de travail, tu as tendance à :", dim: "EI", 
+          opts: ["Parler et donner ton avis rapidement", "Écouter d'abord et réfléchir"] },
+        { t: "Si tu as une question à poser à un employeur, tu préfères :", dim: "EI", 
+          opts: ["L'appeler directement", "Lui envoyer un mail ou un SMS"] },
+        { t: "Travailler seul toute la journée dans un bureau :", dim: "EI", 
+          opts: ["Ça t'ennuie, tu as besoin de voir du monde", "Ça te va, tu te concentres mieux"] },
+        { t: "Lors d'un stage, pour rencontrer tes nouveaux collègues :", dim: "EI", 
+          opts: ["Tu vas vers eux facilement", "Tu attends qu'ils viennent vers toi"] },
+        { t: "Tu te sens plus à l'aise dans un environnement :", dim: "EI", 
+          opts: ["Animé avec de l'action", "Calme et silencieux"] },
+        { t: "Quand tu as un problème, tu préfères :", dim: "EI", 
+          opts: ["En discuter tout de suite avec quelqu'un", "Le résoudre seul dans ton coin"] },
+        { t: "En général, on dit de toi que tu es :", dim: "EI", 
+          opts: ["Sociable et expressif", "Réservé et observateur"] },
+        { t: "Le week-end, tu préfères :", dim: "EI", 
+          opts: ["Avoir plein d'activités prévues", "Ne rien faire et improviser tranquillement"] },
+        { t: "Tu penses à haute voix (tu parles en réfléchissant) :", dim: "EI", 
+          opts: ["Souvent", "Rarement, tu réfléchis dans ta tête"] },
 
-        function startTest() {
-            document.getElementById('startScreen').classList.add('hidden');
-            document.getElementById('testSection').classList.remove('hidden');
-            displayQuestion();
+        // Axe S vs N (Information)
+        { t: "Tu préfères un travail où :", dim: "SN", 
+          opts: ["Les tâches sont claires et concrètes", "Tu peux imaginer des solutions nouvelles"] },
+        { t: "Quand on t'explique une mission, tu veux :", dim: "SN", 
+          opts: ["Les détails étape par étape", "Comprendre l'idée générale d'abord"] },
+        { t: "Tu es quelqu'un de plutôt :", dim: "SN", 
+          opts: ["Réaliste et pratique", "Rêveur et imaginatif"] },
+        { t: "Ce qui t'intéresse le plus, c'est :", dim: "SN", 
+          opts: ["Ce qui se passe maintenant (le présent)", "Ce qui pourrait se passer (le futur)"] },
+        { t: "Tu fais plus confiance à :", dim: "SN", 
+          opts: ["Ton expérience et aux faits", "Ton instinct et ton intuition"] },
+        { t: "Pour apprendre un métier, tu préfères :", dim: "SN", 
+          opts: ["Pratiquer tout de suite (le terrain)", "Comprendre la théorie (les concepts)"] },
+        { t: "Tu préfères les instructions qui sont :", dim: "SN", 
+          opts: ["Précises et littérales", "Ouvertes à l'interprétation"] },
+        { t: "Tu aimes les solutions :", dim: "SN", 
+          opts: ["Éprouvées qui fonctionnent à coup sûr", "Originales et innovantes"] },
+        { t: "Tu remarques souvent :", dim: "SN", 
+          opts: ["Les petits détails concrets", "L'ambiance générale ou les sous-entendus"] },
+        { t: "Un projet 'faisable' est plus important qu'un projet 'révolutionnaire' :", dim: "SN", 
+          opts: ["Oui, il faut être concret", "Non, il faut savoir rêver"] },
+
+        // Axe T vs F (Décision)
+        { t: "Pour prendre une décision importante, tu te bases sur :", dim: "TF", 
+          opts: ["La logique et le raisonnement", "Tes sentiments et tes valeurs"] },
+        { t: "Si un collègue fait une erreur, tu penses qu'il vaut mieux :", dim: "TF", 
+          opts: ["Lui dire franchement pour qu'il progresse", "Lui dire doucement pour ne pas le blesser"] },
+        { t: "Tu es plutôt doué pour :", dim: "TF", 
+          opts: ["Analyser des problèmes techniques", "Comprendre les gens"] },
+        { t: "Ce qui compte le plus au travail, c'est :", dim: "TF", 
+          opts: ["L'efficacité et le résultat", "L'ambiance et l'entente dans l'équipe"] },
+        { t: "Tu es plus convaincu par :", dim: "TF", 
+          opts: ["Des chiffres et des preuves", "Des histoires et des témoignages"] },
+        { t: "Dans un conflit, tu cherches :", dim: "TF", 
+          opts: ["Qui a tort et qui a raison (la vérité)", "Comment réconcilier tout le monde (l'harmonie)"] },
+        { t: "On dit souvent que tu es :", dim: "TF", 
+          opts: ["Quelqu'un de rationnel (la tête)", "Quelqu'un de sensible (le cœur)"] },
+        { t: "Être juste, c'est :", dim: "TF", 
+          opts: ["Appliquer la même règle à tout le monde", "Prendre en compte la situation de chacun"] },
+        { t: "Tu préfères un chef qui est :", dim: "TF", 
+          opts: ["Compétent et exigeant", "Sympathique et à l'écoute"] },
+        { t: "Il est plus difficile pour toi de :", dim: "TF", 
+          opts: ["Comprendre les émotions des autres", "Organiser des idées complexes"] },
+
+        // Axe J vs P (Style de vie)
+        { t: "Pour tes rendez-vous (Pôle Emploi, Mission Locale...), tu es :", dim: "JP", 
+          opts: ["Souvent en avance ou pile à l'heure", "Parfois un peu juste ou en retard"] },
+        { t: "Tu préfères travailler :", dim: "JP", 
+          opts: ["Avec un plan et une liste de tâches", "Au feeling, selon l'inspiration"] },
+        { t: "Quand tu as un projet à rendre :", dim: "JP", 
+          opts: ["Tu le finis bien avant la date limite", "Tu le finis souvent à la dernière minute"] },
+        { t: "Tu aimes quand ta journée est :", dim: "JP", 
+          opts: ["Organisée et prévisible", "Pleine de surprises et d'imprévus"] },
+        { t: "Ton espace de vie (chambre, bureau) est généralement :", dim: "JP", 
+          opts: ["Rangé et ordonné", "Un peu en désordre ('bordel organisé')"] },
+        { t: "Tu prends des décisions :", dim: "JP", 
+          opts: ["Rapidement pour passer à autre chose", "Lentement, tu gardes tes options ouvertes"] },
+        { t: "Tu te sens mieux quand :", dim: "JP", 
+          opts: ["Les choses sont décidées et réglées", "Tout reste possible et flexible"] },
+        { t: "Tu préfères suivre :", dim: "JP", 
+          opts: ["Des règles claires", "Ton propre rythme"] },
+        { t: "Avant de commencer une tâche :", dim: "JP", 
+          opts: ["Tu prépares tout le matériel nécessaire", "Tu te lances et tu verras bien"] },
+        { t: "Le changement de programme à la dernière minute :", dim: "JP", 
+          opts: ["Ça te stresse un peu", "Ça ne te dérange pas, tu t'adaptes"] }
+    ];
+
+    // --- 2. LES PROFILS RENOMMÉS (MAPPING) ---
+    const profiles = {
+        "ENTJ": { 
+            title: "Le Leader naturel", 
+            cat: "Action & Impact", 
+            desc: "👉 Organise, décide, entraîne les autres" 
+        },
+        "INTJ": { 
+            title: "Le Stratège discret", 
+            cat: "Action & Impact", 
+            desc: "👉 Observe, planifie, voit loin" 
+        },
+        "ENTP": { 
+            title: "Le Challenger", 
+            cat: "Action & Impact", 
+            desc: "👉 Questionne tout, adore débattre" 
+        },
+        "ESTP": { 
+            title: "L’Entrepreneur", 
+            cat: "Action & Impact", 
+            desc: "👉 Lance des projets, ose tester" 
+        },
+        
+        "ENFJ": { 
+            title: "Le Coach", 
+            cat: "Humain & Relations", 
+            desc: "👉 Motive les autres, fait progresser" 
+        },
+        "ISFJ": { 
+            title: "Le Protecteur", 
+            cat: "Humain & Relations", 
+            desc: "👉 Fiable, présent, aide concrètement" 
+        },
+        "INFP": { 
+            title: "Le Médiateur", 
+            cat: "Humain & Relations", 
+            desc: "👉 Apaise les tensions, comprend chacun" 
+        },
+        "ESFJ": { 
+            title: "Le Pilier du groupe", 
+            cat: "Humain & Relations", 
+            desc: "👉 Maintient l’ambiance, soutient l’équipe" 
+        },
+        
+        "ISFP": { 
+            title: "L’Artiste libre", 
+            cat: "Créa & Expression", 
+            desc: "👉 Créatif, spontané, sensible" 
+        },
+        "ENFP": { 
+            title: "L’Explorateur", 
+            cat: "Créa & Expression", 
+            desc: "👉 Curieux, aime tester, bouger" 
+        },
+        "INTP": { 
+            title: "Le Créateur d’idées", 
+            cat: "Créa & Expression", 
+            desc: "👉 Imagine des concepts, solutions nouvelles" 
+        },
+        "INFJ": { 
+            title: "Le Visionnaire", 
+            cat: "Créa & Expression", 
+            desc: "👉 Voit le futur, pense différemment" 
+        },
+        
+        "ESTJ": { 
+            title: "Le Pro de l’organisation", 
+            cat: "Organisation & Logique", 
+            desc: "👉 Structuré, efficace, fiable" 
+        },
+        "ISTP": { 
+            title: "Le Technicien", 
+            cat: "Organisation & Logique", 
+            desc: "👉 Aime comprendre comment ça marche" 
+        },
+        "ISTJ": { 
+            title: "Le Planificateur", 
+            cat: "Organisation & Logique", 
+            desc: "👉 Anticipe, sécurise, prépare tout" 
+        },
+        // Mapping spécifique pour l'Analyste (souvent ISTJ ou INTP, mais pour compléter les 16)
+        // Ici nous allons mapper le dernier slot restant (le profil 15 de votre liste)
+        // Le profil restant standard est souvent lié à la logique.
+        // NOTE: Pour cet exercice, nous mappons ESFP (seul restant) à "L'Analyste" si besoin,
+        // OU nous ajustons pour que la logique colle aux noms. 
+        // CORRECTIF LOGIQUE : "L'Analyste" (Logique/Précis) correspond mieux à un profil T.
+        // Nous allons utiliser une logique de score pour mapper les résultats.
+        // Pour simplifier l'affichage selon VOTRE liste de 16 noms :
+        // Nous allons utiliser les codes standards MBTI pour la logique de calcul, 
+        // mais forcer l'affichage de "L'Analyste" pour le code restant qui s'y apparente le plus.
+        // Code restant: INTP est "Créateur", ISTJ est "Planificateur".
+        // Il nous manque une case pour un profil T.
+        // Pour garantir que les 16 noms apparaissent, nous utilisons un mapping direct.
+        // (Note: ESFP est normalement "Amuseur", ici nous l'associons à un rôle logique pour respecter votre liste de 16 items fixes si nécessaire,
+        // OU nous considérons que "L'Analyste" est une variation de l'ISTJ/INTP et "Planificateur" une variation de ISTJ).
+        // SOLUTION : Pour ce code, je mappe le profil "INTP" sur "Analyste" s'il n'est pas utilisé, 
+        // Mais vous avez "Créateur d'idées" (INTP).
+        // Je vais utiliser le slot "ENTJ/INTJ/INTP/ENTP" pour les T.
+        // Pour respecter VOS 16 titres, voici le mapping final utilisé par le calculateur :
+        
+        // Nous avons besoin de mapper 16 combinaisons binaires (2^4) vers vos 16 titres.
+        // Voici le tableau de correspondance utilisé :
+    };
+    
+    // Mapping manuel pour s'assurer que chaque code MBTI a un titre de VOTRE liste
+    // J'écrase les définitions précédentes pour être sûr du mapping 1-pour-1
+    const mbtiMap = {
+        "ENTJ": profiles["ENTJ"], // Leader naturel
+        "INTJ": profiles["INTJ"], // Stratège discret
+        "ENTP": profiles["ENTP"], // Challenger
+        "ESTP": profiles["ESTP"], // Entrepreneur
+        
+        "ENFJ": profiles["ENFJ"], // Coach
+        "ISFJ": profiles["ISFJ"], // Protecteur
+        "INFP": profiles["INFP"], // Médiateur
+        "ESFJ": profiles["ESFJ"], // Pilier du groupe
+        
+        "ISFP": profiles["ISFP"], // Artiste libre
+        "ENFP": profiles["ENFP"], // Explorateur
+        "INTP": profiles["INTP"], // Créateur d'idées
+        "INFJ": profiles["INFJ"], // Visionnaire
+        
+        "ESTJ": profiles["ESTJ"], // Pro de l'orga
+        "ISTP": profiles["ISTP"], // Technicien
+        
+        // Cas particuliers pour faire correspondre vos 16 titres aux 16 codes mathématiques
+        "ISTJ": profiles["ISTJ"], // Le Planificateur (Correspond bien)
+        
+        // Il reste "L'Analyste" (Profil 15) et le code "ESFP" (qui est le seul code orphelin).
+        // Bien que ESFP soit "Feeling/Perceiving", pour que le test fonctionne techniquement avec 16 sorties,
+        // nous allons lui attribuer "L'Analyste" ou intervertir pour la logique sémantique.
+        // Mieux : "L'Analyste" correspond mieux à INTP ou ISTJ.
+        // "Le Planificateur" correspond à ISTJ.
+        // "Le Créateur d'idées" correspond à INTP.
+        // Il reste un profil logique "Analyste". Attribuons-le à un profil T restant.
+        // Pour la pureté du test, je vais attribuer "L'Analyste" au code restant le plus proche ou par défaut à ESFP pour ne pas casser le code,
+        // MAIS pour être propre, disons que "L'Analyste" est une variation.
+        // Pour cet outil, je vais lier "L'Analyste" au code INTP et déplacer "Créateur d'idées" sur ENFP? Non.
+        // Je vais lier "L'Analyste" à un profil générique pour éviter les bugs.
+        "ESFP": { title: "L'Analyste", cat: "Organisation & Logique", desc: "👉 Logique, précis, aime les faits" } 
+        // (Note technique : ESFP n'est pas un analyste en théorie MBTI, mais c'est le slot libre pour avoir 16 résultats).
+    };
+
+
+    // --- 3. GÉNÉRATION DU QUESTIONNAIRE HTML ---
+    const container = document.getElementById('questions-container');
+    const totalQ = document.getElementById('q-progress');
+    
+    // Mélanger les questions (optionnel, ici on garde l'ordre pour les axes)
+    // questions.sort(() => Math.random() - 0.5);
+
+    questions.forEach((q, index) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question-block';
+        qDiv.innerHTML = `
+            <span class="question-text">${index + 1}. ${q.t}</span>
+            <div class="options">
+                <label>
+                    <input type="radio" name="q${index}" value="1" required>
+                    ${q.opts[0]}
+                </label>
+                <label>
+                    <input type="radio" name="q${index}" value="-1">
+                    ${q.opts[1]}
+                </label>
+            </div>
+        `;
+        container.appendChild(qDiv);
+    });
+
+    totalQ.innerText = questions.length;
+
+    // --- 4. CALCUL DES RÉSULTATS ---
+    function calculateResults() {
+        const form = document.getElementById('quiz-form');
+        const formData = new FormData(form);
+        
+        // Vérification que tout est coché
+        let answered = 0;
+        for(let pair of formData.entries()) answered++;
+        
+        if(answered < questions.length) {
+            alert(`Merci de répondre aux ${questions.length} questions pour avoir un résultat précis !`);
+            return;
         }
 
-        function displayQuestion() {
-            const question = questions[currentQuestionIndex];
-            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}`;
-            document.getElementById('questionText').textContent = question.text;
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        // Scores
+        let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+
+        questions.forEach((q, index) => {
+            const val = parseInt(formData.get(`q${index}`));
+            // Si val = 1 (Premier choix), on ajoute au premier pôle de la dimension (ex: E)
+            // Si val = -1 (Deuxième choix), on ajoute au second pôle (ex: I)
             
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-            document.getElementById('progressPercent').textContent = Math.round(progress);
-
-            const optionsContainer = document.getElementById('options');
-            optionsContainer.innerHTML = '';
-
-            const options = [
-                { value: 2, label: "Tout à fait d'accord" },
-                { value: 1, label: "Plutôt d'accord" },
-                { value: 0, label: "Neutre" },
-                { value: -1, label: "Plutôt pas d'accord" },
-                { value: -2, label: "Pas du tout d'accord" }
-            ];
-
-            options.forEach(option => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'option';
-                if (answers[currentQuestionIndex] === option.value) {
-                    optionDiv.classList.add('selected');
-                }
-                
-                optionDiv.innerHTML = `
-                    <label class="option-label">
-                        <div class="radio-custom"></div>
-                        <span>${option.label}</span>
-                        <input type="radio" name="answer" value="${option.value}">
-                    </label>
-                `;
-                
-                optionDiv.addEventListener('click', () => selectOption(option.value, optionDiv));
-                optionsContainer.appendChild(optionDiv);
-            });
-
-            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-        }
-
-        function selectOption(value, element) {
-            answers[currentQuestionIndex] = value;
+            const [poleA, poleB] = q.dim.split(''); // ex: "E", "I"
             
-            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-            
-            document.getElementById('nextBtn').disabled = false;
-        }
+            if (val === 1) scores[poleA]++;
+            else scores[poleB]++;
+        });
 
-        function nextQuestion() {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                displayQuestion();
-                document.getElementById('nextBtn').disabled = true;
-            } else {
-                calculateResults();
-            }
-        }
+        // Détermination du code à 4 lettres
+        let mbtiCode = "";
+        mbtiCode += (scores.E >= scores.I) ? "E" : "I";
+        mbtiCode += (scores.S >= scores.N) ? "S" : "N";
+        mbtiCode += (scores.T >= scores.F) ? "T" : "F";
+        mbtiCode += (scores.J >= scores.P) ? "J" : "P";
 
-        function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                displayQuestion();
-                if (answers[currentQuestionIndex] !== null) {
-                    document.getElementById('nextBtn').disabled = false;
-                }
-            }
-        }
+        // Affichage
+        displayResult(mbtiCode);
+    }
 
-        function calculateResults() {
-            const scores = { E: 0, I: 0, S: 0, N: 0, T: 0, F: 0, J: 0, P: 0 };
-            let anxietyScore = 0;
+    function displayResult(code) {
+        // Cacher le quiz
+        document.getElementById('quiz-header').classList.add('hidden');
+        document.getElementById('quiz-form').classList.add('hidden');
+        
+        // Récupérer les infos du profil
+        const profile = mbtiMap[code] || profiles["ESTJ"]; // Fallback
 
-            questions.forEach((question, index) => {
-                const answer = answers[index];
-                if (answer !== null) {
-                    if (question.dimension === 'A') {
-                        anxietyScore += question.reversed ? -answer : answer;
-                    } else {
-                        scores[question.dimension] += answer;
-                    }
-                }
-            });
+        // Remplir le DOM
+        document.getElementById('res-category').innerText = profile.cat;
+        document.getElementById('res-title').innerText = profile.title;
+        document.getElementById('res-desc').innerText = profile.desc;
+        
+        // Icône simple basée sur la catégorie
+        let icon = "🌟";
+        if(profile.cat.includes("Action")) icon = "🚀";
+        if(profile.cat.includes("Humain")) icon = "🤝";
+        if(profile.cat.includes("Créa")) icon = "🎨";
+        if(profile.cat.includes("Organisation")) icon = "📊";
+        document.getElementById('res-icon').innerText = icon;
 
-            const mbtiType = 
-                (scores.E > scores.I ? 'E' : 'I') +
-                (scores.S > scores.N ? 'S' : 'N') +
-                (scores.T > scores.F ? 'T' : 'F') +
-                (scores.J > scores.P ? 'J' : 'P');
+        // Afficher
+        document.getElementById('results').style.display = 'block';
+        window.scrollTo(0, 0);
+    }
+</script>
 
-            displayResults(mbtiType, anxietyScore);
-        }
-
-        function displayResults(mbtiType, anxietyScore) {
-            document.getElementById('testSection').classList.add('hidden');
-            document.getElementById('resultsSection').classList.remove('hidden');
-
-            const profile = mbtiProfiles[mbtiType];
-            
-            // Afficher les lettres MBTI
-            const lettersContainer = document.getElementById('mbtiLetters');
-            lettersContainer.innerHTML = '';
-            mbtiType.split('').forEach(letter => {
-                const letterDiv = document.createElement('div');
-                letterDiv.className = 'mbti-letter';
-                letterDiv.textContent = letter;
-                lettersContainer.appendChild(letterDiv);
-            });
-
-            document.getElementById('mbtiTitle').textContent = profile.title;
-
-            // Détails des résultats
-            const detailsContainer = document.getElementById('resultDetails');
-            detailsContainer.innerHTML = `
-                <div class="result-section">
-                    <h3>💪 Vos forces naturelles</h3>
-                    <ul>
-                        <li>${profile.description}</li>
-                        <li>Adapté aux environnements qui valorisent vos traits uniques</li>
-                        <li>Potentiel de réussite dans des métiers alignés avec votre personnalité</li>
-                    </ul>
-                </div>
-                <div class="result-section">
-                    <h3>💼 Environnements recommandés</h3>
-                    <ul>
-                        <li>Consultez le document complet pour des recommandations détaillées</li>
-                        <li>Identifiez les secteurs qui correspondent à votre profil</li>
-                    </ul>
-                </div>
-                <div class="result-section">
-                    <h3>⚡ Conseils pratiques</h3>
-                    <ul>
-                        <li>Valorisez vos forces plutôt que de forcer votre nature</li>
-                        <li>Cherchez des environnements de travail adaptés à votre personnalité</li>
-                        <li>Utilisez ce résultat comme boussole, pas comme prison</li>
-                    </ul>
-                </div>
-            `;
-
-            // Score d'anxiété
-            const anxietyPercent = Math.min(100, Math.max(0, ((anxietyScore + 20) / 40) * 100));
-            document.getElementById('anxietyFill').style.width = anxietyPercent + '%';
-            
-            let anxietyText, anxietyAdvice;
-            if (anxietyScore > 10) {
-                anxietyText = "Niveau d'anxiété élevé détecté";
-                anxietyAdvice = "⚠️ Recommandation : Un accompagnement psychologique pourrait être bénéfique avant une recherche d'emploi intensive. Commencez par de petites victoires (bénévolat, stages courts) pour renforcer votre confiance.";
-            } else if (anxietyScore < -10) {
-                anxietyText = "Excellente confiance en soi";
-                anxietyAdvice = "✨ Atout majeur : Votre confiance est un véritable atout en entretien. Utilisez cette force pour oser postuler et persévérer face aux obstacles.";
-            } else {
-                anxietyText = "Niveau de confiance équilibré";
-                anxietyAdvice = "👍 Bon équilibre : Vous avez une base solide pour vous lancer dans votre parcours professionnel.";
-            }
-            
-            document.getElementById('anxietyText').textContent = anxietyText;
-            document.getElementById('anxietyAdvice').textContent = anxietyAdvice;
-        }
-    </script>
 </body>
 </html>
