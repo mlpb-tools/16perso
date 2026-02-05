@@ -3,499 +3,573 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Personnalité - Orientation Emploi</title>
+    <title>Mon Profil Pro - LS4YOU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --light: #ecf0f1;
-            --success: #27ae60;
+            /* Palette Life Skills */
+            --red: #FF1766;
+            --orange: #FF9F1C;
+            --yellow: #FFD166;
+            --green: #7CB342;
+            --blue: #2196F3;
+            --turquoise: #4DD4D4;
+            --pink: #FF5C8D;
+            --purple: #8B4789;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+            color: var(--text-dark);
             margin: 0;
-            padding: 20px;
-            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+
+        /* --- Éléments Décoratifs (Background) --- */
+        .bg-deco {
+            position: fixed;
+            z-index: -1;
+            border-radius: 50%;
         }
-        h1 {
-            text-align: center;
-            color: var(--primary);
-            margin-bottom: 10px;
+        .circle-1 {
+            width: 400px; height: 400px;
+            background: var(--yellow);
+            top: -100px; right: -100px;
+            opacity: 0.6;
         }
-        p.subtitle {
-            text-align: center;
-            color: #7f8c8d;
-            margin-bottom: 40px;
+        .circle-2 {
+            width: 300px; height: 300px;
+            background: var(--turquoise);
+            bottom: -50px; left: -50px;
+            opacity: 0.5;
+        }
+        .circle-3 {
+            width: 150px; height: 150px;
+            background: var(--pink);
+            top: 40%; left: 10%;
+            opacity: 0.4;
         }
         
-        /* Styles du Quiz */
-        .question-block {
-            margin-bottom: 30px;
+        /* Mini-grilles de points */
+        .dot-grid {
+            position: fixed;
+            z-index: -1;
+            width: 100px; height: 100px;
+            background-image: radial-gradient(var(--blue) 20%, transparent 20%);
+            background-size: 15px 15px;
+            opacity: 0.4;
+        }
+        .dots-tl { top: 120px; left: 20px; }
+        .dots-br { bottom: 20px; right: 20px; }
+
+        /* Puzzle décoratif (CSS shapes) */
+        .puzzle-piece {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 60px;
+            background: var(--turquoise);
+            border-radius: 10px;
+            z-index: -1;
+        }
+        .puzzle-piece::before {
+            content: ''; position: absolute; top: -15px; left: 20px;
+            width: 20px; height: 20px; background: var(--turquoise); border-radius: 50%;
+        }
+        .puzzle-piece::after {
+            content: ''; position: absolute; right: -15px; top: 20px;
+            width: 20px; height: 20px; background: var(--turquoise); border-radius: 50%;
+        }
+
+        /* --- Header & Logos --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(5px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .logo-ls4you {
+            height: 60px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+        .logo-mlpb {
+            height: 50px;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        /* --- Conteneur Principal --- */
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
             padding: 20px;
-            background: #fff;
-            border-left: 5px solid var(--accent);
-            background-color: #f9fbfd;
+            width: 90%;
+        }
+
+        /* --- Typographie --- */
+        h1 {
+            font-weight: 900;
+            font-size: 2.5em;
+            text-align: center;
+            color: var(--red);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            line-height: 1.1;
+        }
+        .subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        
+        /* --- Quiz Cards --- */
+        .question-block {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .question-block::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 8px; height: 100%;
+            background: var(--turquoise);
         }
         .question-text {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.3em;
+            margin-bottom: 25px;
             display: block;
+            color: var(--text-dark);
         }
+
+        /* --- Options (Flat Design) --- */
         .options {
             display: flex;
-            gap: 20px;
-            justify-content: flex-start;
+            flex-direction: column;
+            gap: 15px;
         }
         label {
             cursor: pointer;
-            padding: 10px 20px;
-            background: #e9ecef;
-            border-radius: 20px;
-            transition: 0.2s;
+            padding: 15px 25px;
+            background: #f4f7f6;
+            border-radius: 50px; /* Capsule */
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            color: #555;
         }
         label:hover {
-            background: #dce4ec;
+            background: #eef2f5;
+            transform: translateX(5px);
+            border-color: var(--yellow);
         }
+        /* Style quand sélectionné (géré par JS ou CSS sibling) */
         input[type="radio"] {
-            margin-right: 8px;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-dark);
+            border-radius: 50%;
+            margin-right: 15px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        input[type="radio"]:checked {
+            border-color: var(--red);
+            background-color: var(--red);
+            box-shadow: inset 0 0 0 4px white;
+        }
+        input[type="radio"]:checked + span {
+            color: var(--red);
+        }
+        /* Effet visuel sur le label quand input checked */
+        label:has(input:checked) {
+            background: #fff0f5; /* Light pink background */
+            border-color: var(--red);
+            color: var(--red);
         }
 
-        /* Bouton */
+        /* --- Boutons --- */
         .btn-container {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 50px;
+            margin-bottom: 50px;
         }
         button {
-            background-color: var(--primary);
+            background-color: var(--red);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.1em;
-            border-radius: 30px;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
+            box-shadow: 0 10px 20px rgba(255, 23, 102, 0.3);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         button:hover {
-            transform: scale(1.05);
-            background-color: #1a252f;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(255, 23, 102, 0.4);
+            background-color: #e01055;
         }
 
-        /* Styles des Résultats */
+        /* --- Progress Bar --- */
+        .progress-container {
+            position: fixed;
+            top: 100px; /* sous le header */
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            z-index: 90;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--turquoise);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* --- Résultats --- */
         #results {
             display: none;
             text-align: center;
-            animation: fadeIn 1s;
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
         }
         .profile-category {
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #7f8c8d;
+            display: inline-block;
+            background: var(--purple);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
             font-size: 0.9em;
-            margin-bottom: 10px;
-            font-weight: bold;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 20px;
         }
         .profile-title {
-            font-size: 2.5em;
-            color: var(--accent);
+            font-size: 2.8em;
+            color: var(--red);
             margin: 10px 0;
+            font-weight: 900;
+        }
+        .profile-icon {
+            font-size: 5em;
+            margin: 20px 0;
+            animation: bounce 2s infinite;
         }
         .profile-desc {
             font-size: 1.3em;
-            background: #e8f6f3;
-            color: var(--success);
-            padding: 20px;
-            border-radius: 10px;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .profile-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-            display: block;
+            background: #fdfdfd;
+            border: 2px dashed var(--turquoise);
+            color: var(--text-dark);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            line-height: 1.6;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
         }
         
-        /* Masquer le quiz une fois fini */
+        /* Confettis CSS (simple) */
+        .confetti {
+            position: absolute;
+            width: 10px; height: 10px;
+            background: var(--orange);
+            animation: fall linear forwards;
+        }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; gap: 10px; }
+            h1 { font-size: 2em; }
+            .question-text { font-size: 1.1em; }
+        }
+
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="quiz-header">
-        <h1>Mon Profil Pro</h1>
-        <p class="subtitle">Réponds spontanément à ces 40 questions pour découvrir tes forces.</p>
-        <div style="text-align: right; font-size: 0.9em; color: #999;">Question <span id="q-progress">0</span>/40</div>
+    <div class="bg-deco circle-1"></div>
+    <div class="bg-deco circle-2"></div>
+    <div class="bg-deco circle-3"></div>
+    <div class="dot-grid dots-tl"></div>
+    <div class="dot-grid dots-br"></div>
+    <div class="puzzle-piece"></div>
+
+    <header>
+        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" alt="Logo LS4YOU" class="logo-ls4you">
+        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Logo MLPB" class="logo-mlpb">
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
 
-    <form id="quiz-form">
-        <div id="questions-container"></div>
-        
-        <div class="btn-container">
-            <button type="button" onclick="calculateResults()">Découvrir mon profil</button>
+    <div class="container">
+        <div id="quiz-header">
+            <h1>Mon Profil Pro</h1>
+            <p class="subtitle">Réponds spontanément à ces 40 questions pour découvrir tes talents cachés.</p>
         </div>
-    </form>
 
-    <div id="results">
-        <div class="profile-category" id="res-category">Catégorie</div>
-        <div class="profile-icon" id="res-icon">🌟</div>
-        <h2 class="profile-title" id="res-title">Titre du Profil</h2>
-        <div class="profile-desc" id="res-desc">
-            👉 Caractéristiques ici
-        </div>
-        <div class="btn-container">
-            <button onclick="location.reload()">Refaire le test</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    // --- 1. LES DONNÉES DU TEST (40 Questions adaptées NEET/Emploi) ---
-    // Dimension : E=Extraversion/I=Intro, S=Sensing/N=Intuition, T=Thinking/F=Feeling, J=Judging/P=Perceiving
-    // Value 1 = Oui (Premier choix), -1 = Non (Deuxième choix)
-    
-    const questions = [
-        // Axe E vs I (Energie)
-        { t: "Après une journée de formation ou de travail, tu préfères :", dim: "EI", 
-          opts: ["Sortir voir des potes", "Rentrer te poser au calme"] },
-        { t: "Dans un groupe de travail, tu as tendance à :", dim: "EI", 
-          opts: ["Parler et donner ton avis rapidement", "Écouter d'abord et réfléchir"] },
-        { t: "Si tu as une question à poser à un employeur, tu préfères :", dim: "EI", 
-          opts: ["L'appeler directement", "Lui envoyer un mail ou un SMS"] },
-        { t: "Travailler seul toute la journée dans un bureau :", dim: "EI", 
-          opts: ["Ça t'ennuie, tu as besoin de voir du monde", "Ça te va, tu te concentres mieux"] },
-        { t: "Lors d'un stage, pour rencontrer tes nouveaux collègues :", dim: "EI", 
-          opts: ["Tu vas vers eux facilement", "Tu attends qu'ils viennent vers toi"] },
-        { t: "Tu te sens plus à l'aise dans un environnement :", dim: "EI", 
-          opts: ["Animé avec de l'action", "Calme et silencieux"] },
-        { t: "Quand tu as un problème, tu préfères :", dim: "EI", 
-          opts: ["En discuter tout de suite avec quelqu'un", "Le résoudre seul dans ton coin"] },
-        { t: "En général, on dit de toi que tu es :", dim: "EI", 
-          opts: ["Sociable et expressif", "Réservé et observateur"] },
-        { t: "Le week-end, tu préfères :", dim: "EI", 
-          opts: ["Avoir plein d'activités prévues", "Ne rien faire et improviser tranquillement"] },
-        { t: "Tu penses à haute voix (tu parles en réfléchissant) :", dim: "EI", 
-          opts: ["Souvent", "Rarement, tu réfléchis dans ta tête"] },
-
-        // Axe S vs N (Information)
-        { t: "Tu préfères un travail où :", dim: "SN", 
-          opts: ["Les tâches sont claires et concrètes", "Tu peux imaginer des solutions nouvelles"] },
-        { t: "Quand on t'explique une mission, tu veux :", dim: "SN", 
-          opts: ["Les détails étape par étape", "Comprendre l'idée générale d'abord"] },
-        { t: "Tu es quelqu'un de plutôt :", dim: "SN", 
-          opts: ["Réaliste et pratique", "Rêveur et imaginatif"] },
-        { t: "Ce qui t'intéresse le plus, c'est :", dim: "SN", 
-          opts: ["Ce qui se passe maintenant (le présent)", "Ce qui pourrait se passer (le futur)"] },
-        { t: "Tu fais plus confiance à :", dim: "SN", 
-          opts: ["Ton expérience et aux faits", "Ton instinct et ton intuition"] },
-        { t: "Pour apprendre un métier, tu préfères :", dim: "SN", 
-          opts: ["Pratiquer tout de suite (le terrain)", "Comprendre la théorie (les concepts)"] },
-        { t: "Tu préfères les instructions qui sont :", dim: "SN", 
-          opts: ["Précises et littérales", "Ouvertes à l'interprétation"] },
-        { t: "Tu aimes les solutions :", dim: "SN", 
-          opts: ["Éprouvées qui fonctionnent à coup sûr", "Originales et innovantes"] },
-        { t: "Tu remarques souvent :", dim: "SN", 
-          opts: ["Les petits détails concrets", "L'ambiance générale ou les sous-entendus"] },
-        { t: "Un projet 'faisable' est plus important qu'un projet 'révolutionnaire' :", dim: "SN", 
-          opts: ["Oui, il faut être concret", "Non, il faut savoir rêver"] },
-
-        // Axe T vs F (Décision)
-        { t: "Pour prendre une décision importante, tu te bases sur :", dim: "TF", 
-          opts: ["La logique et le raisonnement", "Tes sentiments et tes valeurs"] },
-        { t: "Si un collègue fait une erreur, tu penses qu'il vaut mieux :", dim: "TF", 
-          opts: ["Lui dire franchement pour qu'il progresse", "Lui dire doucement pour ne pas le blesser"] },
-        { t: "Tu es plutôt doué pour :", dim: "TF", 
-          opts: ["Analyser des problèmes techniques", "Comprendre les gens"] },
-        { t: "Ce qui compte le plus au travail, c'est :", dim: "TF", 
-          opts: ["L'efficacité et le résultat", "L'ambiance et l'entente dans l'équipe"] },
-        { t: "Tu es plus convaincu par :", dim: "TF", 
-          opts: ["Des chiffres et des preuves", "Des histoires et des témoignages"] },
-        { t: "Dans un conflit, tu cherches :", dim: "TF", 
-          opts: ["Qui a tort et qui a raison (la vérité)", "Comment réconcilier tout le monde (l'harmonie)"] },
-        { t: "On dit souvent que tu es :", dim: "TF", 
-          opts: ["Quelqu'un de rationnel (la tête)", "Quelqu'un de sensible (le cœur)"] },
-        { t: "Être juste, c'est :", dim: "TF", 
-          opts: ["Appliquer la même règle à tout le monde", "Prendre en compte la situation de chacun"] },
-        { t: "Tu préfères un chef qui est :", dim: "TF", 
-          opts: ["Compétent et exigeant", "Sympathique et à l'écoute"] },
-        { t: "Il est plus difficile pour toi de :", dim: "TF", 
-          opts: ["Comprendre les émotions des autres", "Organiser des idées complexes"] },
-
-        // Axe J vs P (Style de vie)
-        { t: "Pour tes rendez-vous (Pôle Emploi, Mission Locale...), tu es :", dim: "JP", 
-          opts: ["Souvent en avance ou pile à l'heure", "Parfois un peu juste ou en retard"] },
-        { t: "Tu préfères travailler :", dim: "JP", 
-          opts: ["Avec un plan et une liste de tâches", "Au feeling, selon l'inspiration"] },
-        { t: "Quand tu as un projet à rendre :", dim: "JP", 
-          opts: ["Tu le finis bien avant la date limite", "Tu le finis souvent à la dernière minute"] },
-        { t: "Tu aimes quand ta journée est :", dim: "JP", 
-          opts: ["Organisée et prévisible", "Pleine de surprises et d'imprévus"] },
-        { t: "Ton espace de vie (chambre, bureau) est généralement :", dim: "JP", 
-          opts: ["Rangé et ordonné", "Un peu en désordre ('bordel organisé')"] },
-        { t: "Tu prends des décisions :", dim: "JP", 
-          opts: ["Rapidement pour passer à autre chose", "Lentement, tu gardes tes options ouvertes"] },
-        { t: "Tu te sens mieux quand :", dim: "JP", 
-          opts: ["Les choses sont décidées et réglées", "Tout reste possible et flexible"] },
-        { t: "Tu préfères suivre :", dim: "JP", 
-          opts: ["Des règles claires", "Ton propre rythme"] },
-        { t: "Avant de commencer une tâche :", dim: "JP", 
-          opts: ["Tu prépares tout le matériel nécessaire", "Tu te lances et tu verras bien"] },
-        { t: "Le changement de programme à la dernière minute :", dim: "JP", 
-          opts: ["Ça te stresse un peu", "Ça ne te dérange pas, tu t'adaptes"] }
-    ];
-
-    // --- 2. LES PROFILS RENOMMÉS (MAPPING) ---
-    const profiles = {
-        "ENTJ": { 
-            title: "Le Leader naturel", 
-            cat: "Action & Impact", 
-            desc: "👉 Organise, décide, entraîne les autres" 
-        },
-        "INTJ": { 
-            title: "Le Stratège discret", 
-            cat: "Action & Impact", 
-            desc: "👉 Observe, planifie, voit loin" 
-        },
-        "ENTP": { 
-            title: "Le Challenger", 
-            cat: "Action & Impact", 
-            desc: "👉 Questionne tout, adore débattre" 
-        },
-        "ESTP": { 
-            title: "L’Entrepreneur", 
-            cat: "Action & Impact", 
-            desc: "👉 Lance des projets, ose tester" 
-        },
-        
-        "ENFJ": { 
-            title: "Le Coach", 
-            cat: "Humain & Relations", 
-            desc: "👉 Motive les autres, fait progresser" 
-        },
-        "ISFJ": { 
-            title: "Le Protecteur", 
-            cat: "Humain & Relations", 
-            desc: "👉 Fiable, présent, aide concrètement" 
-        },
-        "INFP": { 
-            title: "Le Médiateur", 
-            cat: "Humain & Relations", 
-            desc: "👉 Apaise les tensions, comprend chacun" 
-        },
-        "ESFJ": { 
-            title: "Le Pilier du groupe", 
-            cat: "Humain & Relations", 
-            desc: "👉 Maintient l’ambiance, soutient l’équipe" 
-        },
-        
-        "ISFP": { 
-            title: "L’Artiste libre", 
-            cat: "Créa & Expression", 
-            desc: "👉 Créatif, spontané, sensible" 
-        },
-        "ENFP": { 
-            title: "L’Explorateur", 
-            cat: "Créa & Expression", 
-            desc: "👉 Curieux, aime tester, bouger" 
-        },
-        "INTP": { 
-            title: "Le Créateur d’idées", 
-            cat: "Créa & Expression", 
-            desc: "👉 Imagine des concepts, solutions nouvelles" 
-        },
-        "INFJ": { 
-            title: "Le Visionnaire", 
-            cat: "Créa & Expression", 
-            desc: "👉 Voit le futur, pense différemment" 
-        },
-        
-        "ESTJ": { 
-            title: "Le Pro de l’organisation", 
-            cat: "Organisation & Logique", 
-            desc: "👉 Structuré, efficace, fiable" 
-        },
-        "ISTP": { 
-            title: "Le Technicien", 
-            cat: "Organisation & Logique", 
-            desc: "👉 Aime comprendre comment ça marche" 
-        },
-        "ISTJ": { 
-            title: "Le Planificateur", 
-            cat: "Organisation & Logique", 
-            desc: "👉 Anticipe, sécurise, prépare tout" 
-        },
-        // Mapping spécifique pour l'Analyste (souvent ISTJ ou INTP, mais pour compléter les 16)
-        // Ici nous allons mapper le dernier slot restant (le profil 15 de votre liste)
-        // Le profil restant standard est souvent lié à la logique.
-        // NOTE: Pour cet exercice, nous mappons ESFP (seul restant) à "L'Analyste" si besoin,
-        // OU nous ajustons pour que la logique colle aux noms. 
-        // CORRECTIF LOGIQUE : "L'Analyste" (Logique/Précis) correspond mieux à un profil T.
-        // Nous allons utiliser une logique de score pour mapper les résultats.
-        // Pour simplifier l'affichage selon VOTRE liste de 16 noms :
-        // Nous allons utiliser les codes standards MBTI pour la logique de calcul, 
-        // mais forcer l'affichage de "L'Analyste" pour le code restant qui s'y apparente le plus.
-        // Code restant: INTP est "Créateur", ISTJ est "Planificateur".
-        // Il nous manque une case pour un profil T.
-        // Pour garantir que les 16 noms apparaissent, nous utilisons un mapping direct.
-        // (Note: ESFP est normalement "Amuseur", ici nous l'associons à un rôle logique pour respecter votre liste de 16 items fixes si nécessaire,
-        // OU nous considérons que "L'Analyste" est une variation de l'ISTJ/INTP et "Planificateur" une variation de ISTJ).
-        // SOLUTION : Pour ce code, je mappe le profil "INTP" sur "Analyste" s'il n'est pas utilisé, 
-        // Mais vous avez "Créateur d'idées" (INTP).
-        // Je vais utiliser le slot "ENTJ/INTJ/INTP/ENTP" pour les T.
-        // Pour respecter VOS 16 titres, voici le mapping final utilisé par le calculateur :
-        
-        // Nous avons besoin de mapper 16 combinaisons binaires (2^4) vers vos 16 titres.
-        // Voici le tableau de correspondance utilisé :
-    };
-    
-    // Mapping manuel pour s'assurer que chaque code MBTI a un titre de VOTRE liste
-    // J'écrase les définitions précédentes pour être sûr du mapping 1-pour-1
-    const mbtiMap = {
-        "ENTJ": profiles["ENTJ"], // Leader naturel
-        "INTJ": profiles["INTJ"], // Stratège discret
-        "ENTP": profiles["ENTP"], // Challenger
-        "ESTP": profiles["ESTP"], // Entrepreneur
-        
-        "ENFJ": profiles["ENFJ"], // Coach
-        "ISFJ": profiles["ISFJ"], // Protecteur
-        "INFP": profiles["INFP"], // Médiateur
-        "ESFJ": profiles["ESFJ"], // Pilier du groupe
-        
-        "ISFP": profiles["ISFP"], // Artiste libre
-        "ENFP": profiles["ENFP"], // Explorateur
-        "INTP": profiles["INTP"], // Créateur d'idées
-        "INFJ": profiles["INFJ"], // Visionnaire
-        
-        "ESTJ": profiles["ESTJ"], // Pro de l'orga
-        "ISTP": profiles["ISTP"], // Technicien
-        
-        // Cas particuliers pour faire correspondre vos 16 titres aux 16 codes mathématiques
-        "ISTJ": profiles["ISTJ"], // Le Planificateur (Correspond bien)
-        
-        // Il reste "L'Analyste" (Profil 15) et le code "ESFP" (qui est le seul code orphelin).
-        // Bien que ESFP soit "Feeling/Perceiving", pour que le test fonctionne techniquement avec 16 sorties,
-        // nous allons lui attribuer "L'Analyste" ou intervertir pour la logique sémantique.
-        // Mieux : "L'Analyste" correspond mieux à INTP ou ISTJ.
-        // "Le Planificateur" correspond à ISTJ.
-        // "Le Créateur d'idées" correspond à INTP.
-        // Il reste un profil logique "Analyste". Attribuons-le à un profil T restant.
-        // Pour la pureté du test, je vais attribuer "L'Analyste" au code restant le plus proche ou par défaut à ESFP pour ne pas casser le code,
-        // MAIS pour être propre, disons que "L'Analyste" est une variation.
-        // Pour cet outil, je vais lier "L'Analyste" au code INTP et déplacer "Créateur d'idées" sur ENFP? Non.
-        // Je vais lier "L'Analyste" à un profil générique pour éviter les bugs.
-        "ESFP": { title: "L'Analyste", cat: "Organisation & Logique", desc: "👉 Logique, précis, aime les faits" } 
-        // (Note technique : ESFP n'est pas un analyste en théorie MBTI, mais c'est le slot libre pour avoir 16 résultats).
-    };
-
-
-    // --- 3. GÉNÉRATION DU QUESTIONNAIRE HTML ---
-    const container = document.getElementById('questions-container');
-    const totalQ = document.getElementById('q-progress');
-    
-    // Mélanger les questions (optionnel, ici on garde l'ordre pour les axes)
-    // questions.sort(() => Math.random() - 0.5);
-
-    questions.forEach((q, index) => {
-        const qDiv = document.createElement('div');
-        qDiv.className = 'question-block';
-        qDiv.innerHTML = `
-            <span class="question-text">${index + 1}. ${q.t}</span>
-            <div class="options">
-                <label>
-                    <input type="radio" name="q${index}" value="1" required>
-                    ${q.opts[0]}
-                </label>
-                <label>
-                    <input type="radio" name="q${index}" value="-1">
-                    ${q.opts[1]}
-                </label>
+        <form id="quiz-form">
+            <div id="questions-container"></div>
+            
+            <div class="btn-container">
+                <button type="button" onclick="calculateResults()">Découvrir mon profil</button>
             </div>
-        `;
-        container.appendChild(qDiv);
-    });
+        </form>
 
-    totalQ.innerText = questions.length;
+        <div id="results">
+            <div class="profile-category" id="res-category">Catégorie</div>
+            <div class="profile-icon" id="res-icon"></div>
+            <h2 class="profile-title" id="res-title">Titre du Profil</h2>
+            <div class="profile-desc" id="res-desc">
+                Description...
+            </div>
+            <div class="btn-container">
+                <button onclick="location.reload()" style="background-color: var(--turquoise);">Refaire le test</button>
+            </div>
+        </div>
+    </div>
 
-    // --- 4. CALCUL DES RÉSULTATS ---
-    function calculateResults() {
-        const form = document.getElementById('quiz-form');
-        const formData = new FormData(form);
+    <script>
+        // --- DONNÉES DU TEST (40 Questions) ---
+        const questions = [
+            // E vs I
+            { t: "Après une journée de formation, tu préfères :", dim: "EI", opts: ["Sortir voir des potes", "Rentrer te poser au calme"] },
+            { t: "Dans un groupe de travail, tu as tendance à :", dim: "EI", opts: ["Parler et donner ton avis rapidement", "Écouter d'abord et réfléchir"] },
+            { t: "Si tu as une question pour un employeur, tu préfères :", dim: "EI", opts: ["L'appeler directement", "Lui envoyer un mail ou SMS"] },
+            { t: "Travailler seul toute la journée :", dim: "EI", opts: ["Ça t'ennuie, tu veux du monde", "Ça te va, tu te concentres mieux"] },
+            { t: "Pour rencontrer tes nouveaux collègues :", dim: "EI", opts: ["Tu vas vers eux facilement", "Tu attends qu'ils viennent vers toi"] },
+            { t: "Tu te sens plus à l'aise dans un environnement :", dim: "EI", opts: ["Animé avec de l'action", "Calme et silencieux"] },
+            { t: "Quand tu as un problème, tu préfères :", dim: "EI", opts: ["En discuter tout de suite", "Le résoudre seul dans ton coin"] },
+            { t: "On dit de toi que tu es :", dim: "EI", opts: ["Sociable et expressif", "Réservé et observateur"] },
+            { t: "Le week-end, tu préfères :", dim: "EI", opts: ["Avoir plein d'activités", "Improviser tranquillement"] },
+            { t: "Tu penses à haute voix :", dim: "EI", opts: ["Souvent", "Rarement, tu réfléchis dans ta tête"] },
+
+            // S vs N
+            { t: "Tu préfères un travail où :", dim: "SN", opts: ["Les tâches sont concrètes", "Tu peux imaginer des solutions"] },
+            { t: "Quand on t'explique une mission, tu veux :", dim: "SN", opts: ["Les détails étape par étape", "Comprendre l'idée générale"] },
+            { t: "Tu es quelqu'un de plutôt :", dim: "SN", opts: ["Réaliste et pratique", "Rêveur et imaginatif"] },
+            { t: "Ce qui t'intéresse le plus :", dim: "SN", opts: ["Le présent (maintenant)", "Le futur (ce qui pourrait arriver)"] },
+            { t: "Tu fais confiance à :", dim: "SN", opts: ["Ton expérience / aux faits", "Ton instinct / ton intuition"] },
+            { t: "Pour apprendre, tu préfères :", dim: "SN", opts: ["Pratiquer tout de suite", "Comprendre la théorie d'abord"] },
+            { t: "Tu préfères les consignes :", dim: "SN", opts: ["Précises et claires", "Ouvertes et libres"] },
+            { t: "Tu aimes les méthodes :", dim: "SN", opts: ["Anciennes qui marchent", "Nouvelles et originales"] },
+            { t: "Tu remarques souvent :", dim: "SN", opts: ["Les petits détails", "L'ambiance générale"] },
+            { t: "Un projet 'faisable' est mieux qu'un projet 'révolutionnaire' :", dim: "SN", opts: ["Oui, soyons concrets", "Non, il faut savoir rêver"] },
+
+            // T vs F
+            { t: "Pour décider, tu te bases sur :", dim: "TF", opts: ["La logique", "Tes sentiments et valeurs"] },
+            { t: "Si un collègue fait une erreur, tu préfères :", dim: "TF", opts: ["Lui dire franchement", "Lui dire doucement"] },
+            { t: "Tu es doué pour :", dim: "TF", opts: ["Analyser des problèmes", "Comprendre les gens"] },
+            { t: "Au travail, le plus important c'est :", dim: "TF", opts: ["L'efficacité", "L'ambiance d'équipe"] },
+            { t: "Tu es convaincu par :", dim: "TF", opts: ["Des preuves et chiffres", "Des histoires et témoignages"] },
+            { t: "Dans un conflit, tu cherches :", dim: "TF", opts: ["La vérité (qui a raison)", "L'entente (réconcilier)"] },
+            { t: "On dit que tu es :", dim: "TF", opts: ["Rationnel (tête)", "Sensible (cœur)"] },
+            { t: "Être juste, c'est :", dim: "TF", opts: ["La même règle pour tous", "S'adapter à chacun"] },
+            { t: "Un bon chef est :", dim: "TF", opts: ["Compétent et exigeant", "Sympa et à l'écoute"] },
+            { t: "C'est dur pour toi de :", dim: "TF", opts: ["Comprendre les émotions", "Organiser des idées complexes"] },
+
+            // J vs P
+            { t: "Pour tes rendez-vous, tu es :", dim: "JP", opts: ["Souvent en avance", "Parfois un peu juste"] },
+            { t: "Tu préfères travailler :", dim: "JP", opts: ["Avec un plan", "Au feeling"] },
+            { t: "Quand tu as un projet :", dim: "JP", opts: ["Tu finis bien avant", "Tu finis à la dernière minute"] },
+            { t: "Penses-tu possible de laisser ta journée se dérouler sans plan ?", dim: "JP", opts: ["Non, j'aime prévoir", "Oui, j'aime l'imprévu"] },
+            { t: "Ton espace est :", dim: "JP", opts: ["Rangé", "En 'bordel organisé'"] },
+            { t: "Tu décides :", dim: "JP", opts: ["Vite pour passer à autre chose", "Lentement pour garder le choix"] },
+            { t: "Tu te sens mieux quand :", dim: "JP", opts: ["Tout est réglé", "Tout reste ouvert"] },
+            { t: "Tu préfères suivre :", dim: "JP", opts: ["Des règles", "Ton rythme"] },
+            { t: "Avant de commencer :", dim: "JP", opts: ["Tu prépares tout", "Tu te lances"] },
+            { t: "Un changement de dernière minute :", dim: "JP", opts: ["Ça te stresse", "Tu t'adaptes"] }
+        ];
+
+        // --- PROFILS (Noms adaptés) ---
+        const profiles = {
+            "ENTJ": { title: "Le Leader naturel", cat: "Action & Impact", desc: "👉 Organise, décide, entraîne les autres." },
+            "INTJ": { title: "Le Stratège discret", cat: "Action & Impact", desc: "👉 Observe, planifie, voit loin." },
+            "ENTP": { title: "Le Challenger", cat: "Action & Impact", desc: "👉 Questionne tout, adore débattre." },
+            "ESTP": { title: "L’Entrepreneur", cat: "Action & Impact", desc: "👉 Lance des projets, ose tester." },
+            
+            "ENFJ": { title: "Le Coach", cat: "Humain & Relations", desc: "👉 Motive les autres, fait progresser." },
+            "ISFJ": { title: "Le Protecteur", cat: "Humain & Relations", desc: "👉 Fiable, présent, aide concrètement." },
+            "INFP": { title: "Le Médiateur", cat: "Humain & Relations", desc: "👉 Apaise les tensions, comprend chacun." },
+            "ESFJ": { title: "Le Pilier du groupe", cat: "Humain & Relations", desc: "👉 Maintient l’ambiance, soutient l’équipe." },
+            
+            "ISFP": { title: "L’Artiste libre", cat: "Créa & Expression", desc: "👉 Créatif, spontané, sensible." },
+            "ENFP": { title: "L’Explorateur", cat: "Créa & Expression", desc: "👉 Curieux, aime tester, bouger." },
+            "INTP": { title: "Le Créateur d’idées", cat: "Créa & Expression", desc: "👉 Imagine des concepts, solutions nouvelles." },
+            "INFJ": { title: "Le Visionnaire", cat: "Créa & Expression", desc: "👉 Voit le futur, pense différemment." },
+            
+            "ESTJ": { title: "Le Pro de l’orga", cat: "Organisation & Logique", desc: "👉 Structuré, efficace, fiable." },
+            "ISTP": { title: "Le Technicien", cat: "Organisation & Logique", desc: "👉 Aime comprendre comment ça marche." },
+            "ISTJ": { title: "Le Planificateur", cat: "Organisation & Logique", desc: "👉 Anticipe, sécurise, prépare tout." },
+            "ESFP": { title: "L'Analyste", cat: "Organisation & Logique", desc: "👉 Logique, précis, aime les faits." } // Mapping ajusté pour 16 profils
+        };
+
+        // Mapping direct codes MBTI -> Profils
+        const mbtiMap = {};
+        Object.keys(profiles).forEach(k => mbtiMap[k] = profiles[k]);
+
+        // --- GÉNÉRATION DU QUIZ ---
+        const container = document.getElementById('questions-container');
         
-        // Vérification que tout est coché
-        let answered = 0;
-        for(let pair of formData.entries()) answered++;
-        
-        if(answered < questions.length) {
-            alert(`Merci de répondre aux ${questions.length} questions pour avoir un résultat précis !`);
-            return;
-        }
-
-        // Scores
-        let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-
         questions.forEach((q, index) => {
-            const val = parseInt(formData.get(`q${index}`));
-            // Si val = 1 (Premier choix), on ajoute au premier pôle de la dimension (ex: E)
-            // Si val = -1 (Deuxième choix), on ajoute au second pôle (ex: I)
-            
-            const [poleA, poleB] = q.dim.split(''); // ex: "E", "I"
-            
-            if (val === 1) scores[poleA]++;
-            else scores[poleB]++;
+            const qDiv = document.createElement('div');
+            qDiv.className = 'question-block';
+            qDiv.innerHTML = `
+                <span class="question-text">${index + 1}. ${q.t}</span>
+                <div class="options">
+                    <label>
+                        <input type="radio" name="q${index}" value="1" onchange="updateProgress()" required>
+                        <span>${q.opts[0]}</span>
+                    </label>
+                    <label>
+                        <input type="radio" name="q${index}" value="-1" onchange="updateProgress()">
+                        <span>${q.opts[1]}</span>
+                    </label>
+                </div>
+            `;
+            container.appendChild(qDiv);
         });
 
-        // Détermination du code à 4 lettres
-        let mbtiCode = "";
-        mbtiCode += (scores.E >= scores.I) ? "E" : "I";
-        mbtiCode += (scores.S >= scores.N) ? "S" : "N";
-        mbtiCode += (scores.T >= scores.F) ? "T" : "F";
-        mbtiCode += (scores.J >= scores.P) ? "J" : "P";
+        function updateProgress() {
+            const total = questions.length;
+            const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+            const percent = (answered / total) * 100;
+            document.getElementById('progress-bar').style.width = percent + '%';
+        }
 
-        // Affichage
-        displayResult(mbtiCode);
-    }
+        // --- CALCUL ---
+        function calculateResults() {
+            const form = document.getElementById('quiz-form');
+            const formData = new FormData(form);
+            
+            let answered = 0;
+            for(let pair of formData.entries()) answered++;
+            
+            if(answered < questions.length) {
+                alert(`Oups ! Il reste des questions sans réponse (${answered}/${questions.length}).`);
+                return;
+            }
 
-    function displayResult(code) {
-        // Cacher le quiz
-        document.getElementById('quiz-header').classList.add('hidden');
-        document.getElementById('quiz-form').classList.add('hidden');
-        
-        // Récupérer les infos du profil
-        const profile = mbtiMap[code] || profiles["ESTJ"]; // Fallback
+            let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
 
-        // Remplir le DOM
-        document.getElementById('res-category').innerText = profile.cat;
-        document.getElementById('res-title').innerText = profile.title;
-        document.getElementById('res-desc').innerText = profile.desc;
-        
-        // Icône simple basée sur la catégorie
-        let icon = "🌟";
-        if(profile.cat.includes("Action")) icon = "🚀";
-        if(profile.cat.includes("Humain")) icon = "🤝";
-        if(profile.cat.includes("Créa")) icon = "🎨";
-        if(profile.cat.includes("Organisation")) icon = "📊";
-        document.getElementById('res-icon').innerText = icon;
+            questions.forEach((q, index) => {
+                const val = parseInt(formData.get(`q${index}`));
+                const [poleA, poleB] = q.dim.split('');
+                if (val === 1) scores[poleA]++;
+                else scores[poleB]++;
+            });
 
-        // Afficher
-        document.getElementById('results').style.display = 'block';
-        window.scrollTo(0, 0);
-    }
-</script>
+            let mbtiCode = "";
+            mbtiCode += (scores.E >= scores.I) ? "E" : "I";
+            mbtiCode += (scores.S >= scores.N) ? "S" : "N";
+            mbtiCode += (scores.T >= scores.F) ? "T" : "F";
+            mbtiCode += (scores.J >= scores.P) ? "J" : "P";
+
+            displayResult(mbtiCode);
+        }
+
+        function displayResult(code) {
+            document.getElementById('quiz-header').classList.add('hidden');
+            document.getElementById('quiz-form').classList.add('hidden');
+            
+            // Fallback si code inconnu (ne devrait pas arriver)
+            const profile = mbtiMap[code] || profiles["ESTJ"]; 
+
+            // Icône dynamique
+            let icon = "🌟";
+            if(profile.cat.includes("Action")) icon = "🚀";
+            if(profile.cat.includes("Humain")) icon = "🤝";
+            if(profile.cat.includes("Créa")) icon = "🎨";
+            if(profile.cat.includes("Organisation")) icon = "📊";
+
+            // Couleur catégorie
+            const catElem = document.getElementById('res-category');
+            catElem.innerText = profile.cat;
+            if(profile.cat.includes("Action")) catElem.style.backgroundColor = "var(--red)";
+            if(profile.cat.includes("Humain")) catElem.style.backgroundColor = "var(--green)";
+            if(profile.cat.includes("Créa")) catElem.style.backgroundColor = "var(--orange)";
+            if(profile.cat.includes("Organisation")) catElem.style.backgroundColor = "var(--blue)";
+
+            document.getElementById('res-icon').innerText = icon;
+            document.getElementById('res-title').innerText = profile.title;
+            document.getElementById('res-desc').innerText = profile.desc;
+            
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            
+            // Animation Confettis
+            for(let i=0; i<30; i++) {
+                createConfetti(resultsDiv);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function createConfetti(container) {
+            const colors = ['var(--red)', 'var(--yellow)', 'var(--turquoise)', 'var(--orange)'];
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = -10 + 'px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+            
+            // Animation CSS injectée dynamiquement pour la chute
+            const styleSheet = document.createElement("style");
+            styleSheet.innerText = `
+                @keyframes fall {
+                    to { transform: translateY(500px) rotate(720deg); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(styleSheet);
+            
+            container.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 3000);
+        }
+    </script>
 
 </body>
 </html>
