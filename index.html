@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil Pro - LS4YOU</title>
+    <title>Mon Profil Pro - LS4YOU x MLPB</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,55 +15,82 @@
         body {
             font-family: 'Poppins', sans-serif; background-color: var(--white);
             color: var(--text-dark); margin: 0; padding: 0; overflow-x: hidden;
+            display: flex; flex-direction: column; min-height: 100vh;
         }
 
-        /* Déco Background */
+        /* --- Design Life Skills : Background & Motifs --- */
         .bg-deco { position: fixed; z-index: -1; border-radius: 50%; }
-        .circle-1 { width: 400px; height: 400px; background: var(--yellow); top: -100px; right: -100px; opacity: 0.4; }
-        .circle-2 { width: 300px; height: 300px; background: var(--turquoise); bottom: -50px; left: -50px; opacity: 0.3; }
+        .circle-1 { width: 500px; height: 500px; background: var(--yellow); top: -200px; right: -150px; opacity: 0.5; }
+        .circle-2 { width: 350px; height: 350px; background: var(--turquoise); bottom: -100px; left: -100px; opacity: 0.4; }
+        .circle-3 { width: 200px; height: 200px; background: var(--pink); top: 30%; left: -50px; opacity: 0.3; }
         
+        .dot-grid {
+            position: fixed; z-index: -1; width: 120px; height: 120px;
+            background-image: radial-gradient(var(--blue) 20%, transparent 20%);
+            background-size: 15px 15px; opacity: 0.3;
+        }
+        .dots-tl { top: 180px; left: 40px; }
+        .dots-br { bottom: 60px; right: 40px; }
+
+        /* --- Header avec Logos --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 5%; background: rgba(255,255,255,0.95);
-            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            padding: 20px 5%; background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
         }
-        .logo { height: 50px; object-fit: contain; }
+        .logo-ls4you { height: 65px; object-fit: contain; }
+        .logo-mlpb { height: 55px; object-fit: contain; }
 
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
-        h1 { font-weight: 900; font-size: 2.8em; text-align: center; color: var(--red); margin: 0; text-transform: uppercase; line-height: 1; }
-        .subtitle { text-align: center; font-size: 1.1em; margin-bottom: 40px; font-weight: 600; color: var(--blue); }
+        /* --- Mise en page --- */
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; flex-grow: 1; }
+        h1 { font-weight: 900; font-size: 3em; text-align: center; color: var(--red); margin: 0; text-transform: uppercase; line-height: 1.1; letter-spacing: -1.5px; }
+        .subtitle { text-align: center; font-size: 1.2em; color: var(--blue); margin-top: 10px; margin-bottom: 50px; font-weight: 700; }
 
+        /* --- Cards Questions --- */
         .question-block {
-            background: white; border-radius: 25px; padding: 35px; margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; border: 1px solid #eee;
-            transition: 0.3s;
+            background: white; border-radius: 30px; padding: 40px; margin-bottom: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06); position: relative;
+            border: 2px solid #f0f0f0; transition: transform 0.3s ease;
         }
-        .question-block:hover { border-color: var(--turquoise); transform: translateY(-5px); }
-        .question-text { font-weight: 700; font-size: 1.2em; display: block; margin-bottom: 25px; text-align: center; }
+        .question-block:hover { transform: translateY(-5px); border-color: var(--turquoise); }
+        .question-text { font-weight: 700; font-size: 1.3em; display: block; margin-bottom: 30px; text-align: center; color: var(--text-dark); }
 
-        .scale-container { display: flex; justify-content: space-between; align-items: center; max-width: 600px; margin: 0 auto; }
-        .scale-label { font-size: 0.75em; font-weight: 700; width: 100px; text-align: center; color: #888; text-transform: uppercase; }
-        .radio-group { display: flex; gap: 15px; align-items: center; }
+        /* --- Système de Scoring (5 points) --- */
+        .scale-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .radio-group { display: flex; gap: 20px; align-items: center; justify-content: center; width: 100%; }
+        .scale-label { font-size: 0.8em; font-weight: 900; width: 100px; text-align: center; color: #b0b0b0; text-transform: uppercase; }
         
-        input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 3px solid #ddd; transition: 0.2s; }
-        input[type="radio"][value="2"], input[type="radio"][value="-2"] { width: 45px; height: 45px; }
-        input[type="radio"][value="1"], input[type="radio"][value="-1"] { width: 35px; height: 35px; }
-        input[type="radio"][value="0"] { width: 25px; height: 25px; }
-        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); }
+        input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 4px solid #eee; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: white; }
+        input[type="radio"][value="2"], input[type="radio"][value="-2"] { width: 55px; height: 55px; border-color: #e0e0e0; }
+        input[type="radio"][value="1"], input[type="radio"][value="-1"] { width: 42px; height: 42px; border-color: #e8e8e8; }
+        input[type="radio"][value="0"] { width: 32px; height: 32px; border-color: #f0f0f0; }
 
-        .btn-container { text-align: center; margin: 50px 0; }
-        button {
-            background: var(--red); color: white; border: none; padding: 18px 60px;
-            font-size: 1.3em; font-weight: 900; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 23, 102, 0.3); transition: 0.3s;
+        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); transform: scale(1.15); box-shadow: 0 8px 15px rgba(255, 23, 102, 0.3); }
+        input[type="radio"]:hover { border-color: var(--turquoise); }
+
+        /* --- Boutons --- */
+        .btn-container { text-align: center; margin: 60px 0; }
+        .btn-primary {
+            background: var(--red); color: white; border: none; padding: 20px 70px;
+            font-size: 1.4em; font-weight: 900; border-radius: 60px; cursor: pointer;
+            box-shadow: 0 12px 25px rgba(255, 23, 102, 0.4); transition: all 0.3s;
+            text-transform: uppercase;
         }
-        button:hover { transform: scale(1.05); }
+        .btn-primary:hover { transform: scale(1.05); background: #e01055; box-shadow: 0 15px 30px rgba(255, 23, 102, 0.5); }
 
-        #results { display: none; text-align: center; padding: 40px; background: white; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
-        .profile-title { font-size: 3em; color: var(--red); font-weight: 900; margin: 10px 0; }
-        .profile-cat { display: inline-block; background: var(--purple); color: white; padding: 5px 20px; border-radius: 20px; font-weight: 700; margin-bottom: 20px; }
-        .profile-icon { font-size: 6em; margin: 20px 0; display: block; }
-        .profile-desc { font-size: 1.4em; border: 3px dashed var(--yellow); padding: 30px; border-radius: 20px; margin-top: 20px; font-weight: 600; }
+        /* --- Résultats --- */
+        #results { display: none; text-align: center; padding: 60px 40px; background: white; border-radius: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.12); animation: pop 0.5s ease; }
+        @keyframes pop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        .profile-icon { font-size: 7em; margin-bottom: 20px; display: block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1)); }
+        .profile-cat { display: inline-block; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 900; font-size: 1.1em; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 1px; }
+        .profile-title { font-size: 3.5em; color: var(--red); font-weight: 900; margin: 0; line-height: 1; letter-spacing: -2px; }
+        .profile-desc { font-size: 1.5em; border: 4px dashed var(--yellow); padding: 40px; border-radius: 30px; margin-top: 35px; font-weight: 700; color: var(--text-dark); background: #fffdf5; line-height: 1.4; }
+
+        /* --- Footer Puzzle --- */
+        .footer-puzzle { display: flex; justify-content: center; gap: 10px; padding: 40px 0; opacity: 0.3; }
+        .piece { width: 30px; height: 30px; background: var(--turquoise); border-radius: 5px; }
 
         .hidden { display: none; }
     </style>
@@ -72,104 +99,111 @@
 
     <div class="bg-deco circle-1"></div>
     <div class="bg-deco circle-2"></div>
+    <div class="bg-deco circle-3"></div>
+    <div class="dot-grid dots-tl"></div>
+    <div class="dot-grid dots-br"></div>
 
     <header>
-        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" class="logo" alt="LS4YOU">
-        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" class="logo" alt="MLPB">
+        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" class="logo-ls4you" alt="LS4YOU">
+        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" class="logo-mlpb" alt="MLPB">
     </header>
 
     <div class="container">
         <div id="quiz-ui">
             <h1>Mon Profil Pro</h1>
-            <p class="subtitle">Réorienté : Entreprise & Emploi</p>
+            <p class="subtitle">Trouve ta "Destination Moi-même"</p>
 
             <form id="quiz-form">
                 <div id="questions-container"></div>
                 <div class="btn-container">
-                    <button type="button" onclick="calculate()">Découvrir mes forces</button>
+                    <button type="button" class="btn-primary" onclick="calculate()">Calculer mon profil</button>
                 </div>
             </form>
         </div>
 
         <div id="results">
-            <span class="profile-cat" id="res-cat">Catégorie</span>
             <span class="profile-icon" id="res-icon">🚀</span>
-            <h2 class="profile-title" id="res-title">Titre</h2>
-            <div class="profile-desc" id="res-desc">Description</div>
+            <span class="profile-cat" id="res-cat">Action & Impact</span>
+            <h2 class="profile-title" id="res-title">Le Leader naturel</h2>
+            <div class="profile-desc" id="res-desc">Caractéristiques</div>
             <div class="btn-container">
-                <button onclick="location.reload()">Refaire le test</button>
+                <button onclick="location.reload()" class="btn-primary" style="background-color: var(--turquoise); box-shadow: 0 10px 20px rgba(77, 212, 212, 0.4);">Refaire le test</button>
             </div>
+        </div>
+
+        <div class="footer-puzzle">
+            <div class="piece"></div><div class="piece" style="background:var(--red)"></div><div class="piece" style="background:var(--yellow)"></div>
         </div>
     </div>
 
     <script>
         const questions = [
-            // --- E/I (Extraversion vs Introversion) ---
-            { t: "Tu trouves facile de t'intégrer rapidement dans une nouvelle équipe de travail.", dim: "E" },
-            { t: "Tu n'as aucune difficulté à aborder un recruteur lors d'un forum emploi.", dim: "E" },
-            { t: "Tu apprécies vraiment les projets professionnels qui se font en groupe.", dim: "E" },
-            { t: "Tu préfères travailler dans un espace partagé (open-space) plutôt que seul.", dim: "E" },
-            { t: "Tu trouves facile de créer du réseau avec des professionnels inconnus.", dim: "E" },
-            { t: "L'idée de te mettre en avant lors d'un entretien collectif t'intimide.", dim: "I" },
-            { t: "Tu préfères les missions que tu peux gérer en totale autonomie.", dim: "I" },
-            { t: "Tu préfères largement communiquer par mail plutôt que par téléphone.", dim: "I" },
-            { t: "Tu aimerais un métier où l'on travaille de manière indépendante la plupart du temps.", dim: "I" },
-            { t: "Tu es plus attiré par les entreprises avec beaucoup d'animation que par les bureaux calmes.", dim: "E" },
+            // E/I - Extraversion vs Introversion
+            { t: "Tu trouves facile d'aborder des professionnels lors d'un forum emploi.", dim: "E" },
+            { t: "Tu te sens à l'aise pour prendre la parole en public pour présenter ton projet.", dim: "E" },
+            { t: "Tu aimes l'idée de rencontrer de nouveaux collègues chaque jour dans ton futur métier.", dim: "E" },
+            { t: "Tu es prêt à appeler une entreprise même si tu ne connais personne là-bas.", dim: "E" },
+            { t: "Dans un atelier collectif, tu partages facilement tes idées avec les autres.", dim: "E" },
+            { t: "Tu préfères attendre qu'une entreprise te rappelle plutôt que de les relancer.", dim: "I" },
+            { t: "Tu préfères préparer tes entretiens seul au calme plutôt qu'en groupe.", dim: "I" },
+            { t: "Tu trouves fatigant de devoir « te vendre » et parler de toi toute la journée.", dim: "I" },
+            { t: "Tu préfères les missions de bureau ou techniques sans trop de contact client.", dim: "I" },
+            { t: "Tu te sens plus efficace quand tu travailles sur ton CV seul, sans bruit.", dim: "I" },
 
-            // --- S/N (Sensation vs Intuition) ---
-            { t: "Tu préfères discuter de résultats concrets plutôt que de théories sur le management.", dim: "S" },
-            { t: "Tu perds vite ton intérêt quand une réunion devient trop abstraite ou théorique.", dim: "S" },
-            { t: "Tu n'aimes pas trop imaginer l'avenir d'un secteur sans avoir de chiffres précis.", dim: "S" },
-            { t: "Réfléchir à des concepts philosophiques en entreprise est pour toi une perte de temps.", dim: "S" },
-            { t: "Les projets innovants et complexes t'enthousiasment plus que les tâches simples.", dim: "N" },
-            { t: "Tu aimes tester de nouvelles méthodes de travail, même si elles ne sont pas encore prouvées.", dim: "N" },
-            { t: "Tu cherches constamment à apprendre de nouvelles compétences en dehors de ton poste.", dim: "N" },
-            { t: "Tu aimes débattre des dilemmes éthiques liés au monde des affaires.", dim: "N" },
-            { t: "Tu es attiré par des métiers créatifs (marketing, design, communication).", dim: "N" },
-            { t: "Tu préfères inventer des solutions originales plutôt que de suivre une procédure fixée.", dim: "N" },
+            // S/N - Sensation vs Intuition
+            { t: "Tu identifies facilement tes compétences concrètes et tes expériences passées.", dim: "S" },
+            { t: "Tu préfères postuler à des offres avec des missions très claires et précises.", dim: "S" },
+            { t: "Pour toi, un bon job doit avant tout assurer un salaire et une sécurité immédiate.", dim: "S" },
+            { t: "Tu préfères apprendre une tâche en la pratiquant tout de suite sur le terrain[cite: 17].", dim: "S" },
+            { t: "Tu te concentres sur les compétences que tu possèdes déjà aujourd'hui.", dim: "S" },
+            { t: "Tu aimes imaginer l'évolution des métiers et les nouvelles opportunités du futur[cite: 23].", dim: "N" },
+            { t: "Tu es prêt à changer totalement de domaine si tu vois une opportunité innovante.", dim: "N" },
+            { t: "Tu aimes réfléchir au sens de ton travail et à son impact sur ton territoire.", dim: "N" },
+            { t: "Tu aimes chercher des solutions créatives pour résoudre des problèmes complexes.", dim: "N" },
+            { t: "Tu es attiré par les secteurs qui se transforment et qui bougent beaucoup.", dim: "N" },
 
-            // --- T/F (Thinking vs Feeling) ---
-            { t: "Tu privilégies les faits et les chiffres plutôt que le ressenti des collègues pour agir.", dim: "T" },
-            { t: "Tu prônes des décisions efficaces, même si cela peut blesser certains membres de l'équipe.", dim: "T" },
-            { t: "En cas de désaccord pro, tu défends ta logique technique avant les sentiments personnels.", dim: "T" },
-            { t: "Tu n'es pas facilement influencé par les émotions lors d'une négociation.", dim: "T" },
-            { t: "Si un projet échoue, ta priorité est de repartir tout de suite sur des bases logiques.", dim: "T" },
-            { t: "Tu es plus convaincu par l'impact humain d'un projet que par ses données financières.", dim: "F" },
-            { t: "Les parcours de vie des collaborateurs te parlent plus que leurs tableaux de performance.", dim: "F" },
-            { t: "Pour prendre une décision, tu te soucies davantage de l'effet sur les gens que de l'efficacité.", dim: "F" },
-            { t: "Si un choix professionnel te semble 'juste', tu agis souvent sans attendre de preuves.", dim: "F" },
-            { t: "Tu te fies plus à ton intuition relationnelle qu'à un raisonnement froid pour tes choix.", dim: "F" },
+            // T/F - Thinking vs Feeling
+            { t: "Tu analyses les offres d'emploi point par point de façon très rationnelle.", dim: "T" },
+            { t: "Tu choisis une offre d'emploi d'abord pour le salaire et les avantages logiques.", dim: "T" },
+            { t: "En entretien, tu mets surtout en avant tes résultats techniques et tes diplômes.", dim: "T" },
+            { t: "Tu préfères recevoir une critique franche sur ton CV pour t'améliorer vite.", dim: "T" },
+            { t: "Tu penses qu'un bon patron doit être juste et efficace avant d'être sympathique.", dim: "T" },
+            { t: "Tu choisis une entreprise d'abord parce que ses valeurs te touchent[cite: 16].", dim: "F" },
+            { t: "En entretien, tu parles surtout de tes qualités humaines et de ton envie d'aider[cite: 4].", dim: "F" },
+            { t: "Pour toi, l'ambiance entre collègues est plus importante que l'efficacité pure.", dim: "F" },
+            { t: "Tu as du mal à accepter une remarque pro si elle est dite trop froidement.", dim: "F" },
+            { t: "Tu te fies à ton « feeling » avec le recruteur pour savoir si tu acceptes le poste.", dim: "F" },
 
-            // --- J/P (Jugement vs Perception) ---
-            { t: "Ton poste de travail et tes fichiers numériques sont toujours bien organisés.", dim: "J" },
-            { t: "Tu planifies tes tâches pour qu'elles soient terminées bien avant la date limite.", dim: "J" },
-            { t: "Tu utilises systématiquement des outils comme l'agenda partagé ou les to-do lists.", dim: "J" },
-            { t: "Tu aimes faire une liste précise de tes objectifs pro chaque matin.", dim: "J" },
-            { t: "Tu termines tes missions méthodiquement, étape par étape, sans en sauter aucune.", dim: "J" },
-            { t: "Tu laisses souvent ta journée de travail se dérouler sans aucun plan précis.", dim: "P" },
-            { t: "Tu as beaucoup de mal à respecter des horaires de travail fixes (9h-17h).", dim: "P" },
-            { t: "Ton style de travail fonctionne par pics d'énergie spontanés plutôt que par effort régulier.", dim: "P" },
-            { t: "Tu as de réelles difficultés à respecter les délais de rendu imposés par un chef.", dim: "P" },
-            { t: "Tu préfères boucler tous tes dossiers urgents avant de t'autoriser une pause.", dim: "J" }
+            // J/P - Jugement vs Perception
+            { t: "Tu as un planning précis avec des heures dédiées à tes recherches chaque jour.", dim: "J" },
+            { t: "Tes documents (CV, lettres) sont parfaitement classés et nommés sur ton ordi.", dim: "J" },
+            { t: "Tu détestes arriver en retard à un rendez-vous pro, même de quelques minutes.", dim: "J" },
+            { t: "Tu termines toujours une candidature avant d'en commencer une autre.", dim: "J" },
+            { t: "Tu aimes suivre une méthode étape par étape pour construire ton projet[cite: 25].", dim: "J" },
+            { t: "Tu préfères postuler au moment où tu te sens motivé, sans horaire fixe.", dim: "P" },
+            { t: "Tu improvises souvent tes réponses en entretien selon l'humeur du moment.", dim: "P" },
+            { t: "Tu aimes garder plusieurs options de métiers ouvertes avant de te décider.", dim: "P" },
+            { t: "Tu es capable de changer tes plans à la dernière minute pour une offre imprévue.", dim: "P" },
+            { t: "Tu trouves les listes de tâches trop rigides et stressantes à suivre.", dim: "P" }
         ];
 
         const profiles = {
-            "ENTJ": { t: "Le Leader naturel", c: "Action & Impact", d: "👉 Organise, décide, entraîne les autres" },
-            "INTJ": { t: "Le Stratège discret", c: "Action & Impact", d: "👉 Observe, planifie, voit loin" },
-            "ENTP": { t: "Le Challenger", c: "Action & Impact", d: "👉 Questionne tout, adore débattre" },
-            "ESTP": { t: "L’Entrepreneur", c: "Action & Impact", d: "👉 Lance des projets, ose tester" },
-            "ENFJ": { t: "Le Coach", c: "Humain & Relations", d: "👉 Motive les autres, fait progresser" },
-            "ISFJ": { t: "Le Protecteur", c: "Humain & Relations", d: "👉 Fiable, présent, aide concrètement" },
-            "INFP": { t: "Le Médiateur", c: "Humain & Relations", d: "👉 Apaise les tensions, comprend chacun" },
-            "ESFJ": { t: "Le Pilier du groupe", c: "Humain & Relations", d: "👉 Maintient l’ambiance, soutient l’équipe" },
-            "ISFP": { t: "L’Artiste libre", c: "Créa & Expression", d: "👉 Créatif, spontané, sensible" },
-            "ENFP": { t: "L’Explorateur", c: "Créa & Expression", d: "👉 Curieux, aime tester, bouger" },
-            "INTP": { t: "Le Créateur d’idées", c: "Créa & Expression", d: "👉 Imagine des concepts, solutions nouvelles" },
-            "INFJ": { t: "Le Visionnaire", c: "Créa & Expression", d: "👉 Voit le futur, pense différemment" },
-            "ESTJ": { t: "Le Pro de l’organisation", c: "Organisation & Logique", d: "👉 Structuré, efficace, fiable" },
-            "ISTP": { t: "Le Technicien", c: "Organisation & Logique", d: "👉 Aime comprendre comment ça marche" },
-            "ISTJ": { t: "Le Planificateur", c: "Organisation & Logique", d: "👉 Anticipe, sécurise, prépare tout" },
-            "ESFP": { t: "L’Analyste", c: "Organisation & Logique", d: "👉 Logique, précis, aime les faits" }
+            "ENTJ": { t: "Le Leader naturel", c: "Action & Impact", i: "🚀", d: "👉 Organise, décide, entraîne les autres", col: "var(--red)" },
+            "INTJ": { t: "Le Stratège discret", c: "Action & Impact", i: "🎯", d: "👉 Observe, planifie, voit loin", col: "var(--red)" },
+            "ENTP": { t: "Le Challenger", c: "Action & Impact", i: "🔥", d: "👉 Questionne tout, adore débattre", col: "var(--red)" },
+            "ESTP": { t: "L’Entrepreneur", c: "Action & Impact", i: "⚡", d: "👉 Lance des projets, ose tester", col: "var(--red)" },
+            "ENFJ": { t: "Le Coach", c: "Humain & Relations", i: "📣", d: "👉 Motive les autres, fait progresser", col: "var(--green)" },
+            "ISFJ": { t: "Le Protecteur", c: "Humain & Relations", i: "🛡️", d: "👉 Fiable, présent, aide concrètement", col: "var(--green)" },
+            "INFP": { t: "Le Médiateur", c: "Humain & Relations", i: "🕊️", d: "👉 Apaise les tensions, comprend chacun", col: "var(--green)" },
+            "ESFJ": { t: "Le Pilier du groupe", c: "Humain & Relations", i: "🏠", d: "👉 Maintient l’ambiance, soutient l’équipe", col: "var(--green)" },
+            "ISFP": { t: "L’Artiste libre", c: "Créa & Expression", i: "🎨", d: "👉 Créatif, spontané, sensible", col: "var(--orange)" },
+            "ENFP": { t: "L’Explorateur", c: "Créa & Expression", i: "🌍", d: "👉 Curieux, aime tester, bouger", col: "var(--orange)" },
+            "INTP": { t: "Le Créateur d’idées", c: "Créa & Expression", i: "💡", d: "👉 Imagine des concepts, solutions nouvelles", col: "var(--orange)" },
+            "INFJ": { t: "Le Visionnaire", c: "Créa & Expression", i: "👁️", d: "👉 Voit le futur, pense différemment", col: "var(--orange)" },
+            "ESTJ": { t: "Le Pro de l’organisation", c: "Organisation & Logique", i: "📊", d: "👉 Structuré, efficace, fiable", col: "var(--blue)" },
+            "ISTP": { t: "Le Technicien", c: "Organisation & Logique", i: "⚙️", d: "👉 Aime comprendre comment ça marche", col: "var(--blue)" },
+            "ISTJ": { t: "Le Planificateur", c: "Organisation & Logique", i: "📅", d: "👉 Anticipe, sécurise, prépare tout", col: "var(--blue)" },
+            "ESFP": { t: "L’Analyste", c: "Organisation & Logique", i: "🔍", d: "👉 Logique, précis, aime les faits", col: "var(--blue)" }
         };
 
         const container = document.getElementById('questions-container');
@@ -179,15 +213,15 @@
             div.innerHTML = `
                 <span class="question-text">${q.t}</span>
                 <div class="scale-container">
-                    <span class="scale-label">Pas d'accord</span>
                     <div class="radio-group">
+                        <span class="scale-label">Pas d'accord</span>
                         <input type="radio" name="q${i}" value="-2" required>
                         <input type="radio" name="q${i}" value="-1">
                         <input type="radio" name="q${i}" value="0">
                         <input type="radio" name="q${i}" value="1">
                         <input type="radio" name="q${i}" value="2">
+                        <span class="scale-label">D'accord</span>
                     </div>
-                    <span class="scale-label">D'accord</span>
                 </div>
             `;
             container.appendChild(div);
@@ -202,13 +236,9 @@
                 const val = parseInt(data.get('q' + i));
                 if (isNaN(val)) return;
                 
-                if (["E","S","T","J"].includes(q.dim)) {
-                    if (val > 0) results[q.dim] += val;
-                    else if (val < 0) results[getOpposite(q.dim)] += Math.abs(val);
-                } else {
-                    if (val > 0) results[q.dim] += val;
-                    else if (val < 0) results[getOpposite(q.dim)] += Math.abs(val);
-                }
+                const opposite = {E:'I', I:'E', S:'N', N:'S', T:'F', F:'T', J:'P', P:'J'};
+                if (val > 0) results[q.dim] += val;
+                else if (val < 0) results[opposite[q.dim]] += Math.abs(val);
             });
 
             const code = (results.E >= results.I ? "E" : "I") +
@@ -219,26 +249,16 @@
             showResult(code);
         }
 
-        function getOpposite(l) {
-            const map = {E:'I', I:'E', S:'N', N:'S', T:'F', F:'T', J:'P', P:'J'};
-            return map[l];
-        }
-
         function showResult(code) {
             document.getElementById('quiz-ui').classList.add('hidden');
             const prof = profiles[code] || profiles["ESTJ"];
+            document.getElementById('res-icon').innerText = prof.i;
             document.getElementById('res-cat').innerText = prof.c;
+            document.getElementById('res-cat').style.backgroundColor = prof.col;
             document.getElementById('res-title').innerText = prof.t;
             document.getElementById('res-desc').innerText = prof.d;
-            
-            let icon = "🚀";
-            if(prof.c.includes("Humain")) icon = "🤝";
-            if(prof.c.includes("Créa")) icon = "🎨";
-            if(prof.c.includes("Organisation")) icon = "📊";
-            document.getElementById('res-icon').innerText = icon;
-
             document.getElementById('results').style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
