@@ -7,323 +7,76 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Palette Life Skills */
-            --red: #FF1766;
-            --orange: #FF9F1C;
-            --yellow: #FFD166;
-            --green: #7CB342;
-            --blue: #2196F3;
-            --turquoise: #4DD4D4;
-            --pink: #FF5C8D;
-            --purple: #8B4789;
-            --white: #ffffff;
-            --text-dark: #2c3e50;
+            --red: #FF1766; --orange: #FF9F1C; --yellow: #FFD166; --green: #7CB342;
+            --blue: #2196F3; --turquoise: #4DD4D4; --pink: #FF5C8D; --purple: #8B4789;
+            --white: #ffffff; --text-dark: #2c3e50;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--white);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Poppins', sans-serif; background-color: var(--white);
+            color: var(--text-dark); margin: 0; padding: 0; overflow-x: hidden;
         }
 
-        /* --- Éléments Décoratifs (Background) --- */
-        .bg-deco {
-            position: fixed;
-            z-index: -1;
-            border-radius: 50%;
-        }
-        .circle-1 {
-            width: 400px; height: 400px;
-            background: var(--yellow);
-            top: -100px; right: -100px;
-            opacity: 0.6;
-        }
-        .circle-2 {
-            width: 300px; height: 300px;
-            background: var(--turquoise);
-            bottom: -50px; left: -50px;
-            opacity: 0.5;
-        }
-        .circle-3 {
-            width: 150px; height: 150px;
-            background: var(--pink);
-            top: 40%; left: 10%;
-            opacity: 0.4;
-        }
-        
-        /* Mini-grilles de points */
+        /* Déco Background */
+        .bg-deco { position: fixed; z-index: -1; border-radius: 50%; }
+        .circle-1 { width: 400px; height: 400px; background: var(--yellow); top: -100px; right: -100px; opacity: 0.4; }
+        .circle-2 { width: 300px; height: 300px; background: var(--turquoise); bottom: -50px; left: -50px; opacity: 0.3; }
         .dot-grid {
-            position: fixed;
-            z-index: -1;
-            width: 100px; height: 100px;
+            position: fixed; z-index: -1; width: 100px; height: 100px;
             background-image: radial-gradient(var(--blue) 20%, transparent 20%);
-            background-size: 15px 15px;
-            opacity: 0.4;
+            background-size: 15px 15px; opacity: 0.3;
         }
-        .dots-tl { top: 120px; left: 20px; }
-        .dots-br { bottom: 20px; right: 20px; }
+        .dots-tl { top: 150px; left: 20px; }
 
-        /* Puzzle décoratif (CSS shapes) */
-        .puzzle-piece {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px; height: 60px;
-            background: var(--turquoise);
-            border-radius: 10px;
-            z-index: -1;
-        }
-        .puzzle-piece::before {
-            content: ''; position: absolute; top: -15px; left: 20px;
-            width: 20px; height: 20px; background: var(--turquoise); border-radius: 50%;
-        }
-        .puzzle-piece::after {
-            content: ''; position: absolute; right: -15px; top: 20px;
-            width: 20px; height: 20px; background: var(--turquoise); border-radius: 50%;
-        }
-
-        /* --- Header & Logos --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(5px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(255,255,255,0.95);
+            position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
-        .logo-ls4you {
-            height: 60px;
-            max-width: 200px;
-            object-fit: contain;
-        }
-        .logo-mlpb {
-            height: 50px;
-            max-width: 200px;
-            object-fit: contain;
-        }
+        .logo { height: 50px; object-fit: contain; }
 
-        /* --- Conteneur Principal --- */
-        .container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            width: 90%;
-        }
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
+        h1 { font-weight: 900; font-size: 2.8em; text-align: center; color: var(--red); margin: 0; text-transform: uppercase; line-height: 1; }
+        .subtitle { text-align: center; font-size: 1.1em; margin-bottom: 40px; font-weight: 600; }
 
-        /* --- Typographie --- */
-        h1 {
-            font-weight: 900;
-            font-size: 2.5em;
-            text-align: center;
-            color: var(--red);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-        .subtitle {
-            text-align: center;
-            font-size: 1.2em;
-            color: var(--text-dark);
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-        
-        /* --- Quiz Cards --- */
         .question-block {
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            border: 2px solid transparent;
-            transition: transform 0.3s;
-            position: relative;
-            overflow: hidden;
+            background: white; border-radius: 25px; padding: 35px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: relative; border: 1px solid #eee;
         }
-        .question-block::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 8px; height: 100%;
-            background: var(--turquoise);
-        }
-        .question-text {
-            font-weight: 700;
-            font-size: 1.3em;
-            margin-bottom: 25px;
-            display: block;
-            color: var(--text-dark);
-        }
+        .question-text { font-weight: 700; font-size: 1.2em; display: block; margin-bottom: 25px; text-align: center; }
 
-        /* --- Options (Flat Design) --- */
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        /* Échelle de réponse */
+        .scale-container {
+            display: flex; justify-content: space-between; align-items: center;
+            max-width: 600px; margin: 0 auto; position: relative;
         }
-        label {
-            cursor: pointer;
-            padding: 15px 25px;
-            background: #f4f7f6;
-            border-radius: 50px; /* Capsule */
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border: 2px solid transparent;
-            display: flex;
-            align-items: center;
-            color: #555;
-        }
-        label:hover {
-            background: #eef2f5;
-            transform: translateX(5px);
-            border-color: var(--yellow);
-        }
-        /* Style quand sélectionné (géré par JS ou CSS sibling) */
-        input[type="radio"] {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--text-dark);
-            border-radius: 50%;
-            margin-right: 15px;
-            position: relative;
-            flex-shrink: 0;
-        }
-        input[type="radio"]:checked {
-            border-color: var(--red);
-            background-color: var(--red);
-            box-shadow: inset 0 0 0 4px white;
-        }
-        input[type="radio"]:checked + span {
-            color: var(--red);
-        }
-        /* Effet visuel sur le label quand input checked */
-        label:has(input:checked) {
-            background: #fff0f5; /* Light pink background */
-            border-color: var(--red);
-            color: var(--red);
-        }
-
-        /* --- Boutons --- */
-        .btn-container {
-            text-align: center;
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-        button {
-            background-color: var(--red);
-            color: white;
-            border: none;
-            padding: 18px 50px;
-            font-size: 1.2em;
-            font-weight: 700;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 23, 102, 0.3);
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(255, 23, 102, 0.4);
-            background-color: #e01055;
-        }
-
-        /* --- Progress Bar --- */
-        .progress-container {
-            position: fixed;
-            top: 100px; /* sous le header */
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: #eee;
-            z-index: 90;
-        }
-        .progress-bar {
-            height: 100%;
-            background: var(--turquoise);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        /* --- Résultats --- */
-        #results {
-            display: none;
-            text-align: center;
-            background: white;
-            border-radius: 30px;
-            padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .profile-category {
-            display: inline-block;
-            background: var(--purple);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-        .profile-title {
-            font-size: 2.8em;
-            color: var(--red);
-            margin: 10px 0;
-            font-weight: 900;
-        }
-        .profile-icon {
-            font-size: 5em;
-            margin: 20px 0;
-            animation: bounce 2s infinite;
-        }
-        .profile-desc {
-            font-size: 1.3em;
-            background: #fdfdfd;
-            border: 2px dashed var(--turquoise);
-            color: var(--text-dark);
-            padding: 30px;
-            border-radius: 20px;
-            margin-top: 30px;
-            line-height: 1.6;
-        }
-
-        /* Animations */
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-            40% {transform: translateY(-20px);}
-            60% {transform: translateY(-10px);}
-        }
+        .scale-label { font-size: 0.75em; font-weight: 700; width: 80px; text-align: center; color: #888; text-transform: uppercase; }
+        .radio-group { display: flex; gap: 15px; align-items: center; }
         
-        /* Confettis CSS (simple) */
-        .confetti {
-            position: absolute;
-            width: 10px; height: 10px;
-            background: var(--orange);
-            animation: fall linear forwards;
-        }
+        input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 3px solid #ddd; transition: 0.2s; }
+        input[type="radio"][value="2"], input[type="radio"][value="-2"] { width: 45px; height: 45px; }
+        input[type="radio"][value="1"], input[type="radio"][value="-1"] { width: 35px; height: 35px; }
+        input[type="radio"][value="0"] { width: 25px; height: 25px; }
 
-        @media (max-width: 600px) {
-            header { flex-direction: column; gap: 10px; }
-            h1 { font-size: 2em; }
-            .question-text { font-size: 1.1em; }
-        }
+        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); transform: scale(1.1); }
+        input[type="radio"]:hover { border-color: var(--turquoise); }
 
+        .btn-container { text-align: center; margin: 50px 0; }
+        button {
+            background: var(--red); color: white; border: none; padding: 18px 60px;
+            font-size: 1.3em; font-weight: 900; border-radius: 50px; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 23, 102, 0.3); transition: 0.3s;
+        }
+        button:hover { transform: scale(1.05); background: #e01055; }
+
+        /* Résultats */
+        #results { display: none; text-align: center; padding: 40px; background: white; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.15); }
+        .profile-title { font-size: 3em; color: var(--red); font-weight: 900; margin: 10px 0; }
+        .profile-cat { display: inline-block; background: var(--turquoise); color: white; padding: 5px 20px; border-radius: 20px; font-weight: 700; margin-bottom: 20px; }
+        .profile-icon { font-size: 6em; margin: 20px 0; display: block; }
+        .profile-desc { font-size: 1.4em; border: 3px dashed var(--yellow); padding: 30px; border-radius: 20px; margin-top: 20px; font-weight: 600; }
+
+        .puzzle-footer { width: 80px; margin: 40px auto; opacity: 0.5; }
         .hidden { display: none; }
     </style>
 </head>
@@ -331,245 +84,175 @@
 
     <div class="bg-deco circle-1"></div>
     <div class="bg-deco circle-2"></div>
-    <div class="bg-deco circle-3"></div>
     <div class="dot-grid dots-tl"></div>
-    <div class="dot-grid dots-br"></div>
-    <div class="puzzle-piece"></div>
 
     <header>
-        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" alt="Logo LS4YOU" class="logo-ls4you">
-        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" alt="Logo MLPB" class="logo-mlpb">
+        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" class="logo" alt="LS4YOU">
+        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" class="logo" alt="MLPB">
     </header>
 
-    <div class="progress-container">
-        <div class="progress-bar" id="progress-bar"></div>
-    </div>
-
     <div class="container">
-        <div id="quiz-header">
+        <div id="quiz-ui">
             <h1>Mon Profil Pro</h1>
-            <p class="subtitle">Réponds spontanément à ces 40 questions pour découvrir tes talents cachés.</p>
-        </div>
+            <p class="subtitle">Découvre ta "Destination Moi-même"</p>
 
-        <form id="quiz-form">
-            <div id="questions-container"></div>
-            
-            <div class="btn-container">
-                <button type="button" onclick="calculateResults()">Découvrir mon profil</button>
-            </div>
-        </form>
+            <form id="quiz-form">
+                <div id="questions-container"></div>
+                <div class="btn-container">
+                    <button type="button" onclick="calculate()">Voir mon profil</button>
+                </div>
+            </form>
+        </div>
 
         <div id="results">
-            <div class="profile-category" id="res-category">Catégorie</div>
-            <div class="profile-icon" id="res-icon"></div>
-            <h2 class="profile-title" id="res-title">Titre du Profil</h2>
-            <div class="profile-desc" id="res-desc">
-                Description...
-            </div>
+            <span class="profile-cat" id="res-cat">Catégorie</span>
+            <span class="profile-icon" id="res-icon">🚀</span>
+            <h2 class="profile-title" id="res-title">Titre</h2>
+            <div class="profile-desc" id="res-desc">Caractéristiques</div>
             <div class="btn-container">
-                <button onclick="location.reload()" style="background-color: var(--turquoise);">Refaire le test</button>
+                <button onclick="location.reload()">Refaire le test</button>
             </div>
         </div>
+
+        <svg class="puzzle-footer" viewBox="0 0 24 24" fill="var(--turquoise)"><path d="M20,12a2,2,0,0,0,0,4H18v2H16a2,2,0,0,0-4,0H10V16H8a2,2,0,0,1,0-4H10V10H8a2,2,0,0,0,0-4h2V4h2a2,2,0,0,0,4,0h2V6h2a2,2,0,0,1,0,4H18v2Z"/></svg>
     </div>
 
     <script>
-        // --- DONNÉES DU TEST (40 Questions) ---
         const questions = [
-            // E vs I
-            { t: "Après une journée de formation, tu préfères :", dim: "EI", opts: ["Sortir voir des potes", "Rentrer te poser au calme"] },
-            { t: "Dans un groupe de travail, tu as tendance à :", dim: "EI", opts: ["Parler et donner ton avis rapidement", "Écouter d'abord et réfléchir"] },
-            { t: "Si tu as une question pour un employeur, tu préfères :", dim: "EI", opts: ["L'appeler directement", "Lui envoyer un mail ou SMS"] },
-            { t: "Travailler seul toute la journée :", dim: "EI", opts: ["Ça t'ennuie, tu veux du monde", "Ça te va, tu te concentres mieux"] },
-            { t: "Pour rencontrer tes nouveaux collègues :", dim: "EI", opts: ["Tu vas vers eux facilement", "Tu attends qu'ils viennent vers toi"] },
-            { t: "Tu te sens plus à l'aise dans un environnement :", dim: "EI", opts: ["Animé avec de l'action", "Calme et silencieux"] },
-            { t: "Quand tu as un problème, tu préfères :", dim: "EI", opts: ["En discuter tout de suite", "Le résoudre seul dans ton coin"] },
-            { t: "On dit de toi que tu es :", dim: "EI", opts: ["Sociable et expressif", "Réservé et observateur"] },
-            { t: "Le week-end, tu préfères :", dim: "EI", opts: ["Avoir plein d'activités", "Improviser tranquillement"] },
-            { t: "Tu penses à haute voix :", dim: "EI", opts: ["Souvent", "Rarement, tu réfléchis dans ta tête"] },
-
-            // S vs N
-            { t: "Tu préfères un travail où :", dim: "SN", opts: ["Les tâches sont concrètes", "Tu peux imaginer des solutions"] },
-            { t: "Quand on t'explique une mission, tu veux :", dim: "SN", opts: ["Les détails étape par étape", "Comprendre l'idée générale"] },
-            { t: "Tu es quelqu'un de plutôt :", dim: "SN", opts: ["Réaliste et pratique", "Rêveur et imaginatif"] },
-            { t: "Ce qui t'intéresse le plus :", dim: "SN", opts: ["Le présent (maintenant)", "Le futur (ce qui pourrait arriver)"] },
-            { t: "Tu fais confiance à :", dim: "SN", opts: ["Ton expérience / aux faits", "Ton instinct / ton intuition"] },
-            { t: "Pour apprendre, tu préfères :", dim: "SN", opts: ["Pratiquer tout de suite", "Comprendre la théorie d'abord"] },
-            { t: "Tu préfères les consignes :", dim: "SN", opts: ["Précises et claires", "Ouvertes et libres"] },
-            { t: "Tu aimes les méthodes :", dim: "SN", opts: ["Anciennes qui marchent", "Nouvelles et originales"] },
-            { t: "Tu remarques souvent :", dim: "SN", opts: ["Les petits détails", "L'ambiance générale"] },
-            { t: "Un projet 'faisable' est mieux qu'un projet 'révolutionnaire' :", dim: "SN", opts: ["Oui, soyons concrets", "Non, il faut savoir rêver"] },
-
-            // T vs F
-            { t: "Pour décider, tu te bases sur :", dim: "TF", opts: ["La logique", "Tes sentiments et valeurs"] },
-            { t: "Si un collègue fait une erreur, tu préfères :", dim: "TF", opts: ["Lui dire franchement", "Lui dire doucement"] },
-            { t: "Tu es doué pour :", dim: "TF", opts: ["Analyser des problèmes", "Comprendre les gens"] },
-            { t: "Au travail, le plus important c'est :", dim: "TF", opts: ["L'efficacité", "L'ambiance d'équipe"] },
-            { t: "Tu es convaincu par :", dim: "TF", opts: ["Des preuves et chiffres", "Des histoires et témoignages"] },
-            { t: "Dans un conflit, tu cherches :", dim: "TF", opts: ["La vérité (qui a raison)", "L'entente (réconcilier)"] },
-            { t: "On dit que tu es :", dim: "TF", opts: ["Rationnel (tête)", "Sensible (cœur)"] },
-            { t: "Être juste, c'est :", dim: "TF", opts: ["La même règle pour tous", "S'adapter à chacun"] },
-            { t: "Un bon chef est :", dim: "TF", opts: ["Compétent et exigeant", "Sympa et à l'écoute"] },
-            { t: "C'est dur pour toi de :", dim: "TF", opts: ["Comprendre les émotions", "Organiser des idées complexes"] },
-
-            // J vs P
-            { t: "Pour tes rendez-vous, tu es :", dim: "JP", opts: ["Souvent en avance", "Parfois un peu juste"] },
-            { t: "Tu préfères travailler :", dim: "JP", opts: ["Avec un plan", "Au feeling"] },
-            { t: "Quand tu as un projet :", dim: "JP", opts: ["Tu finis bien avant", "Tu finis à la dernière minute"] },
-            { t: "Penses-tu possible de laisser ta journée se dérouler sans plan ?", dim: "JP", opts: ["Non, j'aime prévoir", "Oui, j'aime l'imprévu"] },
-            { t: "Ton espace est :", dim: "JP", opts: ["Rangé", "En 'bordel organisé'"] },
-            { t: "Tu décides :", dim: "JP", opts: ["Vite pour passer à autre chose", "Lentement pour garder le choix"] },
-            { t: "Tu te sens mieux quand :", dim: "JP", opts: ["Tout est réglé", "Tout reste ouvert"] },
-            { t: "Tu préfères suivre :", dim: "JP", opts: ["Des règles", "Ton rythme"] },
-            { t: "Avant de commencer :", dim: "JP", opts: ["Tu prépares tout", "Tu te lances"] },
-            { t: "Un changement de dernière minute :", dim: "JP", opts: ["Ça te stresse", "Tu t'adaptes"] }
+            // E/I
+            { id: 1, t: "Tu te fais facilement de nouveaux amis.", dim: "E" },
+            { id: 11, t: "Tu n'as aucune difficulté à approcher quelqu'un d'intéressant.", dim: "E" },
+            { id: 16, t: "Tu aimes vraiment participer à des activités d'équipe.", dim: "E" },
+            { id: 30, t: "Tu préfères être entouré plutôt que d'être seul.", dim: "E" },
+            { id: 41, t: "Tu te connectes facilement avec des gens inconnus.", dim: "E" },
+            { id: 6, t: "L'idée de réseauter ou de te faire connaître t'intimide.", dim: "I" },
+            { id: 21, t: "Tu préfères les loisirs solitaires aux activités de groupe.", dim: "I" },
+            { id: 39, t: "Tu évites au maximum de passer des appels téléphoniques.", dim: "I" },
+            { id: 48, t: "Tu aimerais un travail où l'on travaille seul la plupart du temps.", dim: "I" },
+            { id: 50, t: "Tu es plus attiré par les lieux animés que calmes.", dim: "E" },
+            // S/N
+            { id: 12, t: "Tu n'aimes pas les discussions sur l'interprétation d'œuvres.", dim: "S" },
+            { id: 31, t: "Tu t'ennuies quand la discussion devient trop théorique.", dim: "S" },
+            { id: 45, t: "Discuter de théories sur l'avenir ne t'intéresse pas vraiment.", dim: "S" },
+            { id: 49, t: "Réfléchir à des questions philosophiques est une perte de temps.", dim: "S" },
+            { id: 2, t: "Les idées complexes et innovantes t'enthousiasment.", dim: "N" },
+            { id: 17, t: "Tu aimes expérimenter des approches nouvelles, non testées.", dim: "N" },
+            { id: 19, t: "Tu recherches constamment de nouveaux domaines à explorer.", dim: "N" },
+            { id: 29, t: "Tu aimes débattre de dilemmes éthiques.", dim: "N" },
+            { id: 36, t: "Tu es attiré par l'expression créative (écriture, art).", dim: "N" },
+            { id: 55, t: "Tu préfères créer des solutions plutôt que suivre des étapes.", dim: "N" },
+            // T/F
+            { id: 13, t: "Tu privilégies les faits plutôt que les sentiments pour agir.", dim: "T" },
+            { id: 23, t: "Tu prônes des décisions efficaces, même si c'est dur émotionnellement.", dim: "T" },
+            { id: 25, t: "En désaccord, tu défends ton point de vue avant les sentiments.", dim: "T" },
+            { id: 28, t: "Tu n'es pas facilement influencé par les émotions.", dim: "T" },
+            { id: 42, t: "Ta priorité est de te remettre sur les rails vite après un échec.", dim: "T" },
+            { id: 3, t: "Tu es plus convaincu par les émotions que par les faits.", dim: "F" },
+            { id: 8, t: "Les histoires des gens te parlent plus que les chiffres.", dim: "F" },
+            { id: 47, t: "Tu te soucies plus du ressenti des gens que de la logique pure.", dim: "F" },
+            { id: 51, t: "Si une décision te semble juste, tu agis sans preuves.", dim: "F" },
+            { id: 56, t: "Tu te fies à ton intuition émotionnelle pour tes choix.", dim: "F" },
+            // J/P
+            { id: 4, t: "Tes espaces de vie et de travail sont propres et organisés.", dim: "J" },
+            { id: 7, t: "Tu planifies tes tâches pour finir bien avant la date limite.", dim: "J" },
+            { id: 9, t: "Tu aimes utiliser des listes et des calendriers.", dim: "J" },
+            { id: 38, t: "Tu aimes faire une liste de choses à faire chaque jour.", dim: "J" },
+            { id: 54, t: "Tu termines les choses méthodiquement sans sauter d'étapes.", dim: "J" },
+            { id: 14, t: "Tu laisses souvent ta journée se dérouler sans plan.", dim: "P" },
+            { id: 33, t: "Tu as du mal à maintenir un emploi du temps cohérent.", dim: "P" },
+            { id: 46, t: "Ton énergie fonctionne par explosions spontanées.", dim: "P" },
+            { id: 57, t: "Tu as de vraies difficultés à respecter les délais.", dim: "P" },
+            { id: 24, t: "Tu préfères finir tes tâches avant de te détendre.", dim: "J" }
         ];
 
-        // --- PROFILS (Noms adaptés) ---
         const profiles = {
-            "ENTJ": { title: "Le Leader naturel", cat: "Action & Impact", desc: "👉 Organise, décide, entraîne les autres." },
-            "INTJ": { title: "Le Stratège discret", cat: "Action & Impact", desc: "👉 Observe, planifie, voit loin." },
-            "ENTP": { title: "Le Challenger", cat: "Action & Impact", desc: "👉 Questionne tout, adore débattre." },
-            "ESTP": { title: "L’Entrepreneur", cat: "Action & Impact", desc: "👉 Lance des projets, ose tester." },
-            
-            "ENFJ": { title: "Le Coach", cat: "Humain & Relations", desc: "👉 Motive les autres, fait progresser." },
-            "ISFJ": { title: "Le Protecteur", cat: "Humain & Relations", desc: "👉 Fiable, présent, aide concrètement." },
-            "INFP": { title: "Le Médiateur", cat: "Humain & Relations", desc: "👉 Apaise les tensions, comprend chacun." },
-            "ESFJ": { title: "Le Pilier du groupe", cat: "Humain & Relations", desc: "👉 Maintient l’ambiance, soutient l’équipe." },
-            
-            "ISFP": { title: "L’Artiste libre", cat: "Créa & Expression", desc: "👉 Créatif, spontané, sensible." },
-            "ENFP": { title: "L’Explorateur", cat: "Créa & Expression", desc: "👉 Curieux, aime tester, bouger." },
-            "INTP": { title: "Le Créateur d’idées", cat: "Créa & Expression", desc: "👉 Imagine des concepts, solutions nouvelles." },
-            "INFJ": { title: "Le Visionnaire", cat: "Créa & Expression", desc: "👉 Voit le futur, pense différemment." },
-            
-            "ESTJ": { title: "Le Pro de l’orga", cat: "Organisation & Logique", desc: "👉 Structuré, efficace, fiable." },
-            "ISTP": { title: "Le Technicien", cat: "Organisation & Logique", desc: "👉 Aime comprendre comment ça marche." },
-            "ISTJ": { title: "Le Planificateur", cat: "Organisation & Logique", desc: "👉 Anticipe, sécurise, prépare tout." },
-            "ESFP": { title: "L'Analyste", cat: "Organisation & Logique", desc: "👉 Logique, précis, aime les faits." } // Mapping ajusté pour 16 profils
+            "ENTJ": { t: "Le Leader naturel", c: "Action & Impact", d: "👉 Organise, décide, entraîne les autres" },
+            "INTJ": { t: "Le Stratège discret", c: "Action & Impact", d: "👉 Observe, planifie, voit loin" },
+            "ENTP": { t: "Le Challenger", c: "Action & Impact", d: "👉 Questionne tout, adore débattre" },
+            "ESTP": { t: "L’Entrepreneur", c: "Action & Impact", d: "👉 Lance des projets, ose tester" },
+            "ENFJ": { t: "Le Coach", c: "Humain & Relations", d: "👉 Motive les autres, fait progresser" },
+            "ISFJ": { t: "Le Protecteur", c: "Humain & Relations", d: "👉 Fiable, présent, aide concrètement" },
+            "INFP": { t: "Le Médiateur", c: "Humain & Relations", d: "👉 Apaise les tensions, comprend chacun" },
+            "ESFJ": { t: "Le Pilier du groupe", c: "Humain & Relations", d: "👉 Maintient l’ambiance, soutient l’équipe" },
+            "ISFP": { t: "L’Artiste libre", c: "Créa & Expression", d: "👉 Créatif, spontané, sensible" },
+            "ENFP": { t: "L’Explorateur", c: "Créa & Expression", d: "👉 Curieux, aime tester, bouger" },
+            "INTP": { t: "Le Créateur d’idées", c: "Créa & Expression", d: "👉 Imagine des concepts, solutions nouvelles" },
+            "INFJ": { t: "Le Visionnaire", c: "Créa & Expression", d: "👉 Voit le futur, pense différemment" },
+            "ESTJ": { t: "Le Pro de l’organisation", c: "Organisation & Logique", d: "👉 Structuré, efficace, fiable" },
+            "ISTP": { t: "Le Technicien", c: "Organisation & Logique", d: "👉 Aime comprendre comment ça marche" },
+            "ISTJ": { t: "Le Planificateur", c: "Organisation & Logique", d: "👉 Anticipe, sécurise, prépare tout" },
+            "ESFP": { t: "L’Analyste", c: "Organisation & Logique", d: "👉 Logique, précis, aime les faits" }
         };
 
-        // Mapping direct codes MBTI -> Profils
-        const mbtiMap = {};
-        Object.keys(profiles).forEach(k => mbtiMap[k] = profiles[k]);
-
-        // --- GÉNÉRATION DU QUIZ ---
         const container = document.getElementById('questions-container');
-        
-        questions.forEach((q, index) => {
-            const qDiv = document.createElement('div');
-            qDiv.className = 'question-block';
-            qDiv.innerHTML = `
-                <span class="question-text">${index + 1}. ${q.t}</span>
-                <div class="options">
-                    <label>
-                        <input type="radio" name="q${index}" value="1" onchange="updateProgress()" required>
-                        <span>${q.opts[0]}</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="q${index}" value="-1" onchange="updateProgress()">
-                        <span>${q.opts[1]}</span>
-                    </label>
+        questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.className = 'question-block';
+            div.innerHTML = `
+                <span class="question-text">${q.t}</span>
+                <div class="scale-container">
+                    <span class="scale-label">Pas d'accord</span>
+                    <div class="radio-group">
+                        <input type="radio" name="q${i}" value="-2">
+                        <input type="radio" name="q${i}" value="-1">
+                        <input type="radio" name="q${i}" value="0">
+                        <input type="radio" name="q${i}" value="1">
+                        <input type="radio" name="q${i}" value="2">
+                    </div>
+                    <span class="scale-label">D'accord</span>
                 </div>
             `;
-            container.appendChild(qDiv);
+            container.appendChild(div);
         });
 
-        function updateProgress() {
-            const total = questions.length;
-            const answered = document.querySelectorAll('input[type="radio"]:checked').length;
-            const percent = (answered / total) * 100;
-            document.getElementById('progress-bar').style.width = percent + '%';
-        }
-
-        // --- CALCUL ---
-        function calculateResults() {
+        function calculate() {
             const form = document.getElementById('quiz-form');
-            const formData = new FormData(form);
-            
-            let answered = 0;
-            for(let pair of formData.entries()) answered++;
-            
-            if(answered < questions.length) {
-                alert(`Oups ! Il reste des questions sans réponse (${answered}/${questions.length}).`);
-                return;
-            }
+            const data = new FormData(form);
+            let results = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
 
-            let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-
-            questions.forEach((q, index) => {
-                const val = parseInt(formData.get(`q${index}`));
-                const [poleA, poleB] = q.dim.split('');
-                if (val === 1) scores[poleA]++;
-                else scores[poleB]++;
+            questions.forEach((q, i) => {
+                const val = parseInt(data.get('q' + i));
+                if (isNaN(val)) return;
+                
+                // Logique Scoring par pôle
+                if (["E","S","T","J"].includes(q.dim)) {
+                    if (val > 0) results[q.dim] += val;
+                    else if (val < 0) results[getOpposite(q.dim)] += Math.abs(val);
+                } else {
+                    if (val > 0) results[q.dim] += val;
+                    else if (val < 0) results[getOpposite(q.dim)] += Math.abs(val);
+                }
             });
 
-            let mbtiCode = "";
-            mbtiCode += (scores.E >= scores.I) ? "E" : "I";
-            mbtiCode += (scores.S >= scores.N) ? "S" : "N";
-            mbtiCode += (scores.T >= scores.F) ? "T" : "F";
-            mbtiCode += (scores.J >= scores.P) ? "J" : "P";
+            const code = (results.E >= results.I ? "E" : "I") +
+                         (results.S >= results.N ? "S" : "N") +
+                         (results.T >= results.F ? "T" : "F") +
+                         (results.J >= results.P ? "J" : "P");
 
-            displayResult(mbtiCode);
+            showResult(code);
         }
 
-        function displayResult(code) {
-            document.getElementById('quiz-header').classList.add('hidden');
-            document.getElementById('quiz-form').classList.add('hidden');
+        function getOpposite(l) {
+            const map = {E:'I', I:'E', S:'N', N:'S', T:'F', F:'T', J:'P', P:'J'};
+            return map[l];
+        }
+
+        function showResult(code) {
+            document.getElementById('quiz-ui').classList.add('hidden');
+            const prof = profiles[code];
+            document.getElementById('res-cat').innerText = prof.c;
+            document.getElementById('res-title').innerText = prof.t;
+            document.getElementById('res-desc').innerText = prof.d;
             
-            // Fallback si code inconnu (ne devrait pas arriver)
-            const profile = mbtiMap[code] || profiles["ESTJ"]; 
-
-            // Icône dynamique
-            let icon = "🌟";
-            if(profile.cat.includes("Action")) icon = "🚀";
-            if(profile.cat.includes("Humain")) icon = "🤝";
-            if(profile.cat.includes("Créa")) icon = "🎨";
-            if(profile.cat.includes("Organisation")) icon = "📊";
-
-            // Couleur catégorie
-            const catElem = document.getElementById('res-category');
-            catElem.innerText = profile.cat;
-            if(profile.cat.includes("Action")) catElem.style.backgroundColor = "var(--red)";
-            if(profile.cat.includes("Humain")) catElem.style.backgroundColor = "var(--green)";
-            if(profile.cat.includes("Créa")) catElem.style.backgroundColor = "var(--orange)";
-            if(profile.cat.includes("Organisation")) catElem.style.backgroundColor = "var(--blue)";
-
+            let icon = "🚀";
+            if(prof.c.includes("Humain")) icon = "🤝";
+            if(prof.c.includes("Créa")) icon = "🎨";
+            if(prof.c.includes("Organisation")) icon = "📊";
             document.getElementById('res-icon').innerText = icon;
-            document.getElementById('res-title').innerText = profile.title;
-            document.getElementById('res-desc').innerText = profile.desc;
-            
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.style.display = 'block';
-            
-            // Animation Confettis
-            for(let i=0; i<30; i++) {
-                createConfetti(resultsDiv);
-            }
 
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function createConfetti(container) {
-            const colors = ['var(--red)', 'var(--yellow)', 'var(--turquoise)', 'var(--orange)'];
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * 100 + '%';
-            confetti.style.top = -10 + 'px';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
-            
-            // Animation CSS injectée dynamiquement pour la chute
-            const styleSheet = document.createElement("style");
-            styleSheet.innerText = `
-                @keyframes fall {
-                    to { transform: translateY(500px) rotate(720deg); opacity: 0; }
-                }
-            `;
-            document.head.appendChild(styleSheet);
-            
-            container.appendChild(confetti);
-            setTimeout(() => confetti.remove(), 3000);
+            document.getElementById('results').style.display = 'block';
+            window.scrollTo(0, 0);
         }
     </script>
-
 </body>
 </html>
