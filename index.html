@@ -3,262 +3,1109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Profil Pro - LS4YOU x MLPB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>Quiz 16 Personnalités - Mission Locale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            --red: #FF1766; --orange: #FF9F1C; --yellow: #FFD166; --green: #7CB342;
-            --blue: #2196F3; --turquoise: #4DD4D4; --pink: #FF5C8D; --purple: #8B4789;
-            --white: #ffffff; --text-dark: #2c3e50;
+            /* Palette LS4YOU - Turquoise, Jaune, Rouge */
+            --ls-turquoise: #5DD9C1;
+            --ls-yellow: #FFD23F;
+            --ls-red: #E84855;
+            --ls-orange: #FFB84D;
+            --ls-dark: #2C3E50;
+            --ls-white: #FFFFFF;
+            --ls-light-bg: #F8FAFC;
         }
 
         body {
-            font-family: 'Poppins', sans-serif; background-color: var(--white);
-            color: var(--text-dark); margin: 0; padding: 0; overflow-x: hidden;
-            display: flex; flex-direction: column; min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--ls-light-bg);
+            color: var(--ls-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* --- Design Life Skills : Background & Motifs --- */
-        .bg-deco { position: fixed; z-index: -1; border-radius: 50%; }
-        .circle-1 { width: 500px; height: 500px; background: var(--yellow); top: -200px; right: -150px; opacity: 0.5; }
-        .circle-2 { width: 350px; height: 350px; background: var(--turquoise); bottom: -100px; left: -100px; opacity: 0.4; }
-        .circle-3 { width: 200px; height: 200px; background: var(--pink); top: 30%; left: -50px; opacity: 0.3; }
-        
-        .dot-grid {
-            position: fixed; z-index: -1; width: 120px; height: 120px;
-            background-image: radial-gradient(var(--blue) 20%, transparent 20%);
-            background-size: 15px 15px; opacity: 0.3;
+        h1, h2, h3, .ls-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.04em;
         }
-        .dots-tl { top: 180px; left: 40px; }
-        .dots-br { bottom: 60px; right: 40px; }
 
-        /* --- Header avec Logos --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 5%; background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        /* --- ARRIÈRE-PLAN PUZZLE --- */
+        .puzzle-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
-        .logo-ls4you { height: 65px; object-fit: contain; }
-        .logo-mlpb { height: 55px; object-fit: contain; }
 
-        /* --- Mise en page --- */
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; flex-grow: 1; }
-        h1 { font-weight: 900; font-size: 3em; text-align: center; color: var(--red); margin: 0; text-transform: uppercase; line-height: 1.1; letter-spacing: -1.5px; }
-        .subtitle { text-align: center; font-size: 1.2em; color: var(--blue); margin-top: 10px; margin-bottom: 50px; font-weight: 700; }
-
-        /* --- Cards Questions --- */
-        .question-block {
-            background: white; border-radius: 30px; padding: 40px; margin-bottom: 35px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.06); position: relative;
-            border: 2px solid #f0f0f0; transition: transform 0.3s ease;
+        .puzzle-shape {
+            position: absolute;
+            opacity: 0.12;
         }
-        .question-block:hover { transform: translateY(-5px); border-color: var(--turquoise); }
-        .question-text { font-weight: 700; font-size: 1.3em; display: block; margin-bottom: 30px; text-align: center; color: var(--text-dark); }
 
-        /* --- Système de Scoring (5 points) --- */
-        .scale-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .radio-group { display: flex; gap: 20px; align-items: center; justify-content: center; width: 100%; }
-        .scale-label { font-size: 0.8em; font-weight: 900; width: 100px; text-align: center; color: #b0b0b0; text-transform: uppercase; }
-        
-        input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 4px solid #eee; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: white; }
-        input[type="radio"][value="2"], input[type="radio"][value="-2"] { width: 55px; height: 55px; border-color: #e0e0e0; }
-        input[type="radio"][value="1"], input[type="radio"][value="-1"] { width: 42px; height: 42px; border-color: #e8e8e8; }
-        input[type="radio"][value="0"] { width: 32px; height: 32px; border-color: #f0f0f0; }
+        /* Cercle Jaune (Haut Gauche) */
+        .puzzle-1 {
+            top: -5%;
+            left: -5%;
+            width: 300px;
+            height: 300px;
+            background: var(--ls-yellow);
+            border-radius: 50%;
+        }
 
-        input[type="radio"]:checked { background-color: var(--red); border-color: var(--red); transform: scale(1.15); box-shadow: 0 8px 15px rgba(255, 23, 102, 0.3); }
-        input[type="radio"]:hover { border-color: var(--turquoise); }
+        /* Puzzle Turquoise (Haut Droite) */
+        .puzzle-2 {
+            top: 10%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: var(--ls-turquoise);
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 70%, 85% 85%, 70% 85%, 70% 100%, 0 100%);
+            transform: rotate(15deg);
+        }
 
-        /* --- Boutons --- */
-        .btn-container { text-align: center; margin: 60px 0; }
-        .btn-primary {
-            background: var(--red); color: white; border: none; padding: 20px 70px;
-            font-size: 1.4em; font-weight: 900; border-radius: 60px; cursor: pointer;
-            box-shadow: 0 12px 25px rgba(255, 23, 102, 0.4); transition: all 0.3s;
+        /* Cercle Rouge (Milieu Gauche) */
+        .puzzle-3 {
+            top: 40%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: var(--ls-red);
+            border-radius: 50%;
+        }
+
+        /* Puzzle Jaune (Bas Gauche) */
+        .puzzle-4 {
+            bottom: 5%;
+            left: 15%;
+            width: 250px;
+            height: 250px;
+            background: var(--ls-yellow);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 30% 100%, 30% 85%, 15% 85%, 15% 70%, 0 70%);
+            transform: rotate(-20deg);
+        }
+
+        /* Cercle Turquoise (Bas Droite) */
+        .puzzle-5 {
+            bottom: -10%;
+            right: -5%;
+            width: 350px;
+            height: 350px;
+            background: var(--ls-turquoise);
+            border-radius: 50%;
+        }
+
+        /* Puzzle Rouge (Centre Droit) */
+        .puzzle-6 {
+            top: 50%;
+            right: 5%;
+            width: 180px;
+            height: 180px;
+            background: var(--ls-red);
+            clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 70%, 85% 85%, 70% 85%, 70% 100%, 0 100%);
+            transform: rotate(10deg);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--ls-white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(29, 53, 87, 0.08);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(29, 53, 87, 0.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logos-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .project-logo {
+            height: 60px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--ls-dark);
             text-transform: uppercase;
         }
-        .btn-primary:hover { transform: scale(1.05); background: #e01055; box-shadow: 0 15px 30px rgba(255, 23, 102, 0.5); }
 
-        /* --- Résultats --- */
-        #results { display: none; text-align: center; padding: 60px 40px; background: white; border-radius: 40px; box-shadow: 0 25px 60px rgba(0,0,0,0.12); animation: pop 0.5s ease; }
-        @keyframes pop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        
-        .profile-icon { font-size: 7em; margin-bottom: 20px; display: block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1)); }
-        .profile-cat { display: inline-block; color: white; padding: 10px 25px; border-radius: 30px; font-weight: 900; font-size: 1.1em; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 1px; }
-        .profile-title { font-size: 3.5em; color: var(--red); font-weight: 900; margin: 0; line-height: 1; letter-spacing: -2px; }
-        .profile-desc { font-size: 1.5em; border: 4px dashed var(--yellow); padding: 40px; border-radius: 30px; margin-top: 35px; font-weight: 700; color: var(--text-dark); background: #fffdf5; line-height: 1.4; }
+        .header h1 .highlight {
+            color: var(--ls-red);
+        }
 
-        /* --- Footer Puzzle --- */
-        .footer-puzzle { display: flex; justify-content: center; gap: 10px; padding: 40px 0; opacity: 0.3; }
-        .piece { width: 30px; height: 30px; background: var(--turquoise); border-radius: 5px; }
+        .header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
 
-        .hidden { display: none; }
+        .intro-section {
+            text-align: center;
+        }
+
+        .intro-section h2 {
+            color: var(--ls-dark);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        .intro-section p {
+            color: #64748b;
+            margin-bottom: 1rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .privacy-note {
+            background: var(--ls-light-bg);
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--ls-turquoise);
+        }
+
+        .btn {
+            background: var(--ls-dark);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 53, 87, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 4px solid #0f1f33;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .btn:hover {
+            background: var(--ls-red);
+            border-bottom-color: #a02020;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            border-bottom-width: 0;
+        }
+
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ls-turquoise), var(--ls-yellow), var(--ls-red));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.8rem;
+            color: var(--ls-dark);
+            font-weight: 700;
+            font-size: 0.95rem;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .question-card {
+            margin-bottom: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--ls-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .question-category {
+            display: inline-block;
+            background: var(--ls-turquoise);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .options-container {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .option-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 1rem 0.8rem;
+            border: 3px solid #e2e8f0;
+            background: white;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ls-dark);
+        }
+
+        .option-btn:hover {
+            border-color: var(--ls-turquoise);
+            background: rgba(93, 217, 193, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .option-btn.selected {
+            border-color: var(--ls-red);
+            background: var(--ls-red);
+            color: white;
+            box-shadow: 0 4px 15px rgba(232, 72, 85, 0.4);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+
+        .nav-buttons button {
+            flex: 1;
+        }
+
+        .result-card {
+            text-align: center;
+        }
+
+        .personality-type {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--ls-red);
+            margin: 1.5rem 0;
+            letter-spacing: 0.3rem;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .type-description {
+            font-size: 1.15rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .strengths-section {
+            margin: 2.5rem 0;
+        }
+
+        .strengths-section h3 {
+            color: var(--ls-dark);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .strength-bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .strength-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--ls-dark);
+            font-size: 0.95rem;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 28px;
+            background: #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--ls-turquoise), var(--ls-yellow), var(--ls-red));
+            border-radius: 14px;
+            transition: width 1s ease;
+        }
+
+        .keywords-section {
+            background: linear-gradient(135deg, rgba(255, 210, 63, 0.15), rgba(93, 217, 193, 0.15));
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 2px solid var(--ls-turquoise);
+        }
+
+        .keywords-section h3 {
+            color: var(--ls-dark);
+            margin-bottom: 1.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .keyword {
+            background: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            border: 3px solid var(--ls-red);
+            color: var(--ls-red);
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .keyword:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
+            background: var(--ls-red);
+            color: white;
+        }
+
+        .ppa-link {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 10px;
+            border-left: 6px solid var(--ls-orange);
+            box-shadow: 0 2px 8px rgba(255, 184, 77, 0.15);
+        }
+
+        .ppa-link strong {
+            color: var(--ls-dark);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons button {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .share-btn {
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .share-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .share-whatsapp:hover {
+            background: #1ea952;
+            transform: translateY(-2px);
+        }
+
+        .share-email {
+            background: #EA4335;
+            color: white;
+        }
+
+        .share-email:hover {
+            background: #c53727;
+            transform: translateY(-2px);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .personality-type {
+                font-size: 3.5rem;
+                letter-spacing: 0.2rem;
+            }
+
+            .option-btn {
+                min-width: 80px;
+                font-size: 0.8rem;
+                padding: 0.8rem 0.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button {
+                width: 100%;
+            }
+
+            .logos-container {
+                gap: 1rem;
+            }
+
+            .project-logo {
+                height: 45px;
+            }
+        }
+
+        /* Carte PDF (cachée, pour génération) */
+        #profileCard {
+            position: fixed;
+            left: -9999px;
+            width: 794px;
+            background: white;
+            padding: 40px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #profileCard h1 {
+            color: var(--ls-dark);
+            font-size: 32px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+        }
+
+        #profileCard .type-badge {
+            font-size: 60px;
+            font-weight: 900;
+            color: var(--ls-red);
+            text-align: center;
+            letter-spacing: 10px;
+            margin: 20px 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        #profileCard .keywords-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        #profileCard .keyword-item {
+            background: var(--ls-light-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid var(--ls-red);
+            font-weight: 600;
+        }
+
+        #profileCard .objectives {
+            background: rgba(93, 217, 193, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid var(--ls-turquoise);
+        }
+
+        #profileCard .ppa-section {
+            background: rgba(255, 210, 63, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border: 2px solid var(--ls-yellow);
+        }
+
+        #profileCard .qr-container {
+            text-align: center;
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
-
-    <div class="bg-deco circle-1"></div>
-    <div class="bg-deco circle-2"></div>
-    <div class="bg-deco circle-3"></div>
-    <div class="dot-grid dots-tl"></div>
-    <div class="dot-grid dots-br"></div>
-
-    <header>
-        <img src="https://www.lifeskills4youth.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" class="logo-ls4you" alt="LS4YOU">
-        <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" class="logo-mlpb" alt="MLPB">
-    </header>
+    <!-- Arrière-plan puzzle -->
+    <div class="puzzle-bg">
+        <div class="puzzle-shape puzzle-1"></div>
+        <div class="puzzle-shape puzzle-2"></div>
+        <div class="puzzle-shape puzzle-3"></div>
+        <div class="puzzle-shape puzzle-4"></div>
+        <div class="puzzle-shape puzzle-5"></div>
+        <div class="puzzle-shape puzzle-6"></div>
+    </div>
 
     <div class="container">
-        <div id="quiz-ui">
-            <h1>Mon Profil Pro</h1>
-            <p class="subtitle">Trouve ta "Destination Moi-même"</p>
-
-            <form id="quiz-form">
-                <div id="questions-container"></div>
-                <div class="btn-container">
-                    <button type="button" class="btn-primary" onclick="calculate()">Calculer mon profil</button>
-                </div>
-            </form>
+        <div class="header">
+            <div class="logos-container">
+                <img src="https://static.wixstatic.com/media/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif/v1/fill/w_224,h_60,al_c,q_80,enc_avif,quality_auto/dd5dab_47743b1c86024865ba19e623a3db327f~mv2.avif" 
+                     alt="Mission Locale Pays Basque" 
+                     class="project-logo">
+                <img src="https://www.lifeskills4you.eu/wp-content/uploads/2024/07/LS4YOU_Logo.png" 
+                     alt="LS4YOU Logo" 
+                     class="project-logo">
+            </div>
+            <h1 class="ls-font">🧭 Quiz 16 Personnalités <span class="highlight">LS4YOU</span></h1>
+            <p>Mission Locale - Découvrez vos forces pour votre PPA</p>
         </div>
 
-        <div id="results">
-            <span class="profile-icon" id="res-icon">🚀</span>
-            <span class="profile-cat" id="res-cat">Action & Impact</span>
-            <h2 class="profile-title" id="res-title">Le Leader naturel</h2>
-            <div class="profile-desc" id="res-desc">Caractéristiques</div>
-            <div class="btn-container">
-                <button onclick="location.reload()" class="btn-primary" style="background-color: var(--turquoise); box-shadow: 0 10px 20px rgba(77, 212, 212, 0.4);">Refaire le test</button>
+        <!-- INTRO -->
+        <div id="introSection" class="card intro-section">
+            <h2>Découvrez votre profil personnalisé</h2>
+            <p>Ce quiz vous aide à identifier vos forces professionnelles et personnelles en 30 questions simples.</p>
+            <p><strong>Durée : 7 minutes</strong></p>
+            <div class="privacy-note">
+                🔒 <strong>Confidentialité :</strong> Vos réponses restent personnelles et ne sont pas partagées. Les résultats sont pour vous aider dans votre Parcours Personnalisé d'Accompagnement (PPA).
+            </div>
+            <button class="btn" onclick="startQuiz()">Commencer le quiz</button>
+        </div>
+
+        <!-- QUIZ -->
+        <div id="quizSection" class="card hidden">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-text">
+                    Question <span id="currentQuestion">1</span> sur 30
+                </div>
+            </div>
+
+            <div id="questionContainer"></div>
+
+            <div class="nav-buttons">
+                <button class="btn" onclick="previousQuestion()" id="prevBtn" style="display: none;">← Précédent</button>
+                <button class="btn" onclick="nextQuestion()" id="nextBtn">Suivant →</button>
             </div>
         </div>
 
-        <div class="footer-puzzle">
-            <div class="piece"></div><div class="piece" style="background:var(--red)"></div><div class="piece" style="background:var(--yellow)"></div>
+        <!-- RÉSULTATS -->
+        <div id="resultSection" class="card hidden">
+            <div class="result-card">
+                <h2>Votre type de personnalité</h2>
+                <div class="personality-type" id="personalityType"></div>
+                <div class="type-description" id="typeDescription"></div>
+
+                <div class="strengths-section">
+                    <h3>📊 Vos forces clés (compétences Mission Locale)</h3>
+                    <div id="strengthsContainer"></div>
+                </div>
+
+                <div class="keywords-section">
+                    <h3>🎯 Mots-clés pour votre PPA</h3>
+                    <div class="keywords" id="keywordsContainer"></div>
+                    <div class="ppa-link">
+                        <strong>💡 Intégrez à votre contrat ML :</strong>
+                        <p id="ppaText"></p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn" onclick="downloadProfile()">📥 Télécharger mon profil (PDF)</button>
+                    <button class="btn" onclick="restartQuiz()">🔄 Refaire le quiz</button>
+                </div>
+
+                <div class="share-buttons">
+                    <button class="share-btn share-whatsapp" onclick="shareWhatsApp()">📱 Partager WhatsApp</button>
+                    <button class="share-btn share-email" onclick="shareEmail()">📧 Envoyer par email</button>
+                </div>
+
+                <div class="privacy-note" style="margin-top: 2rem;">
+                    💬 <strong>Discutez de vos résultats avec votre conseiller Mission Locale</strong> pour les intégrer à votre parcours personnalisé.
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Carte profil cachée pour PDF -->
+    <div id="profileCard"></div>
+
     <script>
+        // DONNÉES DES QUESTIONS - 30 QUESTIONS TOTAL
         const questions = [
-            // E/I - Extraversion vs Introversion
-            { t: "Tu trouves facile d'aborder des professionnels lors d'un forum emploi.", dim: "E" },
-            { t: "Tu te sens à l'aise pour prendre la parole en public pour présenter ton projet.", dim: "E" },
-            { t: "Tu aimes l'idée de rencontrer de nouveaux collègues chaque jour dans ton futur métier.", dim: "E" },
-            { t: "Tu es prêt à appeler une entreprise même si tu ne connais personne là-bas.", dim: "E" },
-            { t: "Dans un atelier collectif, tu partages facilement tes idées avec les autres.", dim: "E" },
-            { t: "Tu préfères attendre qu'une entreprise te rappelle plutôt que de les relancer.", dim: "I" },
-            { t: "Tu préfères préparer tes entretiens seul au calme plutôt qu'en groupe.", dim: "I" },
-            { t: "Tu trouves fatigant de devoir « te vendre » et parler de toi toute la journée.", dim: "I" },
-            { t: "Tu préfères les missions de bureau ou techniques sans trop de contact client.", dim: "I" },
-            { t: "Tu te sens plus efficace quand tu travailles sur ton CV seul, sans bruit.", dim: "I" },
-
-            // S/N - Sensation vs Intuition
-            { t: "Tu identifies facilement tes compétences concrètes et tes expériences passées.", dim: "S" },
-            { t: "Tu préfères postuler à des offres avec des missions très claires et précises.", dim: "S" },
-            { t: "Pour toi, un bon job doit avant tout assurer un salaire et une sécurité immédiate.", dim: "S" },
-            { t: "Tu préfères apprendre une tâche en la pratiquant tout de suite sur le terrain[cite: 17].", dim: "S" },
-            { t: "Tu te concentres sur les compétences que tu possèdes déjà aujourd'hui.", dim: "S" },
-            { t: "Tu aimes imaginer l'évolution des métiers et les nouvelles opportunités du futur[cite: 23].", dim: "N" },
-            { t: "Tu es prêt à changer totalement de domaine si tu vois une opportunité innovante.", dim: "N" },
-            { t: "Tu aimes réfléchir au sens de ton travail et à son impact sur ton territoire.", dim: "N" },
-            { t: "Tu aimes chercher des solutions créatives pour résoudre des problèmes complexes.", dim: "N" },
-            { t: "Tu es attiré par les secteurs qui se transforment et qui bougent beaucoup.", dim: "N" },
-
-            // T/F - Thinking vs Feeling
-            { t: "Tu analyses les offres d'emploi point par point de façon très rationnelle.", dim: "T" },
-            { t: "Tu choisis une offre d'emploi d'abord pour le salaire et les avantages logiques.", dim: "T" },
-            { t: "En entretien, tu mets surtout en avant tes résultats techniques et tes diplômes.", dim: "T" },
-            { t: "Tu préfères recevoir une critique franche sur ton CV pour t'améliorer vite.", dim: "T" },
-            { t: "Tu penses qu'un bon patron doit être juste et efficace avant d'être sympathique.", dim: "T" },
-            { t: "Tu choisis une entreprise d'abord parce que ses valeurs te touchent[cite: 16].", dim: "F" },
-            { t: "En entretien, tu parles surtout de tes qualités humaines et de ton envie d'aider[cite: 4].", dim: "F" },
-            { t: "Pour toi, l'ambiance entre collègues est plus importante que l'efficacité pure.", dim: "F" },
-            { t: "Tu as du mal à accepter une remarque pro si elle est dite trop froidement.", dim: "F" },
-            { t: "Tu te fies à ton « feeling » avec le recruteur pour savoir si tu acceptes le poste.", dim: "F" },
-
-            // J/P - Jugement vs Perception
-            { t: "Tu as un planning précis avec des heures dédiées à tes recherches chaque jour.", dim: "J" },
-            { t: "Tes documents (CV, lettres) sont parfaitement classés et nommés sur ton ordi.", dim: "J" },
-            { t: "Tu détestes arriver en retard à un rendez-vous pro, même de quelques minutes.", dim: "J" },
-            { t: "Tu termines toujours une candidature avant d'en commencer une autre.", dim: "J" },
-            { t: "Tu aimes suivre une méthode étape par étape pour construire ton projet[cite: 25].", dim: "J" },
-            { t: "Tu préfères postuler au moment où tu te sens motivé, sans horaire fixe.", dim: "P" },
-            { t: "Tu improvises souvent tes réponses en entretien selon l'humeur du moment.", dim: "P" },
-            { t: "Tu aimes garder plusieurs options de métiers ouvertes avant de te décider.", dim: "P" },
-            { t: "Tu es capable de changer tes plans à la dernière minute pour une offre imprévue.", dim: "P" },
-            { t: "Tu trouves les listes de tâches trop rigides et stressantes à suivre.", dim: "P" }
+            // E/I (Extraversion/Introversion) - 8 questions
+            { id: 1, text: "Dans un stage, je pose souvent des questions pour mieux comprendre les tâches.", dimension: "EI", direction: "E", category: "Pro" },
+            { id: 2, text: "Avec mes amis, je préfère animer les discussions en groupe.", dimension: "EI", direction: "E", category: "Perso" },
+            { id: 3, text: "Pour mes déplacements, je discute facilement avec des inconnus (bus, covoit).", dimension: "EI", direction: "E", category: "Quotidien" },
+            { id: 4, text: "En formation, je participe activement aux échanges collectifs.", dimension: "EI", direction: "E", category: "Pro" },
+            { id: 5, text: "Lors d'un hobby comme le sport, je motive l'équipe.", dimension: "EI", direction: "E", category: "Perso" },
+            { id: 6, text: "Face au stress quotidien, je parle à quelqu'un pour en discuter.", dimension: "EI", direction: "E", category: "Santé" },
+            { id: 7, text: "Lors d'un entretien d'embauche, je me présente spontanément avec assurance.", dimension: "EI", direction: "E", category: "Pro" },
+            { id: 8, text: "Pour mes loisirs, je préfère les activités de groupe aux activités solitaires.", dimension: "EI", direction: "E", category: "Perso" },
+            
+            // N/S (Intuition/Sensation) - 8 questions
+            { id: 9, text: "Pour un stage, j'imagine des idées nouvelles pour améliorer les processus.", dimension: "NS", direction: "N", category: "Pro" },
+            { id: 10, text: "Pour organiser mes RDV admin, je pense aux opportunités futures.", dimension: "NS", direction: "N", category: "Quotidien" },
+            { id: 11, text: "Dans mes hobbies, j'aime explorer des concepts abstraits (jeux strat, création).", dimension: "NS", direction: "N", category: "Perso" },
+            { id: 12, text: "En projet pro, je vois les possibilités globales avant les détails.", dimension: "NS", direction: "N", category: "Pro" },
+            { id: 13, text: "Pour la mobilité, j'anticipe des solutions innovantes (apps, trajets alternatifs).", dimension: "NS", direction: "N", category: "Quotidien" },
+            { id: 14, text: "Pour ma santé, je réfléchis à des approches globales (habitudes long terme).", dimension: "NS", direction: "N", category: "Santé" },
+            { id: 15, text: "En recherche d'emploi, je m'intéresse aux tendances futures du marché du travail.", dimension: "NS", direction: "N", category: "Pro" },
+            { id: 16, text: "Pour mes finances personnelles, j'imagine des scénarios d'évolution à long terme.", dimension: "NS", direction: "N", category: "Quotidien" },
+            
+            // T/F (Pensée/Sentiment) - 7 questions
+            { id: 17, text: "En stage, je priorise les décisions logiques sur les relations.", dimension: "TF", direction: "T", category: "Pro" },
+            { id: 18, text: "Pour mon budget admin, je fais des calculs objectifs.", dimension: "TF", direction: "T", category: "Quotidien" },
+            { id: 19, text: "Avec amis, je résous conflits par faits plutôt qu'émotions.", dimension: "TF", direction: "T", category: "Perso" },
+            { id: 20, text: "Feedback pro : je préfère critique constructive directe.", dimension: "TF", direction: "T", category: "Pro" },
+            { id: 21, text: "Choix mobilité : efficacité avant confort.", dimension: "TF", direction: "T", category: "Quotidien" },
+            { id: 22, text: "Santé : je suis un plan rationnel (ex. sport mesuré).", dimension: "TF", direction: "T", category: "Santé" },
+            { id: 23, text: "Pour choisir une formation, j'analyse objectivement les débouchés professionnels.", dimension: "TF", direction: "T", category: "Pro" },
+            
+            // J/P (Jugement/Perception) - 7 questions
+            { id: 24, text: "Pour un stage, je respecte strictement les horaires et deadlines.", dimension: "JP", direction: "J", category: "Pro" },
+            { id: 25, text: "Mes démarches admin sont planifiées à l'avance.", dimension: "JP", direction: "J", category: "Quotidien" },
+            { id: 26, text: "Hobbies : je termine toujours ce que je commence.", dimension: "JP", direction: "J", category: "Perso" },
+            { id: 27, text: "Projet pro : je préfère structure plutôt improvisation.", dimension: "JP", direction: "J", category: "Pro" },
+            { id: 28, text: "Mobilité : itinéraires organisés vs spontanés.", dimension: "JP", direction: "J", category: "Quotidien" },
+            { id: 29, text: "Routine santé : emploi du temps fixe (sommeil, repas).", dimension: "JP", direction: "J", category: "Santé" },
+            { id: 30, text: "Pour mes objectifs de vie, je crée des plans détaillés avec étapes claires.", dimension: "JP", direction: "J", category: "Perso" }
         ];
 
+        // PROFILS DES 16 TYPES
         const profiles = {
-            "ENTJ": { t: "Le Leader naturel", c: "Action & Impact", i: "🚀", d: "👉 Organise, décide, entraîne les autres", col: "var(--red)" },
-            "INTJ": { t: "Le Stratège discret", c: "Action & Impact", i: "🎯", d: "👉 Observe, planifie, voit loin", col: "var(--red)" },
-            "ENTP": { t: "Le Challenger", c: "Action & Impact", i: "🔥", d: "👉 Questionne tout, adore débattre", col: "var(--red)" },
-            "ESTP": { t: "L’Entrepreneur", c: "Action & Impact", i: "⚡", d: "👉 Lance des projets, ose tester", col: "var(--red)" },
-            "ENFJ": { t: "Le Coach", c: "Humain & Relations", i: "📣", d: "👉 Motive les autres, fait progresser", col: "var(--green)" },
-            "ISFJ": { t: "Le Protecteur", c: "Humain & Relations", i: "🛡️", d: "👉 Fiable, présent, aide concrètement", col: "var(--green)" },
-            "INFP": { t: "Le Médiateur", c: "Humain & Relations", i: "🕊️", d: "👉 Apaise les tensions, comprend chacun", col: "var(--green)" },
-            "ESFJ": { t: "Le Pilier du groupe", c: "Humain & Relations", i: "🏠", d: "👉 Maintient l’ambiance, soutient l’équipe", col: "var(--green)" },
-            "ISFP": { t: "L’Artiste libre", c: "Créa & Expression", i: "🎨", d: "👉 Créatif, spontané, sensible", col: "var(--orange)" },
-            "ENFP": { t: "L’Explorateur", c: "Créa & Expression", i: "🌍", d: "👉 Curieux, aime tester, bouger", col: "var(--orange)" },
-            "INTP": { t: "Le Créateur d’idées", c: "Créa & Expression", i: "💡", d: "👉 Imagine des concepts, solutions nouvelles", col: "var(--orange)" },
-            "INFJ": { t: "Le Visionnaire", c: "Créa & Expression", i: "👁️", d: "👉 Voit le futur, pense différemment", col: "var(--orange)" },
-            "ESTJ": { t: "Le Pro de l’organisation", c: "Organisation & Logique", i: "📊", d: "👉 Structuré, efficace, fiable", col: "var(--blue)" },
-            "ISTP": { t: "Le Technicien", c: "Organisation & Logique", i: "⚙️", d: "👉 Aime comprendre comment ça marche", col: "var(--blue)" },
-            "ISTJ": { t: "Le Planificateur", c: "Organisation & Logique", i: "📅", d: "👉 Anticipe, sécurise, prépare tout", col: "var(--blue)" },
-            "ESFP": { t: "L’Analyste", c: "Organisation & Logique", i: "🔍", d: "👉 Logique, précis, aime les faits", col: "var(--blue)" }
+            ENTJ: {
+                description: "Leader stratégique, organisé et décisif. Vous excellez dans la planification de projets et la prise de décisions efficaces.",
+                keywords: ["Leadership", "Organisation", "Initiative", "Pensée stratégique", "Prise de décision", "Objectifs clairs", "Communication directe", "Persévérance"],
+                objectives: "Stage en gestion de projet, rôle de coordination d'équipe, développement de vos compétences managériales",
+                ppa: "Force leadership → objectif stage responsabilités. Compétence organisation → autonomie admin ML.",
+                strengths: { cooperation: 85, initiative: 95, perseverance: 90, organization: 95, learning: 80, communication: 85, adaptability: 70, selfControl: 85 }
+            },
+            ENTP: {
+                description: "Innovateur créatif et débatteur enthousiaste. Vous aimez explorer de nouvelles idées et résoudre des problèmes complexes.",
+                keywords: ["Créativité", "Innovation", "Débat constructif", "Apprentissage rapide", "Ouverture d'esprit", "Résolution de problèmes", "Initiative", "Agilité"],
+                objectives: "Stage startup/innovation, projets créatifs, missions variées avec autonomie",
+                ppa: "Force créativité → projet entrepreneurial ML. Compétence apprentissage → formation continue.",
+                strengths: { cooperation: 75, initiative: 95, perseverance: 70, organization: 65, learning: 95, communication: 90, adaptability: 95, selfControl: 65 }
+            },
+            ENFJ: {
+                description: "Communicateur inspirant et bienveillant. Vous excellez dans l'accompagnement des autres et la création de liens.",
+                keywords: ["Aisance relationnelle", "Médiation", "Empathie", "Communication", "Coopération", "Initiative sociale", "Organisation", "Discernement"],
+                objectives: "Stage secteur social/éducatif, animation de groupe, développement réseau professionnel",
+                ppa: "Force aisance relationnelle → stage contact public. Compétence médiation → résolution conflits équipe.",
+                strengths: { cooperation: 95, initiative: 85, perseverance: 80, organization: 85, learning: 85, communication: 95, adaptability: 80, selfControl: 80 }
+            },
+            ENFP: {
+                description: "Enthousiaste créatif et explorateur d'opportunités. Vous apportez de l'énergie positive et des idées nouvelles.",
+                keywords: ["Créativité appliquée", "Ouverture d'esprit", "Prise d'initiative", "Aisance relationnelle", "Capacité d'apprentissage", "Coopération", "Agilité", "Optimisme"],
+                objectives: "Initiative sociale (contact asso), apprentissage hobbies → stage créatif, coopération amis → équipe pro",
+                ppa: "Force initiative → projet associatif ML. Compétence créativité → stage secteur culturel.",
+                strengths: { cooperation: 90, initiative: 95, perseverance: 70, organization: 65, learning: 90, communication: 90, adaptability: 95, selfControl: 70 }
+            },
+            ESTJ: {
+                description: "Organisateur pragmatique et fiable. Vous assurez que les tâches sont accomplies efficacement et dans les règles.",
+                keywords: ["Organisation", "Persévérance", "Ponctualité", "Maîtrise de soi", "Sens des responsabilités", "Efficacité", "Rigueur", "Leadership opérationnel"],
+                objectives: "Stage administration/logistique, missions avec procédures claires, responsabilités opérationnelles",
+                ppa: "Force organisation → autonomie démarches admin. Compétence ponctualité → stage horaires stricts.",
+                strengths: { cooperation: 80, initiative: 75, perseverance: 95, organization: 95, learning: 75, communication: 80, adaptability: 65, selfControl: 90 }
+            },
+            ESTP: {
+                description: "Pragmatique énergique et orienté action. Vous aimez les défis concrets et les résultats immédiats.",
+                keywords: ["Agilité", "Prise d'initiative", "Adaptabilité", "Résolution pratique", "Aisance relationnelle", "Énergie", "Pragmatisme", "Réactivité"],
+                objectives: "Stage terrain/commerce, missions diversifiées, environnements dynamiques",
+                ppa: "Force agilité → stage multi-tâches. Compétence adaptabilité → mobilité géographique pro.",
+                strengths: { cooperation: 85, initiative: 90, perseverance: 75, organization: 70, learning: 85, communication: 85, adaptability: 95, selfControl: 75 }
+            },
+            ESFJ: {
+                description: "Aidant organisé et attentionné. Vous créez une atmosphère positive et soutenez votre équipe.",
+                keywords: ["Coopération", "Aisance relationnelle", "Organisation", "Sens du service", "Empathie", "Ponctualité", "Entraide", "Harmonie"],
+                objectives: "Stage services à la personne, travail en équipe, missions relationnelles",
+                ppa: "Force coopération → stage équipe soudée. Compétence service → secteur aide/soin.",
+                strengths: { cooperation: 95, initiative: 75, perseverance: 85, organization: 90, learning: 80, communication: 90, adaptability: 75, selfControl: 85 }
+            },
+            ESFP: {
+                description: "Animateur spontané et sociable. Vous apportez enthousiasme et positivité dans chaque situation.",
+                keywords: ["Aisance relationnelle", "Agilité", "Adaptabilité", "Enthousiasme", "Coopération", "Spontanéité", "Énergie positive", "Communication"],
+                objectives: "Stage animation/événementiel, contact client, environnements vivants",
+                ppa: "Force aisance relationnelle → stage accueil public. Compétence agilité → polyvalence missions.",
+                strengths: { cooperation: 90, initiative: 85, perseverance: 75, organization: 70, learning: 85, communication: 95, adaptability: 95, selfControl: 70 }
+            },
+            INTJ: {
+                description: "Stratège indépendant et visionnaire. Vous excellez dans l'analyse et la planification à long terme.",
+                keywords: ["Pensée stratégique", "Apprentissage autonome", "Organisation", "Analyse", "Persévérance", "Innovation", "Maîtrise de soi", "Discernement"],
+                objectives: "Stage recherche/analyse, projets autonomes complexes, développement compétences techniques",
+                ppa: "Force stratégie → objectif projet long terme. Compétence analyse → stage études/data.",
+                strengths: { cooperation: 70, initiative: 85, perseverance: 90, organization: 90, learning: 95, communication: 75, adaptability: 75, selfControl: 90 }
+            },
+            INTP: {
+                description: "Penseur logique et curieux. Vous aimez comprendre en profondeur et résoudre des problèmes complexes.",
+                keywords: ["Apprentissage continu", "Analyse logique", "Innovation", "Curiosité intellectuelle", "Résolution de problèmes", "Indépendance", "Créativité conceptuelle", "Précision"],
+                objectives: "Stage technique/informatique, recherche, missions analytiques",
+                ppa: "Force apprentissage → formation technique continue. Compétence analyse → stage R&D.",
+                strengths: { cooperation: 65, initiative: 80, perseverance: 85, organization: 70, learning: 95, communication: 70, adaptability: 85, selfControl: 80 }
+            },
+            INFJ: {
+                description: "Conseiller idéaliste et profond. Vous comprenez les autres et cherchez à avoir un impact positif.",
+                keywords: ["Discernement", "Médiation", "Empathie profonde", "Écoute active", "Persévérance", "Vision", "Harmonie", "Accompagnement"],
+                objectives: "Stage conseil/orientation, accompagnement social, missions à impact humain",
+                ppa: "Force discernement → stage conseil jeunes. Compétence médiation → gestion conflits pro.",
+                strengths: { cooperation: 90, initiative: 80, perseverance: 90, organization: 85, learning: 90, communication: 85, adaptability: 75, selfControl: 90 }
+            },
+            INFP: {
+                description: "Idéaliste authentique et créatif. Vous valorisez l'authenticité et cherchez un sens à votre travail.",
+                keywords: ["Créativité", "Empathie", "Valeurs personnelles", "Apprentissage significatif", "Ouverture d'esprit", "Authenticité", "Expression", "Adaptation"],
+                objectives: "Stage secteur culturel/créatif, missions alignées valeurs, travail autonome créatif",
+                ppa: "Force créativité → stage art/culture. Compétence valeurs → projet engagement associatif.",
+                strengths: { cooperation: 85, initiative: 75, perseverance: 80, organization: 70, learning: 90, communication: 80, adaptability: 85, selfControl: 75 }
+            },
+            ISTJ: {
+                description: "Organisateur consciencieux et fiable. Vous accomplissez vos tâches avec rigueur et précision.",
+                keywords: ["Persévérance", "Organisation", "Ponctualité", "Maîtrise de soi", "Rigueur", "Fiabilité", "Sens du devoir", "Précision"],
+                objectives: "Admin autonomie + routine santé. Stage procédures rigoureuses, missions détaillées",
+                ppa: "Force persévérance → objectif diplôme long. Compétence organisation → autonomie totale admin.",
+                strengths: { cooperation: 80, initiative: 70, perseverance: 95, organization: 95, learning: 85, communication: 75, adaptability: 70, selfControl: 95 }
+            },
+            ISTP: {
+                description: "Analyste pratique et autonome. Vous résolvez efficacement les problèmes techniques concrets.",
+                keywords: ["Résolution pratique", "Adaptabilité technique", "Agilité", "Analyse concrète", "Autonomie", "Efficacité", "Débrouillardise", "Précision"],
+                objectives: "Stage technique/maintenance, missions terrain, apprentissage pratique",
+                ppa: "Force résolution → stage réparation/technique. Compétence autonomie → missions indépendantes.",
+                strengths: { cooperation: 70, initiative: 85, perseverance: 85, organization: 75, learning: 90, communication: 70, adaptability: 90, selfControl: 85 }
+            },
+            ISFJ: {
+                description: "Protecteur dévoué et attentionné. Vous soutenez les autres avec constance et bienveillance.",
+                keywords: ["Coopération", "Persévérance", "Empathie pratique", "Fiabilité", "Sens du service", "Organisation", "Attention aux détails", "Soutien"],
+                objectives: "Stage soin/service, soutien équipe, missions relationnelles stables",
+                ppa: "Force coopération → stage équipe solidaire. Compétence service → secteur aide à domicile.",
+                strengths: { cooperation: 95, initiative: 70, perseverance: 90, organization: 90, learning: 85, communication: 85, adaptability: 75, selfControl: 90 }
+            },
+            ISFP: {
+                description: "Artiste sensible et authentique. Vous appréciez la beauté et exprimez votre créativité.",
+                keywords: ["Créativité artistique", "Empathie", "Adaptabilité", "Authenticité", "Esthétique", "Harmonie", "Expression personnelle", "Sensibilité"],
+                objectives: "Stage artisanat/arts, environnements créatifs, missions expressives",
+                ppa: "Force créativité → stage design/mode. Compétence empathie → relation client personnalisée.",
+                strengths: { cooperation: 85, initiative: 75, perseverance: 80, organization: 75, learning: 85, communication: 80, adaptability: 90, selfControl: 80 }
+            }
         };
 
-        const container = document.getElementById('questions-container');
-        questions.forEach((q, i) => {
-            const div = document.createElement('div');
-            div.className = 'question-block';
-            div.innerHTML = `
-                <span class="question-text">${q.t}</span>
-                <div class="scale-container">
-                    <div class="radio-group">
-                        <span class="scale-label">Pas d'accord</span>
-                        <input type="radio" name="q${i}" value="-2" required>
-                        <input type="radio" name="q${i}" value="-1">
-                        <input type="radio" name="q${i}" value="0">
-                        <input type="radio" name="q${i}" value="1">
-                        <input type="radio" name="q${i}" value="2">
-                        <span class="scale-label">D'accord</span>
+        // ÉTAT DU QUIZ
+        let currentQuestionIndex = 0;
+        let answers = {};
+        let personalityResult = '';
+
+        // OPTIONS
+        const options = [
+            { value: 1, label: "1 - Pas du tout d'accord" },
+            { value: 2, label: "2 - Plutôt pas" },
+            { value: 3, label: "3 - Neutre" },
+            { value: 4, label: "4 - Plutôt oui" },
+            { value: 5, label: "5 - Totalement d'accord" }
+        ];
+
+        function startQuiz() {
+            document.getElementById('introSection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="question-card">
+                    <span class="question-category">${question.category}</span>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options-container">
+                        ${options.map(opt => `
+                            <div class="option-btn ${answers[question.id] === opt.value ? 'selected' : ''}" 
+                                 onclick="selectAnswer(${question.id}, ${opt.value})">
+                                ${opt.label}
+                            </div>
+                        `).join('')}
                     </div>
                 </div>
             `;
-            container.appendChild(div);
-        });
 
-        function calculate() {
-            const form = document.getElementById('quiz-form');
-            const data = new FormData(form);
-            let results = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-
-            questions.forEach((q, i) => {
-                const val = parseInt(data.get('q' + i));
-                if (isNaN(val)) return;
-                
-                const opposite = {E:'I', I:'E', S:'N', N:'S', T:'F', F:'T', J:'P', P:'J'};
-                if (val > 0) results[q.dim] += val;
-                else if (val < 0) results[opposite[q.dim]] += Math.abs(val);
-            });
-
-            const code = (results.E >= results.I ? "E" : "I") +
-                         (results.S >= results.N ? "S" : "N") +
-                         (results.T >= results.F ? "T" : "F") +
-                         (results.J >= results.P ? "J" : "P");
-
-            showResult(code);
+            updateProgress();
+            updateNavigationButtons();
         }
 
-        function showResult(code) {
-            document.getElementById('quiz-ui').classList.add('hidden');
-            const prof = profiles[code] || profiles["ESTJ"];
-            document.getElementById('res-icon').innerText = prof.i;
-            document.getElementById('res-cat').innerText = prof.c;
-            document.getElementById('res-cat').style.backgroundColor = prof.col;
-            document.getElementById('res-title').innerText = prof.t;
-            document.getElementById('res-desc').innerText = prof.d;
-            document.getElementById('results').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+        function selectAnswer(questionId, value) {
+            answers[questionId] = value;
+            displayQuestion();
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+
+            prevBtn.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Voir mes résultats →';
+            } else {
+                nextBtn.textContent = 'Suivant →';
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            if (!answers[currentQuestion.id]) {
+                alert('Veuillez répondre à cette question avant de continuer.');
+                return;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                calculateResults();
+            }
+        }
+
+        function calculateResults() {
+            // Calculer les scores pour chaque dimension
+            let scores = {
+                EI: 0,  // 8 questions, max = 40
+                NS: 0,  // 8 questions, max = 40
+                TF: 0,  // 7 questions, max = 35
+                JP: 0   // 7 questions, max = 35
+            };
+
+            questions.forEach(q => {
+                const answer = answers[q.id] || 3;
+                if (q.direction === 'E' || q.direction === 'N' || q.direction === 'T' || q.direction === 'J') {
+                    scores[q.dimension] += answer;
+                }
+            });
+
+            // Déterminer le type avec seuils adaptés
+            // EI et NS : >24/40 = lettre positive (60% du max)
+            // TF : >21/35 = lettre positive (60% du max)
+            // JP : >21/35 = lettre positive (60% du max)
+            let type = '';
+            type += scores.EI > 24 ? 'E' : 'I';
+            type += scores.NS > 24 ? 'N' : 'S';
+            type += scores.TF > 21 ? 'T' : 'F';
+            type += scores.JP > 21 ? 'J' : 'P';
+
+            personalityResult = type;
+            displayResults();
+        }
+
+        function displayResults() {
+            document.getElementById('quizSection').classList.add('hidden');
+            document.getElementById('resultSection').classList.remove('hidden');
+
+            const profile = profiles[personalityResult];
+            
+            document.getElementById('personalityType').textContent = personalityResult;
+            document.getElementById('typeDescription').textContent = profile.description;
+
+            // Afficher les forces
+            const strengthsContainer = document.getElementById('strengthsContainer');
+            const strengthsLabels = {
+                cooperation: 'Coopération',
+                initiative: 'Prise d\'initiative',
+                perseverance: 'Persévérance',
+                organization: 'Organisation',
+                learning: 'Capacité d\'apprentissage',
+                communication: 'Communication',
+                adaptability: 'Adaptabilité',
+                selfControl: 'Maîtrise de soi'
+            };
+
+            strengthsContainer.innerHTML = Object.keys(profile.strengths).map(key => `
+                <div class="strength-bar">
+                    <div class="strength-label">
+                        <span>${strengthsLabels[key]}</span>
+                        <span>${profile.strengths[key]}%</span>
+                    </div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${profile.strengths[key]}%"></div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Afficher les mots-clés
+            const keywordsContainer = document.getElementById('keywordsContainer');
+            keywordsContainer.innerHTML = profile.keywords.map(kw => 
+                `<div class="keyword">${kw}</div>`
+            ).join('');
+
+            // Texte PPA
+            document.getElementById('ppaText').textContent = profile.ppa;
+
+            // Générer la carte PDF (cachée)
+            generateProfileCard();
+        }
+
+        function generateProfileCard() {
+            const profile = profiles[personalityResult];
+            const card = document.getElementById('profileCard');
+
+            card.innerHTML = `
+                <h1>Mon Profil ${personalityResult} – Forces pour PPA/ML</h1>
+                <div class="type-badge">${personalityResult}</div>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <div style="width: 150px; height: 150px; margin: 0 auto; background: linear-gradient(135deg, #2E7D32, #1976D2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px; font-weight: 800;">
+                        ${personalityResult.charAt(0)}
+                    </div>
+                    <p style="margin-top: 10px; font-size: 18px; color: #666;">${profile.description}</p>
+                </div>
+
+                <div class="keywords-grid">
+                    ${profile.keywords.map(kw => `<div class="keyword-item">✓ ${kw}</div>`).join('')}
+                </div>
+
+                <div class="objectives">
+                    <h3 style="color: #1976D2; margin-bottom: 10px;">🎯 Objectifs suggérés</h3>
+                    <p>${profile.objectives}</p>
+                </div>
+
+                <div class="ppa-section">
+                    <h3 style="color: #2E7D32; margin-bottom: 10px;">💼 Lien PPA Mission Locale</h3>
+                    <p>${profile.ppa}</p>
+                </div>
+
+                <div class="qr-container">
+                    <div id="qrcode" style="display: inline-block;"></div>
+                    <p style="margin-top: 10px; font-size: 12px; color: #666;">Scannez pour refaire le quiz</p>
+                </div>
+            `;
+
+            // Générer QR code
+            new QRCode(document.getElementById("qrcode"), {
+                text: window.location.href,
+                width: 100,
+                height: 100
+            });
+        }
+
+        function downloadProfile() {
+            const card = document.getElementById('profileCard');
+            
+            html2canvas(card, { scale: 2 }).then(canvas => {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save(`Profil-${personalityResult}-MissionLocale.pdf`);
+            });
+        }
+
+        function shareWhatsApp() {
+            const text = `J'ai découvert mon profil ${personalityResult} avec le Quiz Mission Locale ! Découvre le tien : ${window.location.href}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function shareEmail() {
+            const subject = `Mon profil ${personalityResult} - Quiz Mission Locale`;
+            const body = `J'ai découvert mon profil ${personalityResult} avec le Quiz 16 Personnalités de Mission Locale.\n\nFais le quiz toi aussi : ${window.location.href}`;
+            window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            answers = {};
+            personalityResult = '';
+            
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('introSection').classList.remove('hidden');
         }
     </script>
 </body>
