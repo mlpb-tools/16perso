@@ -58,7 +58,7 @@
 
         /* --- Système de Scoring (5 points) --- */
         .scale-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .radio-group { display: flex; gap: 20px; align-items: center; justify-content: center; width: 100%; }
+        .radio-group { display: flex; gap: 20px; align-items: center; justify-content: center; width: 100%; flex-wrap: wrap; }
         .scale-label { font-size: 0.8em; font-weight: 900; width: 100px; text-align: center; color: #b0b0b0; text-transform: uppercase; }
         
         input[type="radio"] { appearance: none; cursor: pointer; border-radius: 50%; border: 4px solid #eee; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: white; }
@@ -140,10 +140,10 @@
         const questions = [
             // E/I - Extraversion vs Introversion
             { t: "Tu trouves facile d'aborder des professionnels lors d'un forum emploi.", dim: "E" },
-            [span_1](start_span){ t: "Tu te sens à l'aise pour prendre la parole en public pour présenter ton projet[span_1](end_span).", dim: "E" },
+            { t: "Tu te sens à l'aise pour prendre la parole en public pour présenter ton projet.", dim: "E" },
             { t: "Tu aimes l'idée de rencontrer de nouveaux collègues chaque jour dans ton futur métier.", dim: "E" },
             { t: "Tu es prêt à appeler une entreprise même si tu ne connais personne là-bas.", dim: "E" },
-            [span_2](start_span){ t: "Dans un atelier collectif, tu partages facilement tes idées avec les autres[span_2](end_span).", dim: "E" },
+            { t: "Dans un atelier collectif, tu partages facilement tes idées avec les autres.", dim: "E" },
             { t: "Tu préfères attendre qu'une entreprise te rappelle plutôt que de les relancer.", dim: "I" },
             { t: "Tu préfères préparer tes entretiens seul au calme plutôt qu'en groupe.", dim: "I" },
             { t: "Tu trouves fatigant de devoir « te vendre » et parler de toi toute la journée.", dim: "I" },
@@ -151,14 +151,14 @@
             { t: "Tu te sens plus efficace quand tu travailles sur ton CV seul, sans bruit.", dim: "I" },
 
             // S/N - Sensation vs Intuition
-            [span_3](start_span){ t: "Tu identifies facilement tes compétences concrètes et tes expériences passées[span_3](end_span).", dim: "S" },
+            { t: "Tu identifies facilement tes compétences concrètes et tes expériences passées.", dim: "S" },
             { t: "Tu préfères postuler à des offres avec des missions très claires et précises.", dim: "S" },
             { t: "Pour toi, un bon job doit avant tout assurer un salaire et une sécurité immédiate.", dim: "S" },
-            [span_4](start_span){ t: "Tu préfères apprendre une tâche en la pratiquant tout de suite sur le terrain[span_4](end_span).", dim: "S" },
+            { t: "Tu préfères apprendre une tâche en la pratiquant tout de suite sur le terrain.", dim: "S" },
             { t: "Tu te concentres sur les compétences que tu possèdes déjà aujourd'hui.", dim: "S" },
-            [span_5](start_span){ t: "Tu aimes imaginer l'évolution des métiers et les nouvelles opportunités du futur[span_5](end_span).", dim: "N" },
+            { t: "Tu aimes imaginer l'évolution des métiers et les nouvelles opportunités du futur.", dim: "N" },
             { t: "Tu es prêt à changer totalement de domaine si tu vois une opportunité innovante.", dim: "N" },
-            [span_6](start_span){ t: "Tu aimes réfléchir au sens de ton travail et à son impact sur ton territoire[span_6](end_span).", dim: "N" },
+            { t: "Tu aimes réfléchir au sens de ton travail et à son impact sur ton territoire.", dim: "N" },
             { t: "Tu aimes chercher des solutions créatives pour résoudre des problèmes complexes.", dim: "N" },
             { t: "Tu es attiré par les secteurs qui se transforment et qui bougent beaucoup.", dim: "N" },
 
@@ -168,8 +168,8 @@
             { t: "En entretien, tu mets surtout en avant tes résultats techniques et tes diplômes.", dim: "T" },
             { t: "Tu préfères recevoir une critique franche sur ton CV pour t'améliorer vite.", dim: "T" },
             { t: "Tu penses qu'un bon patron doit être juste et efficace avant d'être sympathique.", dim: "T" },
-            [span_7](start_span){ t: "Tu choisis une entreprise d'abord parce que ses valeurs te touchent[span_7](end_span).", dim: "F" },
-            [span_8](start_span){ t: "En entretien, tu parles surtout de tes qualités humaines et de ton envie d'aider[span_8](end_span).", dim: "F" },
+            { t: "Tu choisis une entreprise d'abord parce que ses valeurs te touchent.", dim: "F" },
+            { t: "En entretien, tu parles surtout de tes qualités humaines et de ton envie d'aider.", dim: "F" },
             { t: "Pour toi, l'ambiance entre collègues est plus importante que l'efficacité pure.", dim: "F" },
             { t: "Tu as du mal à accepter une remarque pro si elle est dite trop froidement.", dim: "F" },
             { t: "Tu te fies à ton « feeling » avec le recruteur pour savoir si tu acceptes le poste.", dim: "F" },
@@ -179,7 +179,7 @@
             { t: "Tes documents (CV, lettres) sont parfaitement classés et nommés sur ton ordi.", dim: "J" },
             { t: "Tu détestes arriver en retard à un rendez-vous pro, même de quelques minutes.", dim: "J" },
             { t: "Tu termines toujours une candidature avant d'en commencer une autre.", dim: "J" },
-            [span_9](start_span){ t: "Tu aimes suivre une méthode étape par étape pour construire ton projet[span_9](end_span).", dim: "J" },
+            { t: "Tu aimes suivre une méthode étape par étape pour construire ton projet.", dim: "J" },
             { t: "Tu préfères postuler au moment où tu te sens motivé, sans horaire fixe.", dim: "P" },
             { t: "Tu improvises souvent tes réponses en entretien selon l'humeur du moment.", dim: "P" },
             { t: "Tu aimes garder plusieurs options de métiers ouvertes avant de te décider.", dim: "P" },
